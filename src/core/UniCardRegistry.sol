@@ -8,9 +8,9 @@ import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 import {Errors} from "../libraries/Errors.sol";
-import {ICreditCardCenter} from "../interfaces/ICreditCardCenter.sol";
+import {IUniCardRegistry} from "../interfaces/IUniCardRegistry.sol";
 
-contract CreditCardCenter is AccessControl, ReentrancyGuard, Pausable, ICreditCardCenter {
+contract UniCardRegistry is AccessControl, ReentrancyGuard, Pausable, IUniCardRegistry {
     using SafeERC20 for IERC20;
 
     bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
@@ -32,7 +32,7 @@ contract CreditCardCenter is AccessControl, ReentrancyGuard, Pausable, ICreditCa
     // @param interestRate The interest rate of the card
     // @param deadline The deadline of the commitment request
     // @param signature The signature of the commitment request
-    function openCardWithCommitmentRequest(
+    function openCardRequest(
         address holder,
         uint256 interestRate,
         uint256 deadline,
@@ -50,7 +50,7 @@ contract CreditCardCenter is AccessControl, ReentrancyGuard, Pausable, ICreditCa
         );
 
         userCommitment[holder] = commitment;
-        emit CardOpenWithCommitmentRequest(holder, interestRate, deadline, commitment);
+        emit CardOpenRequest(holder, interestRate, deadline, commitment);
     }
 
     // @notice Open a card with a commitment confirmation
@@ -58,7 +58,7 @@ contract CreditCardCenter is AccessControl, ReentrancyGuard, Pausable, ICreditCa
     // @param interestRate The interest rate of the card
     // @param deadline The deadline of the commitment request
     // @param signature The signature of the commitment confirmation
-    function openCardWithCommitmentConfirmation(
+    function openCardConfirmation(
         address holder,
         uint256 interestRate,
         uint256 deadline,
@@ -68,23 +68,19 @@ contract CreditCardCenter is AccessControl, ReentrancyGuard, Pausable, ICreditCa
         require(userCommitment[holder] == commitment, Errors.CREDIT_CARD_CENTER_COMMITMENT_DOES_NOT_EXIST);
         require(verifySignature(commitment, signature), Errors.CREDIT_CARD_CENTER_INVALID_SIGNATURE);
 
-        CardInfo card = CardInfo({
+        CardInfo memory card = CardInfo({
             commitment: commitment,
             interestRate: interestRate,
             createdAt: block.timestamp,
             updatedAt: block.timestamp,
-            balance: 0,
             creditLimit: 0,
-            availableCredit: 0,
-            minimumPayment: 0,
-            paymentDueDate: 0,
             creator: holder,
             paymentToken: paymentToken
         });
 
         userCards[holder].push(card);
 
-        emit CardOpenedWithCommitmentConfirmation(holder, interestRate, deadline, commitment);
+        emit CardOpenConfirmation(holder, interestRate, deadline, commitment);
     }
 
     // @notice Increase the credit limit of the card
@@ -96,7 +92,6 @@ contract CreditCardCenter is AccessControl, ReentrancyGuard, Pausable, ICreditCa
 
         CardInfo storage card = userCards[holder][userCards[holder].length - 1];
         card.creditLimit += amount;
-        card.availableCredit += amount;
     }
 
     // @notice Decrease the credit limit of the card
@@ -108,7 +103,6 @@ contract CreditCardCenter is AccessControl, ReentrancyGuard, Pausable, ICreditCa
 
         CardInfo storage card = userCards[holder][userCards[holder].length - 1];
         card.creditLimit -= amount;
-        card.availableCredit -= amount;
     }
 
     // @notice Get the card count of the user
@@ -119,7 +113,7 @@ contract CreditCardCenter is AccessControl, ReentrancyGuard, Pausable, ICreditCa
 
     // @notice Get the card info of the user
     // @param holder The address of the card holder
-    function getCardInfo(address holder, uint256 index) external view returns (CardInfo) {
+    function getCardInfo(address holder, uint256 index) external view returns (CardInfo memory) {
         require(userCards[holder].length > 0, Errors.CREDIT_CARD_CENTER_USER_DOES_NOT_HAVE_ANY_CARDS);
         return userCards[holder][index];
     }
@@ -127,8 +121,8 @@ contract CreditCardCenter is AccessControl, ReentrancyGuard, Pausable, ICreditCa
     // @notice Verify the signature of the commitment
     // @param commitment The commitment to verify
     // @param signature The signature to verify
-    function verifySignature(bytes32 commitment, bytes memory signature) internal returns (bool) {
-        bytes32 hashMessage = keccak256(abi.encodePacked("\x19Unipay Signed Message:\n32", commitment));
+    function verifySignature(bytes32 message, bytes memory signature) internal returns (bool) {
+        bytes32 hashMessage = keccak256(abi.encodePacked("\x19Unipay Signed Message:\n32", message));
         return hasRole(CONTROLLER_ROLE, ECDSA.recover(hashMessage, signature));
     }
 }
