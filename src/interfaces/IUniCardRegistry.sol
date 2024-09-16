@@ -1,33 +1,19 @@
 pragma solidity ^0.8.0;
 
 interface IUniCardRegistry {
-    event CardOpenRequest(
-        address indexed holder, uint256 indexed interestRate, uint256 indexed deadline, bytes32 commitment
-    );
-    event CardOpenConfirmation(
-        address indexed holder, uint256 indexed interestRate, uint256 indexed deadline, bytes32 commitment
-    );
-
-    struct CardInfo {
-        bytes32 commitment;
+   struct Commitment {
+        address holder;
         uint256 interestRate;
-        uint256 createdAt;
-        uint256 updatedAt;
-        uint256 creditLimit;
-        address creator;
-        address paymentToken;
+        uint256 deadline;
+        bytes32 hashMessage;
     }
 
-    function openCardRequest(uint256 interestRate, uint256 deadline) external;
-    function openCardConfirmation(
-        uint256 interestRate,
-        uint256 deadline,
-        bytes32 commitment,
-        bytes memory signature
-    ) external;
-    function closeCard(address holder, uint256 index) external;
-    function increaseCreditLimit(address holder, uint256 index, uint256 amount) external;
-    function decreaseCreditLimit(address holder, uint256 index, uint256 amount) external;
-    function getCardCount(address holder) external view returns (uint256);
-    function getCardInfo(address holder, uint256 index) external view returns (CardInfo memory);
+    event CardOpenRequest(address indexed holder, uint256 indexed interestRate, uint256 indexed deadline, bytes32 commitment);
+    event CardOpenConfirmation(address indexed holder, address indexed card, uint256 indexed index, uint256 interestRate, uint256 deadline, bytes32 commitment);
+    event CreditLimitIncreased(address indexed holder, uint256 indexed index, uint256 amount);
+    event CreditLimitDecreased(address indexed holder, uint256 indexed index, uint256 amount);
+    event InterestRateUpdated(uint256 indexed index, uint256 interestRate);
+
+    function hasControllerRole(address anAddress) external view returns (bool);
+    function hasAdminRole(address anAddress) external view returns (bool);
 }
