@@ -12,6 +12,8 @@ contract DeployUniCardRegistryScript is Script {
     address anPaymentToken;
     address anAdmin;
 
+    UniCardRegistry uniCardRegistry;
+
     function setUp() public {
         deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         deployer = vm.addr(deployerPrivateKey);
@@ -25,7 +27,7 @@ contract DeployUniCardRegistryScript is Script {
 
     function run() public {
         vm.startBroadcast(deployerPrivateKey);
-        new UniCardRegistry(anAdmin, anPaymentToken);
+        uniCardRegistry = new UniCardRegistry(anAdmin, anPaymentToken);
         vm.stopBroadcast();
         console.log("UniCardRegistry deployed at", address(uniCardRegistry));
     }

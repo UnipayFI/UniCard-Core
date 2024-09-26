@@ -7,6 +7,7 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import {console} from "forge-std/console.sol";
 
 import {Errors} from "../libraries/Errors.sol";
 import {NoDelegateCall} from "./NoDelegateCall.sol";
@@ -127,6 +128,8 @@ contract UniCardRegistry is
     // @param signature The signature to verify
     function verifySignature(bytes32 message, bytes memory signature) internal view returns (bool) {
         bytes32 hashMessage = keccak256(abi.encodePacked("\x19Unipay Signed Message:\n32", message));
-        return hasRole(CONTROLLER_ROLE, ECDSA.recover(hashMessage, signature));
+        address recoveredAddress = ECDSA.recover(hashMessage, signature);
+        console.log("recoveredAddress", recoveredAddress);
+        return hasRole(CONTROLLER_ROLE, recoveredAddress);
     }
 }
