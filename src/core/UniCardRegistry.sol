@@ -7,8 +7,6 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import {console} from "forge-std/console.sol";
-
 import {Errors} from "../libraries/Errors.sol";
 import {NoDelegateCall} from "./NoDelegateCall.sol";
 import {UniCardDeploy} from "./UniCardDeploy.sol";
@@ -80,6 +78,7 @@ contract UniCardRegistry is
         address holder,
         uint256 interestRate,
         uint256 deadline,
+        bytes memory referralCode,
         bytes memory signature
     ) external nonReentrant whenNotPaused {
         bytes32 commitment = keccak256(abi.encodePacked(holder, interestRate, deadline));
@@ -94,7 +93,7 @@ contract UniCardRegistry is
         userCardIndex[holder] = index + 1;
 
         delete userCommitment[holder];
-        emit CardOpenConfirmation(holder, card, index, interestRate, deadline, commitment);
+        emit CardOpenConfirmation(holder, card, index, interestRate, deadline, commitment, referralCode);
     }
 
     /// @notice Increase the credit limit of a card
@@ -129,7 +128,6 @@ contract UniCardRegistry is
     function verifySignature(bytes32 message, bytes memory signature) internal view returns (bool) {
         bytes32 hashMessage = keccak256(abi.encodePacked("\x19Unipay Signed Message:\n32", message));
         address recoveredAddress = ECDSA.recover(hashMessage, signature);
-        console.log("recoveredAddress", recoveredAddress);
         return hasRole(CONTROLLER_ROLE, recoveredAddress);
     }
 }

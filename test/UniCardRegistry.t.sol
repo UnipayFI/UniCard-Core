@@ -2,11 +2,9 @@
 pragma solidity ^0.8.0;
 
 import "forge-std/Test.sol";
-import {console} from "forge-std/console.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {VmSafe} from "forge-std/Vm.sol";
-
 import {UniCardRegistry} from "../src/core/UniCardRegistry.sol";
 import {Errors} from "../src/libraries/Errors.sol";
 
@@ -46,7 +44,6 @@ contract UniCardRegistryTest is Test {
         string memory mnemonic = "test test test test test test test test test test test junk";
         privateKey = vm.deriveKey(mnemonic, 1);
         walletAddr = vm.addr(privateKey);
-        console.log("walletAddr", walletAddr);
         adminWallet = vm.createWallet(privateKey, "admin");
         return (privateKey, walletAddr);
     }
@@ -67,7 +64,7 @@ contract UniCardRegistryTest is Test {
     }
 
     function testOpenCardConfirmation() public {
-       
+
         vm.prank(user2);
         uniCardRegistry.openCardRequest(user2, interestRate, deadline);
         (
@@ -90,7 +87,7 @@ contract UniCardRegistryTest is Test {
 
         // Confirm the card opening
         vm.prank(user2);
-        uniCardRegistry.openCardConfirmation(user2, _interestRate, _deadline, signature);
+        uniCardRegistry.openCardConfirmation(user2, _interestRate, _deadline, bytes(""), signature);
 
         address card = uniCardRegistry.userCards(user2, 0);
         assertTrue(card != address(0));
