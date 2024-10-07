@@ -10,6 +10,9 @@ import {IUniCardDeploy} from "../interfaces/IUniCardDeploy.sol";
 import {IUniCard} from "../interfaces/IUniCard.sol";
 import {IUniCardRegistry} from "../interfaces/IUniCardRegistry.sol";
 
+// @title UniCard
+// @author UniPay
+// @notice This contract is used to manage a UniCard
 contract UniCard is Pausable, IUniCard {
     using SafeERC20 for IERC20;
 

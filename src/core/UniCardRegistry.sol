@@ -14,6 +14,9 @@ import {IUniCardRegistry} from "../interfaces/IUniCardRegistry.sol";
 import {IUniCard} from "../interfaces/IUniCard.sol";
 
 
+// @title UniCardRegistry
+// @author UniPay
+// @notice This contract is used to register and manage UniCards
 contract UniCardRegistry is 
     AccessControl,
     ReentrancyGuard,

@@ -5,6 +5,9 @@ import "forge-std/Script.sol";
 import "forge-std/console.sol";
 import {UniCardRegistry} from "../src/core/UniCardRegistry.sol";
 
+// @title DeployUniCardRegistryScript
+// @author UniPay
+// @notice This script is used to deploy a UniCardRegistry
 contract DeployUniCardRegistryScript is Script {
     uint256 deployerPrivateKey;
     address deployer;
