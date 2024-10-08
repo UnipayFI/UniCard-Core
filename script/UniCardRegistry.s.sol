@@ -35,3 +35,29 @@ contract DeployUniCardRegistryScript is Script {
         console.log("UniCardRegistry deployed at", address(uniCardRegistry));
     }
 }
+
+// @title AddUniCardRegistryControllerScript
+// @author UniPay
+// @notice This script is used to add a controller to the UniCardRegistry
+contract AddUniCardRegistryControllerScript is Script {
+    uint256 deployerPrivateKey;
+    address deployer;
+
+    address anPaymentToken;
+    address anAdmin;
+
+    UniCardRegistry uniCardRegistry;
+
+    function setUp() public {
+        deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        deployer = vm.addr(deployerPrivateKey);
+
+        uniCardRegistry = UniCardRegistry(vm.envAddress("UNICARD_REGISTRY"));
+    }
+
+    function run() public {
+        vm.startBroadcast(deployerPrivateKey);
+        uniCardRegistry.grantRole(uniCardRegistry.CONTROLLER_ROLE(), vm.envAddress("ADD_CONTROLLER"));
+        vm.stopBroadcast();
+    }   
+}
