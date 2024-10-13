@@ -31,6 +31,8 @@ contract UniCardRegistryTest is Test {
 
     function setUp() public {
         (adminPrivateKey, admin) = makeAdminWallet();
+        console.log(adminPrivateKey);
+        console.logAddress(admin);
         mockToken = new MockToken("MockToken", "MTK");
         uniCardRegistry = new UniCardRegistry(admin, address(mockToken));
         vm.startPrank(admin);
@@ -80,10 +82,15 @@ contract UniCardRegistryTest is Test {
 
         // Create a valid signature for the commitment
         bytes32 commitment = keccak256(abi.encodePacked(user2, interestRate, deadline));
+        console.logBytes32(commitment);
+        console.logAddress(address(user2));
+        console.logUint(interestRate);
+        console.logUint(deadline);
         bytes32 message = keccak256(abi.encodePacked("\x19Unipay Signed Message:\n32", commitment));
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(adminWallet, message);
 
         bytes memory signature = abi.encodePacked(r, s, v);
+        console.logBytes(signature);
 
         // Confirm the card opening
         vm.prank(user2);
