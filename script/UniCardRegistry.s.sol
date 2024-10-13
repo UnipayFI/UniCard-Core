@@ -43,9 +43,6 @@ contract AddUniCardRegistryControllerScript is Script {
     uint256 deployerPrivateKey;
     address deployer;
 
-    address anPaymentToken;
-    address anAdmin;
-
     UniCardRegistry uniCardRegistry;
 
     function setUp() public {
@@ -60,4 +57,35 @@ contract AddUniCardRegistryControllerScript is Script {
         uniCardRegistry.grantRole(uniCardRegistry.CONTROLLER_ROLE(), vm.envAddress("ADD_CONTROLLER"));
         vm.stopBroadcast();
     }   
+}
+
+// @title OpenUniCardRequestScript
+// @author UniPay
+// @notice This script is used to open a request for a UniCard
+contract OpenUniCardRequestScript is Script {
+    uint256 deployerPrivateKey;
+    address deployer;
+
+    UniCardRegistry uniCardRegistry;
+
+    address anHolder;
+    uint256 anInterestRate;
+    uint256 anDeadline;
+
+    function setUp() public {
+        deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        deployer = vm.addr(deployerPrivateKey);
+
+        uniCardRegistry = UniCardRegistry(vm.envAddress("UNICARD_REGISTRY"));
+
+        anHolder = vm.envAddress("HOLDER");
+        anInterestRate = vm.envUint("INTEREST_RATE");
+        anDeadline = vm.envUint("DEADLINE");
+    }
+
+    function run() public {
+        vm.startBroadcast(deployerPrivateKey);
+        uniCardRegistry.openCardRequest(anHolder, anInterestRate, anDeadline);
+        vm.stopBroadcast();
+    }
 }
