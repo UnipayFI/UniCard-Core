@@ -101,7 +101,7 @@ contract UniCardRegistryTest is Test {
 
         // Confirm the card opening
         vm.prank(user2);
-        uniCardRegistry.openCardConfirmation(user2, address(mockToken), _interestRate, _deadline, bytes(""), signature, bytes("0xtxhash1"));
+        uniCardRegistry.openCardConfirmation(user2, address(mockToken), _interestRate, _deadline, bytes(""), signature, "0xtxhash1");
 
         address card = uniCardRegistry.userCards(user2, 0);
         assertTrue(card != address(0));

@@ -7,3 +7,6 @@ add_controller:
 
 deploy:
 	forge clean && forge script script/UniCardRegistry.s.sol:DeployUniCardRegistryScript --rpc-url $(RPC_URL) --broadcast
+
+open_card_request:
+	forge clean && forge script script/UniCardRegistry.s.sol:OpenUniCardRequestScript --rpc-url $(RPC_URL) --broadcast

@@ -11,19 +11,21 @@ interface IUniCardRegistry {
 
     event CardOpenRequest(
         address indexed holder,
+        address indexed paymentToken,
         uint256 indexed interestRate,
-        uint256 indexed deadline,
+        uint256 deadline,
         bytes32 commitment
     );
     event CardOpenConfirmation(
         address indexed holder,
+        address indexed paymentToken,
         address indexed card,
-        uint256 indexed index,
+        uint256 index,
         uint256 interestRate,
         uint256 deadline,
         bytes32 commitment,
         bytes referralCode,
-        bytes txHash
+        string txHash
     );
     event CreditLimitIncreased(address indexed holder, uint256 indexed index, uint256 amount);
     event CreditLimitDecreased(address indexed holder, uint256 indexed index, uint256 amount);

@@ -70,7 +70,7 @@ contract UniCardRegistry is
             revert Errors.UNICARD_REGISTRY_USER_ALREADY_HAS_COMMITMENT();
         }
 
-        emit CardOpenRequest(holder, interestRate, deadline, commitment);
+        emit CardOpenRequest(holder, paymentToken, interestRate, deadline, commitment);
     }
 
     // @notice Open a card with a commitment confirmation
@@ -86,14 +86,14 @@ contract UniCardRegistry is
         uint256 deadline,
         bytes memory referralCode,
         bytes memory signature,
-        bytes memory txHash
+        string memory txHash
     ) external nonReentrant whenNotPaused {
         bytes32 commitment = keccak256(abi.encodePacked(holder, paymentToken, interestRate, deadline));
         require(userCommitment[holder].deadline > block.timestamp, Errors.UNICARD_REGISTRY_COMMITMENT_EXPIRED);
         require(userCommitment[holder].hashMessage == commitment, Errors.UNICARD_REGISTRY_COMMITMENT_DOES_NOT_EXIST);
         require(verifySignature(commitment, signature), Errors.UNICARD_REGISTRY_INVALID_SIGNATURE);
-        require(!txHashUsed[txHash], Errors.UNICARD_REGISTRY_TX_HASH_ALREADY_USED);
-        txHashUsed[txHash] = true;
+        require(!txHashUsed[bytes(txHash)], Errors.UNICARD_REGISTRY_TX_HASH_ALREADY_USED);
+        txHashUsed[bytes(txHash)] = true;
         uint256 index = userCardIndex[holder];
         require(userCards[holder][index] == address(0), Errors.UNICARD_REGISTRY_CARD_ALREADY_OPENED);
         address card = deploy(address(this),holder, interestRate, index, paymentToken, commitment);
@@ -102,7 +102,7 @@ contract UniCardRegistry is
         userCardIndex[holder] = index + 1;
 
         delete userCommitment[holder];
-        emit CardOpenConfirmation(holder, card, index, interestRate, deadline, commitment, referralCode, txHash);
+        emit CardOpenConfirmation(holder, paymentToken, card, index, interestRate, deadline, commitment, referralCode, txHash);
     }
 
     /// @notice Increase the credit limit of a card
