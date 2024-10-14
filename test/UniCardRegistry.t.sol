@@ -34,12 +34,14 @@ contract UniCardRegistryTest is Test {
         console.log(adminPrivateKey);
         console.logAddress(admin);
         mockToken = new MockToken("MockToken", "MTK");
-        uniCardRegistry = new UniCardRegistry(admin, address(mockToken));
+        uniCardRegistry = new UniCardRegistry(admin);
         vm.startPrank(admin);
         uniCardRegistry.grantRole(uniCardRegistry.CONTROLLER_ROLE(), admin);
+        uniCardRegistry.grantRole(uniCardRegistry.ALLOWED_TOKEN_PAYMENT(), address(mockToken));
         vm.stopPrank();
 
         assertTrue(uniCardRegistry.hasControllerRole(admin));
+        assertTrue(uniCardRegistry.hasRole(uniCardRegistry.ALLOWED_TOKEN_PAYMENT(), address(mockToken)));
     }
 
     function makeAdminWallet() internal returns (uint256 privateKey, address walletAddr) {
@@ -52,38 +54,43 @@ contract UniCardRegistryTest is Test {
 
     function testOpenCardRequest() public {
         vm.prank(user1);
-        uniCardRegistry.openCardRequest(user1, interestRate, deadline);
+        uniCardRegistry.openCardRequest(user1, address(mockToken), interestRate, deadline);
         (
             address _holder,
+            address _paymentToken,
             uint256 _interestRate,
             uint256 _deadline,
             bytes32 _hashMessage
         ) = uniCardRegistry.userCommitment(user1);
         assertEq(_holder, user1);
+        assertEq(_paymentToken, address(mockToken));
         assertEq(_interestRate, interestRate);
         assertEq(_deadline, deadline);
-        assertEq(_hashMessage, keccak256(abi.encodePacked(user1, interestRate, deadline)));
+        assertEq(_hashMessage, keccak256(abi.encodePacked(user1, address(mockToken), interestRate, deadline)));
     }
 
     function testOpenCardConfirmation() public {
 
         vm.prank(user2);
-        uniCardRegistry.openCardRequest(user2, interestRate, deadline);
+        uniCardRegistry.openCardRequest(user2, address(mockToken), interestRate, deadline);
         (
             address _holder,
+            address _paymentToken,
             uint256 _interestRate,
             uint256 _deadline,
             bytes32 _hashMessage
         ) = uniCardRegistry.userCommitment(user2);
         assertEq(_holder, user2);
+        assertEq(_paymentToken, address(mockToken));
         assertEq(_interestRate, interestRate);
         assertEq(_deadline, deadline);
-        assertEq(_hashMessage, keccak256(abi.encodePacked(user2, interestRate, deadline)));
+        assertEq(_hashMessage, keccak256(abi.encodePacked(user2, address(mockToken), interestRate, deadline)));
 
         // Create a valid signature for the commitment
-        bytes32 commitment = keccak256(abi.encodePacked(user2, interestRate, deadline));
+        bytes32 commitment = keccak256(abi.encodePacked(user2, address(mockToken), interestRate, deadline));
         console.logBytes32(commitment);
         console.logAddress(address(user2));
+        console.logAddress(address(mockToken));
         console.logUint(interestRate);
         console.logUint(deadline);
         bytes32 message = keccak256(abi.encodePacked("\x19Unipay Signed Message:\n32", commitment));
@@ -94,7 +101,7 @@ contract UniCardRegistryTest is Test {
 
         // Confirm the card opening
         vm.prank(user2);
-        uniCardRegistry.openCardConfirmation(user2, _interestRate, _deadline, bytes(""), signature);
+        uniCardRegistry.openCardConfirmation(user2, address(mockToken), _interestRate, _deadline, bytes(""), signature, bytes("0xtxhash1"));
 
         address card = uniCardRegistry.userCards(user2, 0);
         assertTrue(card != address(0));

@@ -17,6 +17,8 @@ library Errors {
     string public constant UNICARD_REGISTRY_PAYMENT_AMOUNT_TOO_HIGH = "UniCardRegistry: Payment amount is too high";
     string public constant UNICARD_REGISTRY_CARD_ALREADY_OPENED = "UniCardRegistry: Card already opened";
     string public constant UNICARD_REGISTRY_CARD_DOES_NOT_EXIST = "UniCardRegistry: Card does not exist";
+    string public constant UNICARD_REGISTRY_PAYMENT_TOKEN_NOT_ALLOWED = "UniCardRegistry: Payment token not allowed";
+    string public constant UNICARD_REGISTRY_TX_HASH_ALREADY_USED = "UniCardRegistry: Tx hash already used";
 
     // UniCard
     string public constant UNICARD_NOT_CONTROLLER = "UniCard: Not controller";

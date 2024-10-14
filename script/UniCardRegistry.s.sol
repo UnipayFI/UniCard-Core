@@ -30,7 +30,8 @@ contract DeployUniCardRegistryScript is Script {
 
     function run() public {
         vm.startBroadcast(deployerPrivateKey);
-        uniCardRegistry = new UniCardRegistry(anAdmin, anPaymentToken);
+        uniCardRegistry = new UniCardRegistry(anAdmin);
+        uniCardRegistry.grantRole(uniCardRegistry.ALLOWED_TOKEN_PAYMENT(), anPaymentToken);
         vm.stopBroadcast();
         console.log("UniCardRegistry deployed at", address(uniCardRegistry));
     }
@@ -71,7 +72,7 @@ contract OpenUniCardRequestScript is Script {
     address anHolder;
     uint256 anInterestRate;
     uint256 anDeadline;
-
+    address anPaymentToken;
     function setUp() public {
         deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         deployer = vm.addr(deployerPrivateKey);
@@ -81,11 +82,12 @@ contract OpenUniCardRequestScript is Script {
         anHolder = vm.envAddress("HOLDER");
         anInterestRate = vm.envUint("INTEREST_RATE");
         anDeadline = vm.envUint("DEADLINE");
+        anPaymentToken = vm.envAddress("PAYMENT_TOKEN");
     }
 
     function run() public {
         vm.startBroadcast(deployerPrivateKey);
-        uniCardRegistry.openCardRequest(anHolder, anInterestRate, anDeadline);
+        uniCardRegistry.openCardRequest(anHolder, anPaymentToken, anInterestRate, anDeadline);
         vm.stopBroadcast();
     }
 }
