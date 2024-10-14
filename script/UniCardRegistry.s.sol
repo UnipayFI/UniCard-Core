@@ -21,7 +21,7 @@ contract DeployUniCardRegistryScript is Script {
         deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         deployer = vm.addr(deployerPrivateKey);
 
-        anPaymentToken = vm.envAddress("PAYMENT_TOKEN");
+        anPaymentToken = address(vm.envAddress("PAYMENT_TOKEN"));
         anAdmin = vm.envAddress("ADMIN");
         if (anAdmin == address(0)) {
             anAdmin = deployer;
