@@ -26,6 +26,7 @@ interface IUniCardRegistry {
         uint256 indexed nonce,
         uint256 interestRate,
         uint256 deadline,
+        uint256 amount,
         string productCode,
         string inviteCode,
         string referralCode,

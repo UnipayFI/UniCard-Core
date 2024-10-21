@@ -55,7 +55,7 @@ contract UniCardRegistryTest is Test {
         return (privateKey, walletAddr);
     }
 
-    function makeTestWallet() internal returns (uint256 privateKey, address walletAddr) {
+    function makeTestWallet() internal pure returns (uint256 privateKey, address walletAddr) {
         string memory mnemonic = "test test test test test test test test test test test junk";
         privateKey = vm.deriveKey(mnemonic, 2);
         walletAddr = vm.addr(privateKey);
@@ -64,13 +64,24 @@ contract UniCardRegistryTest is Test {
 
      function testOpenCardRequestWithInvalidToken() public {
         address invalidToken = address(0x1234);
+        uint256 amount = 1000;
         vm.prank(user1);
         vm.expectRevert(Errors.UNICARD_REGISTRY_PAYMENT_TOKEN_NOT_ALLOWED.selector);
-        uniCardRegistry.openCardRequest(user1, invalidToken, interestRate, deadline, "GS95278", "inviteCode", "referralCode");
+        uniCardRegistry.openCardRequest(
+            user1,
+            invalidToken,
+            interestRate,
+            deadline,
+            amount,
+            "GS95278",
+            "inviteCode",
+            "referralCode"
+        );
     }
 
     function testOpenCardRequestInvalidInterestRate() public {
         uint256 invalidInterestRate = 1e6; // 100%
+        uint256 amount = 1000;
         vm.prank(user1);
         vm.expectRevert(Errors.UNICARD_REGISTRY_INTEREST_RATE_TOO_HIGH.selector);
         uniCardRegistry.openCardRequest(
@@ -78,6 +89,7 @@ contract UniCardRegistryTest is Test {
             address(mockToken),
             invalidInterestRate,
             deadline,
+            amount,
             "GS95278",
             "inviteCode",
             "referralCode"
@@ -86,6 +98,7 @@ contract UniCardRegistryTest is Test {
 
     function testOpenCardRequestInvalidDeadline() public {
         uint256 invalidDeadline = block.timestamp - 1;
+        uint256 amount = 1000;
         vm.prank(user1);
         vm.expectRevert(Errors.UNICARD_REGISTRY_DEADLINE_MUST_BE_IN_THE_FUTURE.selector);
         uniCardRegistry.openCardRequest(
@@ -93,6 +106,7 @@ contract UniCardRegistryTest is Test {
             address(mockToken),
             interestRate,
             invalidDeadline,
+            amount,
             "GS95278",
             "inviteCode",
             "referralCode"
@@ -100,12 +114,14 @@ contract UniCardRegistryTest is Test {
     }
 
      function testOpenCardRequestSuccess() public {
+        uint256 amount = 1000;
         vm.prank(user1);
         uniCardRegistry.openCardRequest(
             user1,
             address(mockToken),
             interestRate,
             deadline,
+            amount,
             "GS95278",
             "inviteCode",
             "referralCode"
@@ -134,19 +150,20 @@ contract UniCardRegistryTest is Test {
 
      function testOpenCardConfirmationSuccess() public {
         // First, create a request
+        uint256 amount = 1000;
         vm.prank(user1);
         uniCardRegistry.openCardRequest(
             user1,
             address(mockToken),
             interestRate,
             deadline,
+            amount,
             "GS95278",
             "inviteCode",
             "referralCode"
         );
 
         // Prepare confirmation data
-        uint256 amount = 1000;
         uint256 nonce = uniCardRegistry.nonces(user1);
         bytes32 commitment = keccak256(
             abi.encodePacked(
@@ -196,19 +213,20 @@ contract UniCardRegistryTest is Test {
      }
 
      function testOpenCardConfirmationInvalidSignature() public {
+        uint256 amount = 1000;
         vm.prank(user1);
         uniCardRegistry.openCardRequest(
             user1,
             address(mockToken),
             interestRate,
             deadline + 1008611,
+            amount,
             "GS95278",
             "inviteCode",
             "referralCode"
         );
 
         // Prepare confirmation data
-        uint256 amount = 1000;
         uint256 nonce = uniCardRegistry.nonces(user1);
         bytes32 commitment = keccak256(
             abi.encodePacked(
@@ -221,7 +239,7 @@ contract UniCardRegistryTest is Test {
             )
         );
 
-        (uint256 testPrivateKey, address testWallet) = makeTestWallet();
+        (uint256 testPrivateKey, ) = makeTestWallet();
         bytes32 message = keccak256(abi.encodePacked("\x19Unipay Signed Message:\n32", commitment));
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(testPrivateKey, message);
         bytes memory invalidSignature = abi.encodePacked(r, s, v);

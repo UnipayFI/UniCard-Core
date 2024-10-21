@@ -72,7 +72,9 @@ contract OpenUniCardRequestScript is Script {
     address anHolder;
     uint256 anInterestRate;
     uint256 anDeadline;
+    uint256 anAmount;
     address anPaymentToken;
+
     function setUp() public {
         deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         deployer = vm.addr(deployerPrivateKey);
@@ -83,11 +85,12 @@ contract OpenUniCardRequestScript is Script {
         anInterestRate = vm.envUint("INTEREST_RATE");
         anDeadline = vm.envUint("DEADLINE");
         anPaymentToken = vm.envAddress("PAYMENT_TOKEN");
+        anAmount = vm.envUint("AMOUNT");
     }
 
     function run() public {
         vm.startBroadcast(deployerPrivateKey);
-        uniCardRegistry.openCardRequest(anHolder, anPaymentToken, anInterestRate, anDeadline, "6909477", "invite", "referral");
+        uniCardRegistry.openCardRequest(anHolder, anPaymentToken, anInterestRate, anDeadline, anAmount, "6909477", "invite", "referral");
         vm.stopBroadcast();
     }
 }

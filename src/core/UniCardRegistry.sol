@@ -52,6 +52,7 @@ contract UniCardRegistry is
         address paymentToken,
         uint256 interestRate,
         uint256 deadline,
+        uint256 amount,
         string memory productCode,
         string memory inviteCode,
         string memory referralCode
@@ -95,6 +96,7 @@ contract UniCardRegistry is
             nonce,
             interestRate, 
             deadline, 
+            amount,
             productCode, 
             inviteCode, 
             referralCode, 
