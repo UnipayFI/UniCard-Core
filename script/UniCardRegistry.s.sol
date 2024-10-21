@@ -60,6 +60,29 @@ contract AddUniCardRegistryControllerScript is Script {
     }   
 }
 
+// @title AddUniCardRegistryVaultScript
+// @author UniPay
+// @notice This script is used to add a vault to the UniCardRegistry
+contract AddUniCardRegistryVaultScript is Script {
+    uint256 deployerPrivateKey;
+    address deployer;
+
+    UniCardRegistry uniCardRegistry;
+
+    function setUp() public {
+        deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        deployer = vm.addr(deployerPrivateKey);
+
+        uniCardRegistry = UniCardRegistry(vm.envAddress("UNICARD_REGISTRY"));
+    }
+
+    function run() public {
+        vm.startBroadcast(deployerPrivateKey);
+        uniCardRegistry.grantRole(uniCardRegistry.UNICARD_VAULT_ROLE(), vm.envAddress("ADD_VAULT"));
+        vm.stopBroadcast();
+    }
+}
+
 // @title OpenUniCardRequestScript
 // @author UniPay
 // @notice This script is used to open a request for a UniCard
