@@ -8,11 +8,7 @@ import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {Errors} from "../libraries/Errors.sol";
-import {NoDelegateCall} from "./NoDelegateCall.sol";
-import {UniCardDeploy} from "./UniCardDeploy.sol";
 import {IUniCardRegistry} from "../interfaces/IUniCardRegistry.sol";
-import {IUniCard} from "../interfaces/IUniCard.sol";
-
 
 // @title UniCardRegistry
 // @author UniPay
@@ -21,26 +17,26 @@ contract UniCardRegistry is
     AccessControl,
     ReentrancyGuard,
     Pausable,
-    NoDelegateCall,
-    UniCardDeploy,
     IUniCardRegistry
 {
     using SafeERC20 for IERC20;
 
     bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
     bytes32 public constant ALLOWED_TOKEN_PAYMENT = keccak256("ALLOWED_TOKEN_PAYMENT");
+    bytes32 public constant UNICARD_VAULT_ROLE = keccak256("UNICARD_VAULT_ROLE");
 
     uint256 public constant INTEREST_RATE_PRECISION = 1e6;
+    address public constant NATIVE_TOKEN = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
 
-    mapping(bytes => bool) public txHashUsed;
-    mapping(address => Commitment) public userCommitment;
-    mapping(address => uint256) public userCardIndex;
-    mapping(address => mapping(uint256 => address)) public userCards;
+    mapping(address => uint256) public nonces;
+    mapping(bytes32 => Commitment) private _commitments;
+    mapping(bytes32 => Confirmation) private _confirmations;
 
     constructor(address anAdmin) {
         _grantRole(DEFAULT_ADMIN_ROLE, anAdmin);
         _setRoleAdmin(CONTROLLER_ROLE, DEFAULT_ADMIN_ROLE);
         _setRoleAdmin(ALLOWED_TOKEN_PAYMENT, DEFAULT_ADMIN_ROLE);
+        _setRoleAdmin(UNICARD_VAULT_ROLE, DEFAULT_ADMIN_ROLE);
     }
 
     // @notice Open a card with a commitment request
@@ -56,78 +52,169 @@ contract UniCardRegistry is
         address paymentToken,
         uint256 interestRate,
         uint256 deadline,
-        bytes memory productCode,
-        bytes memory inviteCode,
-        bytes memory referralCode
+        string memory productCode,
+        string memory inviteCode,
+        string memory referralCode
     ) external nonReentrant whenNotPaused {
-        require(hasRole(ALLOWED_TOKEN_PAYMENT, paymentToken), Errors.UNICARD_REGISTRY_PAYMENT_TOKEN_NOT_ALLOWED);
-        require(interestRate < INTEREST_RATE_PRECISION, Errors.UNICARD_REGISTRY_INTEREST_RATE_TOO_HIGH);
-        require(deadline > block.timestamp, Errors.UNICARD_REGISTRY_DEADLINE_MUST_BE_IN_THE_FUTURE);
+        if (!hasRole(ALLOWED_TOKEN_PAYMENT, paymentToken)) {
+            revert Errors.UNICARD_REGISTRY_PAYMENT_TOKEN_NOT_ALLOWED();
+        }
+        if (interestRate >= INTEREST_RATE_PRECISION) {
+            revert Errors.UNICARD_REGISTRY_INTEREST_RATE_TOO_HIGH();
+        }
+        if (deadline <= block.timestamp) {
+            revert Errors.UNICARD_REGISTRY_DEADLINE_MUST_BE_IN_THE_FUTURE();
+        }
+        uint256 nonce = nonces[holder];
         bytes32 commitment = keccak256(
             abi.encodePacked(
-                holder, paymentToken, interestRate, deadline, productCode, inviteCode, referralCode
+                holder, 
+                paymentToken, 
+                nonce,
+                interestRate, 
+                deadline, 
+                productCode
             )
         );
-        if (userCommitment[holder].deadline < block.timestamp) {
-            userCommitment[holder] = Commitment({
+        if (_commitments[commitment].deadline < block.timestamp) {
+            _commitments[commitment] = Commitment({
                 holder: holder,
                 paymentToken: paymentToken,
                 interestRate: interestRate,
                 deadline: deadline,
-                productCode: productCode,
-                inviteCode: inviteCode,
-                referralCode:referralCode,
-                hashMessage: commitment
+                nonce: nonce,
+                productCode: productCode
             });
         } else {
             revert Errors.UNICARD_REGISTRY_USER_ALREADY_HAS_COMMITMENT();
         }
 
-        emit CardOpenRequest(holder, paymentToken, interestRate, deadline, productCode, inviteCode, referralCode, commitment);
+        emit CardOpenRequest(
+            holder, 
+            paymentToken, 
+            nonce,
+            interestRate, 
+            deadline, 
+            productCode, 
+            inviteCode, 
+            referralCode, 
+            commitment
+        );
     }
 
     // @notice Open a card with a commitment confirmation
     // @param holder The address of the card holder
     // @param interestRate The interest rate of the card
     // @param deadline The deadline of the commitment request
+    // @param amount The amount of create card needed
+    // @param productCode The product code of card
     // @param signature The signature of the commitment confirmation
-    // @param txHash The transaction hash of the commitment request
+    // @param requestTxHash The transaction hash of the commitment request
     function openCardConfirmation(
         address holder,
         address paymentToken,
         uint256 interestRate,
+        uint256 nonce,
         uint256 deadline,
-        bytes memory referralCode,
+        uint256 amount,
+        address vault,
+        string memory productCode,
         bytes memory signature,
-        bytes memory txHash
-    ) external nonReentrant whenNotPaused {
-        bytes32 commitment = keccak256(abi.encodePacked(holder, paymentToken, interestRate, deadline));
-        require(userCommitment[holder].deadline > block.timestamp, Errors.UNICARD_REGISTRY_COMMITMENT_EXPIRED);
-        require(userCommitment[holder].hashMessage == commitment, Errors.UNICARD_REGISTRY_COMMITMENT_DOES_NOT_EXIST);
-        require(verifySignature(commitment, signature), Errors.UNICARD_REGISTRY_INVALID_SIGNATURE);
-        require(!txHashUsed[bytes(txHash)], Errors.UNICARD_REGISTRY_TX_HASH_ALREADY_USED);
-        txHashUsed[bytes(txHash)] = true;
-        uint256 index = userCardIndex[holder];
-        require(userCards[holder][index] == address(0), Errors.UNICARD_REGISTRY_CARD_ALREADY_OPENED);
-        address card = deploy(address(this),holder, interestRate, index, paymentToken, commitment);
+        string memory requestTxHash
+    ) external payable nonReentrant whenNotPaused {
+        if (amount == 0) {
+            revert Errors.UNICARD_REGISTRY_AMOUNT_MUST_BE_GREATER_THAN_ZERO();
+        }
 
-        userCards[holder][index] = card;
-        userCardIndex[holder] = index + 1;
+        if (!hasRole(UNICARD_VAULT_ROLE, vault)) {
+            revert Errors.UNICARD_REGISTRY_VAULT_NOT_ALLOWED();
+        }
+        if (bytes(requestTxHash).length == 0) {
+            revert Errors.UNICARD_REGISTRY_REQUEST_TX_HASH_EMPTY();
+        }
+        if (nonce != nonces[holder]) {
+            revert Errors.UNICARD_REGISTRY_NONCE_MISMATCH();
+        }
 
-        delete userCommitment[holder];
-        emit CardOpenConfirmation(holder, paymentToken, card, index, interestRate, deadline, commitment, referralCode, txHash);
+        bytes32 commitment = keccak256(
+            abi.encodePacked(
+                holder, 
+                paymentToken, 
+                nonce, 
+                interestRate, 
+                deadline, 
+                productCode
+            )
+        );
+        if (_commitments[commitment].deadline < block.timestamp) {
+            revert Errors.UNICARD_REGISTRY_COMMITMENT_EXPIRED();
+        }
+        if (!verifySignature(commitment, signature)) {
+            revert Errors.UNICARD_REGISTRY_INVALID_SIGNATURE();
+        }
+
+        if (paymentToken != NATIVE_TOKEN) {
+            IERC20(paymentToken).safeTransferFrom(holder, vault, amount);
+        } else {
+            if (msg.value != amount) {
+                revert Errors.UNICARD_REGISTRY_AMOUNT_MUST_BE_GREATER_THAN_ZERO();
+            }
+            payable(vault).transfer(amount);
+        }
+
+        bytes32 key = confirmationKey(holder, nonce);
+        nonces[holder]++;
+
+        if (bytes(_confirmations[key].requestTxHash).length > 0) {
+            revert Errors.UNICARD_REGISTRY_REQUEST_TX_HASH_ALREADY_USED();
+        }
+        _confirmations[key] = Confirmation({
+            productCode: productCode,
+            holder: holder,
+            paymentToken: paymentToken,
+            nonce: nonce,
+            interestRate: interestRate,
+            commitment: commitment,
+            requestTxHash: requestTxHash
+        });
+
+        delete _commitments[commitment];
+
+        emit CardOpenConfirmation(
+            holder, 
+            paymentToken, 
+            vault, 
+            nonce, 
+            interestRate, 
+            deadline, 
+            commitment, 
+            requestTxHash
+        );
     }
 
-    /// @notice Increase the credit limit of a card
-    /// @param holder The address of the card holder
-    /// @param index The index of the card
-    /// @param amount The amount to increase the credit limit by
-    function increaseCreditLimit(address holder, uint256 index,uint256 amount) external {
-        address card = userCards[holder][index];
-        require(card != address(0), Errors.UNICARD_REGISTRY_CARD_DOES_NOT_EXIST);
-        IUniCard(card).increaseCreditLimit(holder, amount);
+    function commitments(bytes32 commitment) 
+        external 
+        view 
+        override
+        returns (Commitment memory) 
+    {
+        return _commitments[commitment];
+    }
 
-        emit CreditLimitIncreased(holder, index, amount);
+    function confirmations(bytes32 confirmation) 
+        external 
+        view 
+        override
+        returns (Confirmation memory) 
+    {
+        return _confirmations[confirmation];
+    }
+
+    // @notice Get the confirmation key
+    // @param aHolder The address of the card holder
+    // @param aNonce The nonce of the card
+    function confirmationKey(address aHolder, uint256 aNonce) public pure returns (bytes32) {
+        return keccak256(abi.encodePacked(aHolder, aNonce));
     }
 
     // @notice Check if the address has the controller role

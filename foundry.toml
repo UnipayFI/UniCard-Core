@@ -1,7 +1,11 @@
 [profile.default]
-src = "src"
+ffi = true
+ast = true
+build_info = true
+extra_output = ["storageLayout"]
 out = "out"
-libs = ["lib"]
+fs_permissions = [{ access = "read", path = "out" }]
+solc_version = "0.8.20"
 
 [rpc_endpoints]
 sepolia = "https://sepolia.infura.io/v3/c401b8ee3a324619a453f2b5b2122d7a"
