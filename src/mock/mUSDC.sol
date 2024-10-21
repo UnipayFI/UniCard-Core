@@ -15,7 +15,6 @@ contract mUSDC is ERC20 {
     }
 
     function mint(address to, uint256 amount) external {
-        require(msg.sender == owner, "Only owner can mint");
         _mint(to, amount);
     }
 }   

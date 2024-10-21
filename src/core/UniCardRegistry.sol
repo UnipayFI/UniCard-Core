@@ -48,29 +48,42 @@ contract UniCardRegistry is
     // @param paymentToken The payment token of the card
     // @param interestRate The interest rate of the card
     // @param deadline The deadline of the commitment request
+    // @param productCode The product code of card
+    // @param inviteCode The invite code of card
+    // @param referralCode The referral code of card
     function openCardRequest(
         address holder,
         address paymentToken,
         uint256 interestRate,
-        uint256 deadline
+        uint256 deadline,
+        bytes memory productCode,
+        bytes memory inviteCode,
+        bytes memory referralCode
     ) external nonReentrant whenNotPaused {
         require(hasRole(ALLOWED_TOKEN_PAYMENT, paymentToken), Errors.UNICARD_REGISTRY_PAYMENT_TOKEN_NOT_ALLOWED);
         require(interestRate < INTEREST_RATE_PRECISION, Errors.UNICARD_REGISTRY_INTEREST_RATE_TOO_HIGH);
         require(deadline > block.timestamp, Errors.UNICARD_REGISTRY_DEADLINE_MUST_BE_IN_THE_FUTURE);
-        bytes32 commitment = keccak256(abi.encodePacked(holder, paymentToken, interestRate, deadline));
+        bytes32 commitment = keccak256(
+            abi.encodePacked(
+                holder, paymentToken, interestRate, deadline, productCode, inviteCode, referralCode
+            )
+        );
         if (userCommitment[holder].deadline < block.timestamp) {
             userCommitment[holder] = Commitment({
                 holder: holder,
                 paymentToken: paymentToken,
                 interestRate: interestRate,
                 deadline: deadline,
+                productCode: productCode,
+                inviteCode: inviteCode,
+                referralCode:referralCode,
                 hashMessage: commitment
             });
         } else {
             revert Errors.UNICARD_REGISTRY_USER_ALREADY_HAS_COMMITMENT();
         }
 
-        emit CardOpenRequest(holder, paymentToken, interestRate, deadline, commitment);
+        emit CardOpenRequest(holder, paymentToken, interestRate, deadline, productCode, inviteCode, referralCode, commitment);
     }
 
     // @notice Open a card with a commitment confirmation
@@ -86,7 +99,7 @@ contract UniCardRegistry is
         uint256 deadline,
         bytes memory referralCode,
         bytes memory signature,
-        string memory txHash
+        bytes memory txHash
     ) external nonReentrant whenNotPaused {
         bytes32 commitment = keccak256(abi.encodePacked(holder, paymentToken, interestRate, deadline));
         require(userCommitment[holder].deadline > block.timestamp, Errors.UNICARD_REGISTRY_COMMITMENT_EXPIRED);

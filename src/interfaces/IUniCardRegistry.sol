@@ -1,11 +1,14 @@
 pragma solidity ^0.8.0;
 
 interface IUniCardRegistry {
-   struct Commitment {
+    struct Commitment {
         address holder;
         address paymentToken;
         uint256 interestRate;
         uint256 deadline;
+        bytes productCode;
+        bytes inviteCode;
+        bytes referralCode;
         bytes32 hashMessage;
     }
 
@@ -14,8 +17,12 @@ interface IUniCardRegistry {
         address indexed paymentToken,
         uint256 indexed interestRate,
         uint256 deadline,
+        bytes productCode,
+        bytes inviteCode,
+        bytes referralCode,
         bytes32 commitment
     );
+
     event CardOpenConfirmation(
         address indexed holder,
         address indexed paymentToken,
@@ -25,8 +32,9 @@ interface IUniCardRegistry {
         uint256 deadline,
         bytes32 commitment,
         bytes referralCode,
-        string txHash
+        bytes txHash
     );
+
     event CreditLimitIncreased(address indexed holder, uint256 indexed index, uint256 amount);
     event CreditLimitDecreased(address indexed holder, uint256 indexed index, uint256 amount);
     event InterestRateUpdated(uint256 indexed index, uint256 interestRate);

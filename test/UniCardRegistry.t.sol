@@ -54,12 +54,15 @@ contract UniCardRegistryTest is Test {
 
     function testOpenCardRequest() public {
         vm.prank(user1);
-        uniCardRegistry.openCardRequest(user1, address(mockToken), interestRate, deadline);
+        uniCardRegistry.openCardRequest(user1, address(mockToken), interestRate, deadline, "", "", "");
         (
             address _holder,
             address _paymentToken,
             uint256 _interestRate,
             uint256 _deadline,
+            bytes memory productCode,
+            bytes memory inviteCode,
+            bytes memory referralCode,
             bytes32 _hashMessage
         ) = uniCardRegistry.userCommitment(user1);
         assertEq(_holder, user1);
@@ -72,12 +75,15 @@ contract UniCardRegistryTest is Test {
     function testOpenCardConfirmation() public {
 
         vm.prank(user2);
-        uniCardRegistry.openCardRequest(user2, address(mockToken), interestRate, deadline);
+        uniCardRegistry.openCardRequest(user2, address(mockToken), interestRate, deadline, "", "", "");
         (
             address _holder,
             address _paymentToken,
             uint256 _interestRate,
             uint256 _deadline,
+            bytes memory productCode,
+            bytes memory inviteCode,
+            bytes memory referralCode,
             bytes32 _hashMessage
         ) = uniCardRegistry.userCommitment(user2);
         assertEq(_holder, user2);
