@@ -87,7 +87,7 @@ contract OpenUniCardRequestScript is Script {
 
     function run() public {
         vm.startBroadcast(deployerPrivateKey);
-        uniCardRegistry.openCardRequest(anHolder, anPaymentToken, anInterestRate, anDeadline);
+        uniCardRegistry.openCardRequest(anHolder, anPaymentToken, anInterestRate, anDeadline, "6909477", "invite", "referral");
         vm.stopBroadcast();
     }
 }
