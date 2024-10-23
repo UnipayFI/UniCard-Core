@@ -16,3 +16,5 @@ docs/
 .env
 
 node_modules
+artifacts
+cache_hardhat
