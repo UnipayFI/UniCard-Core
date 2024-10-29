@@ -1,0 +1,164 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract FixedAssetReader",
+        "name": "_assetReader",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "assetReader",
+    "outputs": [
+      {
+        "internalType": "contract FixedAssetReader",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "description",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "_tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "_owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_collToken",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_collAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_debtAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_interestRate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum ITroveManager.Status",
+            "name": "_status",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct IMetadataNFT.TroveData",
+        "name": "_troveData",
+        "type": "tuple"
+      }
+    ],
+    "name": "dynamicTextComponents",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "name",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "_tokenId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "_owner",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "_collToken",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_collAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_debtAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "_interestRate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum ITroveManager.Status",
+            "name": "_status",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct IMetadataNFT.TroveData",
+        "name": "_troveData",
+        "type": "tuple"
+      }
+    ],
+    "name": "uri",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

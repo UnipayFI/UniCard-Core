@@ -34,9 +34,17 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC721Errors__factory>;
     getContractFactory(
+      name: "IERC5267",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC5267__factory>;
+    getContractFactory(
       name: "ERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20__factory>;
+    getContractFactory(
+      name: "ERC20Permit",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20Permit__factory>;
     getContractFactory(
       name: "IERC20Metadata",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -54,6 +62,22 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SafeERC20__factory>;
     getContractFactory(
+      name: "ERC721",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721__factory>;
+    getContractFactory(
+      name: "IERC721Metadata",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721Metadata__factory>;
+    getContractFactory(
+      name: "IERC721",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721__factory>;
+    getContractFactory(
+      name: "IERC721Receiver",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721Receiver__factory>;
+    getContractFactory(
       name: "Address",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Address__factory>;
@@ -61,6 +85,10 @@ declare module "hardhat/types/runtime" {
       name: "ECDSA",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ECDSA__factory>;
+    getContractFactory(
+      name: "EIP712",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.EIP712__factory>;
     getContractFactory(
       name: "ERC165",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -70,6 +98,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
+      name: "Math",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Math__factory>;
+    getContractFactory(
+      name: "Nonces",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Nonces__factory>;
+    getContractFactory(
       name: "Pausable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Pausable__factory>;
@@ -78,21 +114,249 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ReentrancyGuard__factory>;
     getContractFactory(
-      name: "UniCardRegistry",
+      name: "ShortStrings",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.UniCardRegistry__factory>;
+    ): Promise<Contracts.ShortStrings__factory>;
+    getContractFactory(
+      name: "Strings",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Strings__factory>;
+    getContractFactory(
+      name: "LibString",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.LibString__factory>;
+    getContractFactory(
+      name: "SSTORE2",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SSTORE2__factory>;
+    getContractFactory(
+      name: "IRETHToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IRETHToken__factory>;
+    getContractFactory(
+      name: "AddRemoveManagers",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AddRemoveManagers__factory>;
+    getContractFactory(
+      name: "AggregatorV3Interface",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AggregatorV3Interface__factory>;
+    getContractFactory(
+      name: "Constants",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Constants__factory>;
+    getContractFactory(
+      name: "IOsTokenVaultController",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IOsTokenVaultController__factory>;
+    getContractFactory(
+      name: "IRETHToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IRETHToken__factory>;
+    getContractFactory(
+      name: "IStaderOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IStaderOracle__factory>;
+    getContractFactory(
+      name: "LiquityBase",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.LiquityBase__factory>;
+    getContractFactory(
+      name: "Ownable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Ownable__factory>;
+    getContractFactory(
+      name: "IActivePool",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IActivePool__factory>;
+    getContractFactory(
+      name: "IAddRemoveManagers",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAddRemoveManagers__factory>;
+    getContractFactory(
+      name: "IAddressesRegistry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAddressesRegistry__factory>;
+    getContractFactory(
+      name: "IBoldRewardsReceiver",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IBoldRewardsReceiver__factory>;
+    getContractFactory(
+      name: "IBoldToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IBoldToken__factory>;
+    getContractFactory(
+      name: "IBorrowerOperations",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IBorrowerOperations__factory>;
+    getContractFactory(
+      name: "ICollateralRegistry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ICollateralRegistry__factory>;
+    getContractFactory(
+      name: "ICollSurplusPool",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ICollSurplusPool__factory>;
+    getContractFactory(
+      name: "ICommunityIssuance",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ICommunityIssuance__factory>;
+    getContractFactory(
+      name: "ICompositePriceFeed",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ICompositePriceFeed__factory>;
+    getContractFactory(
+      name: "IDefaultPool",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IDefaultPool__factory>;
+    getContractFactory(
+      name: "IHintHelpers",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IHintHelpers__factory>;
+    getContractFactory(
+      name: "ILiquityBase",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ILiquityBase__factory>;
+    getContractFactory(
+      name: "ILQTYStaking",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ILQTYStaking__factory>;
+    getContractFactory(
+      name: "ILQTYToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ILQTYToken__factory>;
+    getContractFactory(
+      name: "IMultiTroveGetter",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IMultiTroveGetter__factory>;
+    getContractFactory(
+      name: "IPriceFeed",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IPriceFeed__factory>;
+    getContractFactory(
+      name: "ISortedTroves",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ISortedTroves__factory>;
+    getContractFactory(
+      name: "IStabilityPool",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IStabilityPool__factory>;
+    getContractFactory(
+      name: "IStabilityPoolEvents",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IStabilityPoolEvents__factory>;
+    getContractFactory(
+      name: "ITroveEvents",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ITroveEvents__factory>;
+    getContractFactory(
+      name: "ITroveManager",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ITroveManager__factory>;
+    getContractFactory(
+      name: "ITroveNFT",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ITroveNFT__factory>;
     getContractFactory(
       name: "IUniCardRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IUniCardRegistry__factory>;
     getContractFactory(
+      name: "IWETH",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IWETH__factory>;
+    getContractFactory(
+      name: "IWETHPriceFeed",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IWETHPriceFeed__factory>;
+    getContractFactory(
+      name: "IWSTETH",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IWSTETH__factory>;
+    getContractFactory(
+      name: "IWSTETHPriceFeed",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IWSTETHPriceFeed__factory>;
+    getContractFactory(
       name: "Errors",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Errors__factory>;
     getContractFactory(
+      name: "ActivePool",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ActivePool__factory>;
+    getContractFactory(
+      name: "AddressesRegistry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AddressesRegistry__factory>;
+    getContractFactory(
+      name: "BoldToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BoldToken__factory>;
+    getContractFactory(
+      name: "BorrowerOperations",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BorrowerOperations__factory>;
+    getContractFactory(
+      name: "CollateralRegistry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.CollateralRegistry__factory>;
+    getContractFactory(
+      name: "CollSurplusPool",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.CollSurplusPool__factory>;
+    getContractFactory(
+      name: "DefaultPool",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.DefaultPool__factory>;
+    getContractFactory(
+      name: "GasPool",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.GasPool__factory>;
+    getContractFactory(
+      name: "HintHelpers",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.HintHelpers__factory>;
+    getContractFactory(
+      name: "MultiTroveGetter",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MultiTroveGetter__factory>;
+    getContractFactory(
+      name: "SortedTroves",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SortedTroves__factory>;
+    getContractFactory(
+      name: "StabilityPool",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.StabilityPool__factory>;
+    getContractFactory(
+      name: "TroveManager",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TroveManager__factory>;
+    getContractFactory(
+      name: "TroveNFT",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.TroveNFT__factory>;
+    getContractFactory(
       name: "MUSDC",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MUSDC__factory>;
+    getContractFactory(
+      name: "IMetadataNFT",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IMetadataNFT__factory>;
+    getContractFactory(
+      name: "MetadataNFT",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MetadataNFT__factory>;
+    getContractFactory(
+      name: "FixedAssetReader",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FixedAssetReader__factory>;
+    getContractFactory(
+      name: "UniCardRegistry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.UniCardRegistry__factory>;
 
     getContractAt(
       name: "AccessControl",
@@ -120,10 +384,20 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC721Errors>;
     getContractAt(
+      name: "IERC5267",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC5267>;
+    getContractAt(
       name: "ERC20",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.ERC20>;
+    getContractAt(
+      name: "ERC20Permit",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20Permit>;
     getContractAt(
       name: "IERC20Metadata",
       address: string | ethers.Addressable,
@@ -145,6 +419,26 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.SafeERC20>;
     getContractAt(
+      name: "ERC721",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721>;
+    getContractAt(
+      name: "IERC721Metadata",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Metadata>;
+    getContractAt(
+      name: "IERC721",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721>;
+    getContractAt(
+      name: "IERC721Receiver",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Receiver>;
+    getContractAt(
       name: "Address",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -154,6 +448,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.ECDSA>;
+    getContractAt(
+      name: "EIP712",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.EIP712>;
     getContractAt(
       name: "ERC165",
       address: string | ethers.Addressable,
@@ -165,6 +464,16 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
     getContractAt(
+      name: "Math",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Math>;
+    getContractAt(
+      name: "Nonces",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Nonces>;
+    getContractAt(
       name: "Pausable",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -175,25 +484,310 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ReentrancyGuard>;
     getContractAt(
-      name: "UniCardRegistry",
+      name: "ShortStrings",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
-    ): Promise<Contracts.UniCardRegistry>;
+    ): Promise<Contracts.ShortStrings>;
+    getContractAt(
+      name: "Strings",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Strings>;
+    getContractAt(
+      name: "LibString",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.LibString>;
+    getContractAt(
+      name: "SSTORE2",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SSTORE2>;
+    getContractAt(
+      name: "IRETHToken",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IRETHToken>;
+    getContractAt(
+      name: "AddRemoveManagers",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AddRemoveManagers>;
+    getContractAt(
+      name: "AggregatorV3Interface",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AggregatorV3Interface>;
+    getContractAt(
+      name: "Constants",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Constants>;
+    getContractAt(
+      name: "IOsTokenVaultController",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IOsTokenVaultController>;
+    getContractAt(
+      name: "IRETHToken",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IRETHToken>;
+    getContractAt(
+      name: "IStaderOracle",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IStaderOracle>;
+    getContractAt(
+      name: "LiquityBase",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.LiquityBase>;
+    getContractAt(
+      name: "Ownable",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Ownable>;
+    getContractAt(
+      name: "IActivePool",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IActivePool>;
+    getContractAt(
+      name: "IAddRemoveManagers",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAddRemoveManagers>;
+    getContractAt(
+      name: "IAddressesRegistry",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAddressesRegistry>;
+    getContractAt(
+      name: "IBoldRewardsReceiver",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IBoldRewardsReceiver>;
+    getContractAt(
+      name: "IBoldToken",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IBoldToken>;
+    getContractAt(
+      name: "IBorrowerOperations",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IBorrowerOperations>;
+    getContractAt(
+      name: "ICollateralRegistry",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ICollateralRegistry>;
+    getContractAt(
+      name: "ICollSurplusPool",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ICollSurplusPool>;
+    getContractAt(
+      name: "ICommunityIssuance",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ICommunityIssuance>;
+    getContractAt(
+      name: "ICompositePriceFeed",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ICompositePriceFeed>;
+    getContractAt(
+      name: "IDefaultPool",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IDefaultPool>;
+    getContractAt(
+      name: "IHintHelpers",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IHintHelpers>;
+    getContractAt(
+      name: "ILiquityBase",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ILiquityBase>;
+    getContractAt(
+      name: "ILQTYStaking",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ILQTYStaking>;
+    getContractAt(
+      name: "ILQTYToken",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ILQTYToken>;
+    getContractAt(
+      name: "IMultiTroveGetter",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IMultiTroveGetter>;
+    getContractAt(
+      name: "IPriceFeed",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IPriceFeed>;
+    getContractAt(
+      name: "ISortedTroves",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ISortedTroves>;
+    getContractAt(
+      name: "IStabilityPool",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IStabilityPool>;
+    getContractAt(
+      name: "IStabilityPoolEvents",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IStabilityPoolEvents>;
+    getContractAt(
+      name: "ITroveEvents",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ITroveEvents>;
+    getContractAt(
+      name: "ITroveManager",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ITroveManager>;
+    getContractAt(
+      name: "ITroveNFT",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ITroveNFT>;
     getContractAt(
       name: "IUniCardRegistry",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.IUniCardRegistry>;
     getContractAt(
+      name: "IWETH",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IWETH>;
+    getContractAt(
+      name: "IWETHPriceFeed",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IWETHPriceFeed>;
+    getContractAt(
+      name: "IWSTETH",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IWSTETH>;
+    getContractAt(
+      name: "IWSTETHPriceFeed",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IWSTETHPriceFeed>;
+    getContractAt(
       name: "Errors",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.Errors>;
     getContractAt(
+      name: "ActivePool",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ActivePool>;
+    getContractAt(
+      name: "AddressesRegistry",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AddressesRegistry>;
+    getContractAt(
+      name: "BoldToken",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BoldToken>;
+    getContractAt(
+      name: "BorrowerOperations",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BorrowerOperations>;
+    getContractAt(
+      name: "CollateralRegistry",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.CollateralRegistry>;
+    getContractAt(
+      name: "CollSurplusPool",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.CollSurplusPool>;
+    getContractAt(
+      name: "DefaultPool",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.DefaultPool>;
+    getContractAt(
+      name: "GasPool",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.GasPool>;
+    getContractAt(
+      name: "HintHelpers",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.HintHelpers>;
+    getContractAt(
+      name: "MultiTroveGetter",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MultiTroveGetter>;
+    getContractAt(
+      name: "SortedTroves",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SortedTroves>;
+    getContractAt(
+      name: "StabilityPool",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.StabilityPool>;
+    getContractAt(
+      name: "TroveManager",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TroveManager>;
+    getContractAt(
+      name: "TroveNFT",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TroveNFT>;
+    getContractAt(
       name: "MUSDC",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.MUSDC>;
+    getContractAt(
+      name: "IMetadataNFT",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IMetadataNFT>;
+    getContractAt(
+      name: "MetadataNFT",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MetadataNFT>;
+    getContractAt(
+      name: "FixedAssetReader",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FixedAssetReader>;
+    getContractAt(
+      name: "UniCardRegistry",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.UniCardRegistry>;
 
     deployContract(
       name: "AccessControl",
@@ -216,9 +810,17 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC721Errors>;
     deployContract(
+      name: "IERC5267",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC5267>;
+    deployContract(
       name: "ERC20",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC20>;
+    deployContract(
+      name: "ERC20Permit",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC20Permit>;
     deployContract(
       name: "IERC20Metadata",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -236,6 +838,22 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.SafeERC20>;
     deployContract(
+      name: "ERC721",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC721>;
+    deployContract(
+      name: "IERC721Metadata",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC721Metadata>;
+    deployContract(
+      name: "IERC721",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC721>;
+    deployContract(
+      name: "IERC721Receiver",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC721Receiver>;
+    deployContract(
       name: "Address",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Address>;
@@ -243,6 +861,10 @@ declare module "hardhat/types/runtime" {
       name: "ECDSA",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ECDSA>;
+    deployContract(
+      name: "EIP712",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.EIP712>;
     deployContract(
       name: "ERC165",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -252,6 +874,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC165>;
     deployContract(
+      name: "Math",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Math>;
+    deployContract(
+      name: "Nonces",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Nonces>;
+    deployContract(
       name: "Pausable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Pausable>;
@@ -260,21 +890,249 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ReentrancyGuard>;
     deployContract(
-      name: "UniCardRegistry",
+      name: "ShortStrings",
       signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UniCardRegistry>;
+    ): Promise<Contracts.ShortStrings>;
+    deployContract(
+      name: "Strings",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Strings>;
+    deployContract(
+      name: "LibString",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.LibString>;
+    deployContract(
+      name: "SSTORE2",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.SSTORE2>;
+    deployContract(
+      name: "IRETHToken",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IRETHToken>;
+    deployContract(
+      name: "AddRemoveManagers",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.AddRemoveManagers>;
+    deployContract(
+      name: "AggregatorV3Interface",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.AggregatorV3Interface>;
+    deployContract(
+      name: "Constants",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Constants>;
+    deployContract(
+      name: "IOsTokenVaultController",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IOsTokenVaultController>;
+    deployContract(
+      name: "IRETHToken",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IRETHToken>;
+    deployContract(
+      name: "IStaderOracle",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IStaderOracle>;
+    deployContract(
+      name: "LiquityBase",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.LiquityBase>;
+    deployContract(
+      name: "Ownable",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Ownable>;
+    deployContract(
+      name: "IActivePool",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IActivePool>;
+    deployContract(
+      name: "IAddRemoveManagers",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IAddRemoveManagers>;
+    deployContract(
+      name: "IAddressesRegistry",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IAddressesRegistry>;
+    deployContract(
+      name: "IBoldRewardsReceiver",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IBoldRewardsReceiver>;
+    deployContract(
+      name: "IBoldToken",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IBoldToken>;
+    deployContract(
+      name: "IBorrowerOperations",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IBorrowerOperations>;
+    deployContract(
+      name: "ICollateralRegistry",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ICollateralRegistry>;
+    deployContract(
+      name: "ICollSurplusPool",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ICollSurplusPool>;
+    deployContract(
+      name: "ICommunityIssuance",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ICommunityIssuance>;
+    deployContract(
+      name: "ICompositePriceFeed",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ICompositePriceFeed>;
+    deployContract(
+      name: "IDefaultPool",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IDefaultPool>;
+    deployContract(
+      name: "IHintHelpers",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IHintHelpers>;
+    deployContract(
+      name: "ILiquityBase",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ILiquityBase>;
+    deployContract(
+      name: "ILQTYStaking",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ILQTYStaking>;
+    deployContract(
+      name: "ILQTYToken",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ILQTYToken>;
+    deployContract(
+      name: "IMultiTroveGetter",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IMultiTroveGetter>;
+    deployContract(
+      name: "IPriceFeed",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IPriceFeed>;
+    deployContract(
+      name: "ISortedTroves",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ISortedTroves>;
+    deployContract(
+      name: "IStabilityPool",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IStabilityPool>;
+    deployContract(
+      name: "IStabilityPoolEvents",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IStabilityPoolEvents>;
+    deployContract(
+      name: "ITroveEvents",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ITroveEvents>;
+    deployContract(
+      name: "ITroveManager",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ITroveManager>;
+    deployContract(
+      name: "ITroveNFT",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ITroveNFT>;
     deployContract(
       name: "IUniCardRegistry",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IUniCardRegistry>;
     deployContract(
+      name: "IWETH",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IWETH>;
+    deployContract(
+      name: "IWETHPriceFeed",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IWETHPriceFeed>;
+    deployContract(
+      name: "IWSTETH",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IWSTETH>;
+    deployContract(
+      name: "IWSTETHPriceFeed",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IWSTETHPriceFeed>;
+    deployContract(
       name: "Errors",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Errors>;
     deployContract(
+      name: "ActivePool",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ActivePool>;
+    deployContract(
+      name: "AddressesRegistry",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.AddressesRegistry>;
+    deployContract(
+      name: "BoldToken",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BoldToken>;
+    deployContract(
+      name: "BorrowerOperations",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BorrowerOperations>;
+    deployContract(
+      name: "CollateralRegistry",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.CollateralRegistry>;
+    deployContract(
+      name: "CollSurplusPool",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.CollSurplusPool>;
+    deployContract(
+      name: "DefaultPool",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DefaultPool>;
+    deployContract(
+      name: "GasPool",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GasPool>;
+    deployContract(
+      name: "HintHelpers",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.HintHelpers>;
+    deployContract(
+      name: "MultiTroveGetter",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.MultiTroveGetter>;
+    deployContract(
+      name: "SortedTroves",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.SortedTroves>;
+    deployContract(
+      name: "StabilityPool",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.StabilityPool>;
+    deployContract(
+      name: "TroveManager",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.TroveManager>;
+    deployContract(
+      name: "TroveNFT",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.TroveNFT>;
+    deployContract(
       name: "MUSDC",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MUSDC>;
+    deployContract(
+      name: "IMetadataNFT",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IMetadataNFT>;
+    deployContract(
+      name: "MetadataNFT",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.MetadataNFT>;
+    deployContract(
+      name: "FixedAssetReader",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.FixedAssetReader>;
+    deployContract(
+      name: "UniCardRegistry",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.UniCardRegistry>;
 
     deployContract(
       name: "AccessControl",
@@ -302,10 +1160,20 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC721Errors>;
     deployContract(
+      name: "IERC5267",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC5267>;
+    deployContract(
       name: "ERC20",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC20>;
+    deployContract(
+      name: "ERC20Permit",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC20Permit>;
     deployContract(
       name: "IERC20Metadata",
       args: any[],
@@ -327,6 +1195,26 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.SafeERC20>;
     deployContract(
+      name: "ERC721",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ERC721>;
+    deployContract(
+      name: "IERC721Metadata",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC721Metadata>;
+    deployContract(
+      name: "IERC721",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC721>;
+    deployContract(
+      name: "IERC721Receiver",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC721Receiver>;
+    deployContract(
       name: "Address",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -336,6 +1224,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ECDSA>;
+    deployContract(
+      name: "EIP712",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.EIP712>;
     deployContract(
       name: "ERC165",
       args: any[],
@@ -347,6 +1240,16 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC165>;
     deployContract(
+      name: "Math",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Math>;
+    deployContract(
+      name: "Nonces",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Nonces>;
+    deployContract(
       name: "Pausable",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -357,25 +1260,310 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ReentrancyGuard>;
     deployContract(
-      name: "UniCardRegistry",
+      name: "ShortStrings",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UniCardRegistry>;
+    ): Promise<Contracts.ShortStrings>;
+    deployContract(
+      name: "Strings",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Strings>;
+    deployContract(
+      name: "LibString",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.LibString>;
+    deployContract(
+      name: "SSTORE2",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.SSTORE2>;
+    deployContract(
+      name: "IRETHToken",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IRETHToken>;
+    deployContract(
+      name: "AddRemoveManagers",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.AddRemoveManagers>;
+    deployContract(
+      name: "AggregatorV3Interface",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.AggregatorV3Interface>;
+    deployContract(
+      name: "Constants",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Constants>;
+    deployContract(
+      name: "IOsTokenVaultController",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IOsTokenVaultController>;
+    deployContract(
+      name: "IRETHToken",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IRETHToken>;
+    deployContract(
+      name: "IStaderOracle",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IStaderOracle>;
+    deployContract(
+      name: "LiquityBase",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.LiquityBase>;
+    deployContract(
+      name: "Ownable",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Ownable>;
+    deployContract(
+      name: "IActivePool",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IActivePool>;
+    deployContract(
+      name: "IAddRemoveManagers",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IAddRemoveManagers>;
+    deployContract(
+      name: "IAddressesRegistry",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IAddressesRegistry>;
+    deployContract(
+      name: "IBoldRewardsReceiver",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IBoldRewardsReceiver>;
+    deployContract(
+      name: "IBoldToken",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IBoldToken>;
+    deployContract(
+      name: "IBorrowerOperations",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IBorrowerOperations>;
+    deployContract(
+      name: "ICollateralRegistry",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ICollateralRegistry>;
+    deployContract(
+      name: "ICollSurplusPool",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ICollSurplusPool>;
+    deployContract(
+      name: "ICommunityIssuance",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ICommunityIssuance>;
+    deployContract(
+      name: "ICompositePriceFeed",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ICompositePriceFeed>;
+    deployContract(
+      name: "IDefaultPool",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IDefaultPool>;
+    deployContract(
+      name: "IHintHelpers",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IHintHelpers>;
+    deployContract(
+      name: "ILiquityBase",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ILiquityBase>;
+    deployContract(
+      name: "ILQTYStaking",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ILQTYStaking>;
+    deployContract(
+      name: "ILQTYToken",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ILQTYToken>;
+    deployContract(
+      name: "IMultiTroveGetter",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IMultiTroveGetter>;
+    deployContract(
+      name: "IPriceFeed",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IPriceFeed>;
+    deployContract(
+      name: "ISortedTroves",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ISortedTroves>;
+    deployContract(
+      name: "IStabilityPool",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IStabilityPool>;
+    deployContract(
+      name: "IStabilityPoolEvents",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IStabilityPoolEvents>;
+    deployContract(
+      name: "ITroveEvents",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ITroveEvents>;
+    deployContract(
+      name: "ITroveManager",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ITroveManager>;
+    deployContract(
+      name: "ITroveNFT",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ITroveNFT>;
     deployContract(
       name: "IUniCardRegistry",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IUniCardRegistry>;
     deployContract(
+      name: "IWETH",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IWETH>;
+    deployContract(
+      name: "IWETHPriceFeed",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IWETHPriceFeed>;
+    deployContract(
+      name: "IWSTETH",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IWSTETH>;
+    deployContract(
+      name: "IWSTETHPriceFeed",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IWSTETHPriceFeed>;
+    deployContract(
       name: "Errors",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Errors>;
     deployContract(
+      name: "ActivePool",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.ActivePool>;
+    deployContract(
+      name: "AddressesRegistry",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.AddressesRegistry>;
+    deployContract(
+      name: "BoldToken",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BoldToken>;
+    deployContract(
+      name: "BorrowerOperations",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.BorrowerOperations>;
+    deployContract(
+      name: "CollateralRegistry",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.CollateralRegistry>;
+    deployContract(
+      name: "CollSurplusPool",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.CollSurplusPool>;
+    deployContract(
+      name: "DefaultPool",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.DefaultPool>;
+    deployContract(
+      name: "GasPool",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.GasPool>;
+    deployContract(
+      name: "HintHelpers",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.HintHelpers>;
+    deployContract(
+      name: "MultiTroveGetter",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.MultiTroveGetter>;
+    deployContract(
+      name: "SortedTroves",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.SortedTroves>;
+    deployContract(
+      name: "StabilityPool",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.StabilityPool>;
+    deployContract(
+      name: "TroveManager",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.TroveManager>;
+    deployContract(
+      name: "TroveNFT",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.TroveNFT>;
+    deployContract(
       name: "MUSDC",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.MUSDC>;
+    deployContract(
+      name: "IMetadataNFT",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IMetadataNFT>;
+    deployContract(
+      name: "MetadataNFT",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.MetadataNFT>;
+    deployContract(
+      name: "FixedAssetReader",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.FixedAssetReader>;
+    deployContract(
+      name: "UniCardRegistry",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.UniCardRegistry>;
 
     // default types
     getContractFactory(

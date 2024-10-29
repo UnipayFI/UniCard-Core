@@ -1,11 +1,11 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import "forge-std/Test.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {VmSafe} from "forge-std/Vm.sol";
-import {UniCardRegistry} from "../src/core/UniCardRegistry.sol";
+import {UniCardRegistry} from "../src/registry/UniCardRegistry.sol";
 import {Errors} from "../src/libraries/Errors.sol";
 
 contract MockToken is ERC20 {

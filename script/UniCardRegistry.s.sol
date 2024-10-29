@@ -1,9 +1,9 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import "forge-std/Script.sol";
 import "forge-std/console.sol";
-import {UniCardRegistry} from "../src/core/UniCardRegistry.sol";
+import {UniCardRegistry} from "../src/registry/UniCardRegistry.sol";
 
 // @title DeployUniCardRegistryScript
 // @author UniPay

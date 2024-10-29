@@ -1,0 +1,91 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_pointer",
+        "type": "address"
+      },
+      {
+        "internalType": "bytes4[]",
+        "name": "_sigs",
+        "type": "bytes4[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint128",
+            "name": "start",
+            "type": "uint128"
+          },
+          {
+            "internalType": "uint128",
+            "name": "end",
+            "type": "uint128"
+          }
+        ],
+        "internalType": "struct FixedAssetReader.Asset[]",
+        "name": "_assets",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes4",
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
+    "name": "assets",
+    "outputs": [
+      {
+        "internalType": "uint128",
+        "name": "start",
+        "type": "uint128"
+      },
+      {
+        "internalType": "uint128",
+        "name": "end",
+        "type": "uint128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "pointer",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes4",
+        "name": "_sig",
+        "type": "bytes4"
+      }
+    ],
+    "name": "readAsset",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

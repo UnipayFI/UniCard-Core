@@ -3735,6 +3735,11 @@ slice-ansi@^4.0.0:
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
 
+solady@^0.0.260:
+  version "0.0.260"
+  resolved "https://registry.npmjs.org/solady/-/solady-0.0.260.tgz#9d592466ac8b78da06b42df327e6c7d8124d69f7"
+  integrity sha512-M86Tm7Y0zja3mbVFOndXJ0ZrsnS5NqnkQLizlaPBFSZv1P30WlObhVsp9bC81CObBrSbWEjKWQP8by3icQohYA==
+
 solc@0.8.26:
   version "0.8.26"
   resolved "https://registry.npmjs.org/solc/-/solc-0.8.26.tgz#afc78078953f6ab3e727c338a2fefcd80dd5b01a"
