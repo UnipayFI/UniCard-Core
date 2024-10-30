@@ -10,6 +10,8 @@
         "@nomicfoundation/hardhat-verify": "^2.0.11",
         "@nomicfoundation/ignition-core": "^0.15.6",
         "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@^0.4.1",
+        "@openzeppelin/contracts": "^5.1.0",
+        "@openzeppelin/contracts-upgradeable": "^5.1.0",
         "@openzeppelin/hardhat-upgrades": "^3.5.0",
         "@typechain/ethers-v6": "^0.4.0",
         "@typechain/hardhat": "^8.0.3",

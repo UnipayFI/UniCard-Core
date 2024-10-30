@@ -35,13 +35,13 @@ const config = {
     },
     networks: {
         sepolia: {
-            url: process.env.SEPOLIA_RPC_URL as string,
-            accounts: [process.env.SEPOLIA_DEPLOYER as string],
+            url: process.env.RPC_URL as string,
+            accounts: [process.env.PRIVATE_KEY as string],
         },
         mainnet: {
-            url: process.env.MAINNET_RPC_URL as string,
+            url: process.env.RPC_URL as string,
             chainId: 1,
-            accounts: [process.env.MAINNET_DEPLOYER as string]
+            accounts: [process.env.PRIVATE_KEY as string]
         },
     },
     gasReporter: {

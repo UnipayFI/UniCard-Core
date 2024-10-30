@@ -97,6 +97,16 @@
   },
   {
     "inputs": [],
+    "name": "InvalidInitialization",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotInitializing",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "ReentrancyGuardReentrantCall",
     "type": "error"
   },
@@ -113,29 +123,6 @@
   },
   {
     "inputs": [],
-<<<<<<< HEAD
-    "name": "UNICARD_REGISTRY_AMOUNT_MUST_BE_GREATER_THAN_ZERO",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "UNICARD_REGISTRY_COMMITMENT_EXPIRED",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "UNICARD_REGISTRY_DEADLINE_MUST_BE_IN_THE_FUTURE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "UNICARD_REGISTRY_INTEREST_RATE_TOO_HIGH",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-=======
->>>>>>> a79eae4 (add upgradeable registry)
     "name": "UNICARD_REGISTRY_INVALID_SIGNATURE",
     "type": "error"
   },
@@ -165,14 +152,6 @@
     "type": "error"
   },
   {
-<<<<<<< HEAD
-    "inputs": [],
-    "name": "UNICARD_REGISTRY_VAULT_NOT_ALLOWED",
-    "type": "error"
-  },
-  {
-=======
->>>>>>> a79eae4 (add upgradeable registry)
     "anonymous": false,
     "inputs": [
       {
@@ -188,15 +167,6 @@
         "type": "address"
       },
       {
-<<<<<<< HEAD
-        "indexed": true,
-        "internalType": "address",
-        "name": "vault",
-        "type": "address"
-      },
-      {
-=======
->>>>>>> a79eae4 (add upgradeable registry)
         "indexed": false,
         "internalType": "uint256",
         "name": "nonce",
@@ -204,21 +174,6 @@
       },
       {
         "indexed": false,
-<<<<<<< HEAD
-        "internalType": "uint256",
-        "name": "interestRate",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-=======
->>>>>>> a79eae4 (add upgradeable registry)
         "internalType": "bytes32",
         "name": "commitment",
         "type": "bytes32"
@@ -257,21 +212,6 @@
       {
         "indexed": false,
         "internalType": "uint256",
-<<<<<<< HEAD
-        "name": "interestRate",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-=======
->>>>>>> a79eae4 (add upgradeable registry)
         "name": "amount",
         "type": "uint256"
       },
@@ -301,6 +241,19 @@
       }
     ],
     "name": "CardOpenRequest",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint64",
+        "name": "version",
+        "type": "uint64"
+      }
+    ],
+    "name": "Initialized",
     "type": "event"
   },
   {
@@ -445,22 +398,6 @@
   },
   {
     "inputs": [],
-<<<<<<< HEAD
-    "name": "INTEREST_RATE_PRECISION",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-=======
->>>>>>> a79eae4 (add upgradeable registry)
     "name": "NATIVE_TOKEN",
     "outputs": [
       {
@@ -514,19 +451,6 @@
           },
           {
             "internalType": "uint256",
-<<<<<<< HEAD
-            "name": "interestRate",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "deadline",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-=======
->>>>>>> a79eae4 (add upgradeable registry)
             "name": "nonce",
             "type": "uint256"
           }
@@ -596,14 +520,6 @@
             "type": "uint256"
           },
           {
-<<<<<<< HEAD
-            "internalType": "uint256",
-            "name": "interestRate",
-            "type": "uint256"
-          },
-          {
-=======
->>>>>>> a79eae4 (add upgradeable registry)
             "internalType": "bytes32",
             "name": "commitment",
             "type": "bytes32"
@@ -725,6 +641,19 @@
     "inputs": [
       {
         "internalType": "address",
+        "name": "anAdmin",
+        "type": "address"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -754,36 +683,10 @@
       },
       {
         "internalType": "uint256",
-<<<<<<< HEAD
-        "name": "interestRate",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-=======
->>>>>>> a79eae4 (add upgradeable registry)
         "name": "nonce",
         "type": "uint256"
       },
       {
-<<<<<<< HEAD
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "vault",
-        "type": "address"
-      },
-      {
-=======
->>>>>>> a79eae4 (add upgradeable registry)
         "internalType": "string",
         "name": "productCode",
         "type": "string"
@@ -801,11 +704,7 @@
     ],
     "name": "openCardConfirmation",
     "outputs": [],
-<<<<<<< HEAD
-    "stateMutability": "payable",
-=======
     "stateMutability": "nonpayable",
->>>>>>> a79eae4 (add upgradeable registry)
     "type": "function"
   },
   {
@@ -822,19 +721,6 @@
       },
       {
         "internalType": "uint256",
-<<<<<<< HEAD
-        "name": "interestRate",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-=======
->>>>>>> a79eae4 (add upgradeable registry)
         "name": "amount",
         "type": "uint256"
       },
@@ -856,11 +742,7 @@
     ],
     "name": "openCardRequest",
     "outputs": [],
-<<<<<<< HEAD
-    "stateMutability": "nonpayable",
-=======
     "stateMutability": "payable",
->>>>>>> a79eae4 (add upgradeable registry)
     "type": "function"
   },
   {
@@ -930,8 +812,6 @@
     ],
     "stateMutability": "view",
     "type": "function"
-<<<<<<< HEAD
-=======
   },
   {
     "inputs": [
@@ -950,6 +830,5 @@
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
->>>>>>> a79eae4 (add upgradeable registry)
   }
 ]

@@ -1,19 +1,24 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
-import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import {AccessControlUpgradeable} from "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
+import {ReentrancyGuardUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol";
+import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 import {Errors} from "../libraries/Errors.sol";
 import {IUniCardRegistry} from "../interfaces/IUniCardRegistry.sol";
 
 // @title UniCardRegistry
 // @author UniPay
 // @notice This contract is used to register and manage UniCards
-contract UniCardRegistry is AccessControl, ReentrancyGuard, Pausable, IUniCardRegistry {
+contract UniCardRegistryUpgradeable is
+    AccessControlUpgradeable,
+    ReentrancyGuardUpgradeable,
+    PausableUpgradeable,
+    IUniCardRegistry
+{
     using SafeERC20 for IERC20;
 
     bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
@@ -26,7 +31,16 @@ contract UniCardRegistry is AccessControl, ReentrancyGuard, Pausable, IUniCardRe
     mapping(bytes32 => Commitment) private _commitments;
     mapping(bytes32 => Confirmation) private _confirmations;
 
-    constructor(address anAdmin) {
+    // @notice Constructor for the UniCardRegistry
+    // @param anAdmin The address of the admin
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor(address anAdmin) {}
+
+    function initialize(address anAdmin) public initializer {
+        __AccessControl_init();
+        __ReentrancyGuard_init();
+        __Pausable_init();
+
         _grantRole(DEFAULT_ADMIN_ROLE, anAdmin);
         _setRoleAdmin(CONTROLLER_ROLE, DEFAULT_ADMIN_ROLE);
         _setRoleAdmin(ALLOWED_TOKEN_PAYMENT, DEFAULT_ADMIN_ROLE);

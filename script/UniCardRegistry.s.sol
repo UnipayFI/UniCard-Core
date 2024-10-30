@@ -57,7 +57,7 @@ contract AddUniCardRegistryControllerScript is Script {
         vm.startBroadcast(deployerPrivateKey);
         uniCardRegistry.grantRole(uniCardRegistry.CONTROLLER_ROLE(), vm.envAddress("ADD_CONTROLLER"));
         vm.stopBroadcast();
-    }   
+    }
 }
 
 // @title AddUniCardRegistryVaultScript
@@ -113,7 +113,7 @@ contract OpenUniCardRequestScript is Script {
 
     function run() public {
         vm.startBroadcast(deployerPrivateKey);
-        uniCardRegistry.openCardRequest(anHolder, anPaymentToken, anInterestRate, anDeadline, anAmount, "6909477", "invite", "referral");
+        uniCardRegistry.openCardRequest(anHolder, anPaymentToken, anAmount, "6909477", "invite", "referral");
         vm.stopBroadcast();
     }
 }

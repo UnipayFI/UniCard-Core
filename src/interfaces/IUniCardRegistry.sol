@@ -6,8 +6,6 @@ interface IUniCardRegistry {
         string productCode;
         address holder;
         address paymentToken;
-        uint256 interestRate;
-        uint256 deadline;
         uint256 nonce;
     }
 
@@ -16,7 +14,6 @@ interface IUniCardRegistry {
         address holder;
         address paymentToken;
         uint256 nonce;
-        uint256 interestRate;
         bytes32 commitment;
         string requestTxHash;
     }
@@ -25,8 +22,6 @@ interface IUniCardRegistry {
         address indexed holder,
         address indexed paymentToken,
         uint256 indexed nonce,
-        uint256 interestRate,
-        uint256 deadline,
         uint256 amount,
         string productCode,
         string inviteCode,
@@ -35,14 +30,7 @@ interface IUniCardRegistry {
     );
 
     event CardOpenConfirmation(
-        address indexed holder,
-        address indexed paymentToken,
-        address indexed vault,
-        uint256 nonce,
-        uint256 interestRate,
-        uint256 deadline,
-        bytes32 commitment,
-        string requestTxHash
+        address indexed holder, address indexed paymentToken, uint256 nonce, bytes32 commitment, string requestTxHash
     );
 
     function commitments(bytes32 commitment) external view returns (Commitment memory);
