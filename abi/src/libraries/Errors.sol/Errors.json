@@ -1,29 +1,6 @@
 [
   {
     "inputs": [],
-<<<<<<< HEAD
-    "name": "UNICARD_REGISTRY_AMOUNT_MUST_BE_GREATER_THAN_ZERO",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "UNICARD_REGISTRY_COMMITMENT_EXPIRED",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "UNICARD_REGISTRY_DEADLINE_MUST_BE_IN_THE_FUTURE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "UNICARD_REGISTRY_INTEREST_RATE_TOO_HIGH",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-=======
->>>>>>> a79eae4 (add upgradeable registry)
     "name": "UNICARD_REGISTRY_INVALID_SIGNATURE",
     "type": "error"
   },
@@ -51,13 +28,5 @@
     "inputs": [],
     "name": "UNICARD_REGISTRY_USER_ALREADY_HAS_COMMITMENT",
     "type": "error"
-<<<<<<< HEAD
-  },
-  {
-    "inputs": [],
-    "name": "UNICARD_REGISTRY_VAULT_NOT_ALLOWED",
-    "type": "error"
-=======
->>>>>>> a79eae4 (add upgradeable registry)
   }
 ]

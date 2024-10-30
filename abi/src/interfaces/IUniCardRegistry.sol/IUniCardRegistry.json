@@ -15,15 +15,6 @@
         "type": "address"
       },
       {
-<<<<<<< HEAD
-        "indexed": true,
-        "internalType": "address",
-        "name": "vault",
-        "type": "address"
-      },
-      {
-=======
->>>>>>> a79eae4 (add upgradeable registry)
         "indexed": false,
         "internalType": "uint256",
         "name": "nonce",
@@ -31,21 +22,6 @@
       },
       {
         "indexed": false,
-<<<<<<< HEAD
-        "internalType": "uint256",
-        "name": "interestRate",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-=======
->>>>>>> a79eae4 (add upgradeable registry)
         "internalType": "bytes32",
         "name": "commitment",
         "type": "bytes32"
@@ -84,21 +60,6 @@
       {
         "indexed": false,
         "internalType": "uint256",
-<<<<<<< HEAD
-        "name": "interestRate",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "deadline",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-=======
->>>>>>> a79eae4 (add upgradeable registry)
         "name": "amount",
         "type": "uint256"
       },
@@ -159,19 +120,6 @@
           },
           {
             "internalType": "uint256",
-<<<<<<< HEAD
-            "name": "interestRate",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "deadline",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-=======
->>>>>>> a79eae4 (add upgradeable registry)
             "name": "nonce",
             "type": "uint256"
           }
@@ -217,14 +165,6 @@
             "type": "uint256"
           },
           {
-<<<<<<< HEAD
-            "internalType": "uint256",
-            "name": "interestRate",
-            "type": "uint256"
-          },
-          {
-=======
->>>>>>> a79eae4 (add upgradeable registry)
             "internalType": "bytes32",
             "name": "commitment",
             "type": "bytes32"

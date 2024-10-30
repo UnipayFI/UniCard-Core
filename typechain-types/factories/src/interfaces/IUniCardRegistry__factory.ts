@@ -25,27 +25,9 @@ const _abi = [
         type: "address",
       },
       {
-        indexed: true,
-        internalType: "address",
-        name: "vault",
-        type: "address",
-      },
-      {
         indexed: false,
         internalType: "uint256",
         name: "nonce",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "interestRate",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "deadline",
         type: "uint256",
       },
       {
@@ -83,18 +65,6 @@ const _abi = [
         indexed: true,
         internalType: "uint256",
         name: "nonce",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "interestRate",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "deadline",
         type: "uint256",
       },
       {
@@ -160,16 +130,6 @@ const _abi = [
           },
           {
             internalType: "uint256",
-            name: "interestRate",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "deadline",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
             name: "nonce",
             type: "uint256",
           },
@@ -212,11 +172,6 @@ const _abi = [
           {
             internalType: "uint256",
             name: "nonce",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "interestRate",
             type: "uint256",
           },
           {

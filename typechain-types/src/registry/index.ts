@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { UniCardRegistry } from "./UniCardRegistry";
+export type { UniCardRegistryUpgradeable } from "./UniCardRegistryUpgradeable";

@@ -28,8 +28,6 @@ export declare namespace IUniCardRegistry {
     productCode: string;
     holder: AddressLike;
     paymentToken: AddressLike;
-    interestRate: BigNumberish;
-    deadline: BigNumberish;
     nonce: BigNumberish;
   };
 
@@ -37,15 +35,11 @@ export declare namespace IUniCardRegistry {
     productCode: string,
     holder: string,
     paymentToken: string,
-    interestRate: bigint,
-    deadline: bigint,
     nonce: bigint
   ] & {
     productCode: string;
     holder: string;
     paymentToken: string;
-    interestRate: bigint;
-    deadline: bigint;
     nonce: bigint;
   };
 
@@ -54,7 +48,6 @@ export declare namespace IUniCardRegistry {
     holder: AddressLike;
     paymentToken: AddressLike;
     nonce: BigNumberish;
-    interestRate: BigNumberish;
     commitment: BytesLike;
     requestTxHash: string;
   };
@@ -64,7 +57,6 @@ export declare namespace IUniCardRegistry {
     holder: string,
     paymentToken: string,
     nonce: bigint,
-    interestRate: bigint,
     commitment: string,
     requestTxHash: string
   ] & {
@@ -72,7 +64,6 @@ export declare namespace IUniCardRegistry {
     holder: string;
     paymentToken: string;
     nonce: bigint;
-    interestRate: bigint;
     commitment: string;
     requestTxHash: string;
   };
@@ -84,7 +75,6 @@ export interface UniCardRegistryInterface extends Interface {
       | "ALLOWED_TOKEN_PAYMENT"
       | "CONTROLLER_ROLE"
       | "DEFAULT_ADMIN_ROLE"
-      | "INTEREST_RATE_PRECISION"
       | "NATIVE_TOKEN"
       | "UNICARD_VAULT_ROLE"
       | "commitments"
@@ -102,6 +92,7 @@ export interface UniCardRegistryInterface extends Interface {
       | "renounceRole"
       | "revokeRole"
       | "supportsInterface"
+      | "withdraw"
   ): FunctionFragment;
 
   getEvent(
@@ -125,10 +116,6 @@ export interface UniCardRegistryInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "DEFAULT_ADMIN_ROLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "INTEREST_RATE_PRECISION",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -174,31 +161,11 @@ export interface UniCardRegistryInterface extends Interface {
   encodeFunctionData(functionFragment: "nonces", values: [AddressLike]): string;
   encodeFunctionData(
     functionFragment: "openCardConfirmation",
-    values: [
-      AddressLike,
-      AddressLike,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish,
-      AddressLike,
-      string,
-      BytesLike,
-      string
-    ]
+    values: [AddressLike, AddressLike, BigNumberish, string, BytesLike, string]
   ): string;
   encodeFunctionData(
     functionFragment: "openCardRequest",
-    values: [
-      AddressLike,
-      AddressLike,
-      BigNumberish,
-      BigNumberish,
-      BigNumberish,
-      string,
-      string,
-      string
-    ]
+    values: [AddressLike, AddressLike, BigNumberish, string, string, string]
   ): string;
   encodeFunctionData(functionFragment: "paused", values?: undefined): string;
   encodeFunctionData(
@@ -213,6 +180,10 @@ export interface UniCardRegistryInterface extends Interface {
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
+  encodeFunctionData(
+    functionFragment: "withdraw",
+    values: [AddressLike, BigNumberish]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "ALLOWED_TOKEN_PAYMENT",
@@ -224,10 +195,6 @@ export interface UniCardRegistryInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "INTEREST_RATE_PRECISION",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -283,36 +250,28 @@ export interface UniCardRegistryInterface extends Interface {
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 }
 
 export namespace CardOpenConfirmationEvent {
   export type InputTuple = [
     holder: AddressLike,
     paymentToken: AddressLike,
-    vault: AddressLike,
     nonce: BigNumberish,
-    interestRate: BigNumberish,
-    deadline: BigNumberish,
     commitment: BytesLike,
     requestTxHash: string
   ];
   export type OutputTuple = [
     holder: string,
     paymentToken: string,
-    vault: string,
     nonce: bigint,
-    interestRate: bigint,
-    deadline: bigint,
     commitment: string,
     requestTxHash: string
   ];
   export interface OutputObject {
     holder: string;
     paymentToken: string;
-    vault: string;
     nonce: bigint;
-    interestRate: bigint;
-    deadline: bigint;
     commitment: string;
     requestTxHash: string;
   }
@@ -327,8 +286,6 @@ export namespace CardOpenRequestEvent {
     holder: AddressLike,
     paymentToken: AddressLike,
     nonce: BigNumberish,
-    interestRate: BigNumberish,
-    deadline: BigNumberish,
     amount: BigNumberish,
     productCode: string,
     inviteCode: string,
@@ -339,8 +296,6 @@ export namespace CardOpenRequestEvent {
     holder: string,
     paymentToken: string,
     nonce: bigint,
-    interestRate: bigint,
-    deadline: bigint,
     amount: bigint,
     productCode: string,
     inviteCode: string,
@@ -351,8 +306,6 @@ export namespace CardOpenRequestEvent {
     holder: string;
     paymentToken: string;
     nonce: bigint;
-    interestRate: bigint;
-    deadline: bigint;
     amount: bigint;
     productCode: string;
     inviteCode: string;
@@ -496,8 +449,6 @@ export interface UniCardRegistry extends BaseContract {
 
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
 
-  INTEREST_RATE_PRECISION: TypedContractMethod<[], [bigint], "view">;
-
   NATIVE_TOKEN: TypedContractMethod<[], [string], "view">;
 
   UNICARD_VAULT_ROLE: TypedContractMethod<[], [string], "view">;
@@ -552,32 +503,26 @@ export interface UniCardRegistry extends BaseContract {
     [
       holder: AddressLike,
       paymentToken: AddressLike,
-      interestRate: BigNumberish,
       nonce: BigNumberish,
-      deadline: BigNumberish,
-      amount: BigNumberish,
-      vault: AddressLike,
       productCode: string,
       signature: BytesLike,
       requestTxHash: string
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   openCardRequest: TypedContractMethod<
     [
       holder: AddressLike,
       paymentToken: AddressLike,
-      interestRate: BigNumberish,
-      deadline: BigNumberish,
       amount: BigNumberish,
       productCode: string,
       inviteCode: string,
       referralCode: string
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
 
   paused: TypedContractMethod<[], [boolean], "view">;
@@ -600,6 +545,12 @@ export interface UniCardRegistry extends BaseContract {
     "view"
   >;
 
+  withdraw: TypedContractMethod<
+    [paymentToken: AddressLike, amount: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
+
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
@@ -613,9 +564,6 @@ export interface UniCardRegistry extends BaseContract {
   getFunction(
     nameOrSignature: "DEFAULT_ADMIN_ROLE"
   ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "INTEREST_RATE_PRECISION"
-  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "NATIVE_TOKEN"
   ): TypedContractMethod<[], [string], "view">;
@@ -675,17 +623,13 @@ export interface UniCardRegistry extends BaseContract {
     [
       holder: AddressLike,
       paymentToken: AddressLike,
-      interestRate: BigNumberish,
       nonce: BigNumberish,
-      deadline: BigNumberish,
-      amount: BigNumberish,
-      vault: AddressLike,
       productCode: string,
       signature: BytesLike,
       requestTxHash: string
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "openCardRequest"
@@ -693,15 +637,13 @@ export interface UniCardRegistry extends BaseContract {
     [
       holder: AddressLike,
       paymentToken: AddressLike,
-      interestRate: BigNumberish,
-      deadline: BigNumberish,
       amount: BigNumberish,
       productCode: string,
       inviteCode: string,
       referralCode: string
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "paused"
@@ -723,6 +665,13 @@ export interface UniCardRegistry extends BaseContract {
   getFunction(
     nameOrSignature: "supportsInterface"
   ): TypedContractMethod<[interfaceId: BytesLike], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "withdraw"
+  ): TypedContractMethod<
+    [paymentToken: AddressLike, amount: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
   getEvent(
     key: "CardOpenConfirmation"
@@ -775,7 +724,7 @@ export interface UniCardRegistry extends BaseContract {
   >;
 
   filters: {
-    "CardOpenConfirmation(address,address,address,uint256,uint256,uint256,bytes32,string)": TypedContractEvent<
+    "CardOpenConfirmation(address,address,uint256,bytes32,string)": TypedContractEvent<
       CardOpenConfirmationEvent.InputTuple,
       CardOpenConfirmationEvent.OutputTuple,
       CardOpenConfirmationEvent.OutputObject
@@ -786,7 +735,7 @@ export interface UniCardRegistry extends BaseContract {
       CardOpenConfirmationEvent.OutputObject
     >;
 
-    "CardOpenRequest(address,address,uint256,uint256,uint256,uint256,string,string,string,bytes32)": TypedContractEvent<
+    "CardOpenRequest(address,address,uint256,uint256,string,string,string,bytes32)": TypedContractEvent<
       CardOpenRequestEvent.InputTuple,
       CardOpenRequestEvent.OutputTuple,
       CardOpenRequestEvent.OutputObject

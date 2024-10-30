@@ -28,8 +28,6 @@ export declare namespace IUniCardRegistry {
     productCode: string;
     holder: AddressLike;
     paymentToken: AddressLike;
-    interestRate: BigNumberish;
-    deadline: BigNumberish;
     nonce: BigNumberish;
   };
 
@@ -37,15 +35,11 @@ export declare namespace IUniCardRegistry {
     productCode: string,
     holder: string,
     paymentToken: string,
-    interestRate: bigint,
-    deadline: bigint,
     nonce: bigint
   ] & {
     productCode: string;
     holder: string;
     paymentToken: string;
-    interestRate: bigint;
-    deadline: bigint;
     nonce: bigint;
   };
 
@@ -54,7 +48,6 @@ export declare namespace IUniCardRegistry {
     holder: AddressLike;
     paymentToken: AddressLike;
     nonce: BigNumberish;
-    interestRate: BigNumberish;
     commitment: BytesLike;
     requestTxHash: string;
   };
@@ -64,7 +57,6 @@ export declare namespace IUniCardRegistry {
     holder: string,
     paymentToken: string,
     nonce: bigint,
-    interestRate: bigint,
     commitment: string,
     requestTxHash: string
   ] & {
@@ -72,7 +64,6 @@ export declare namespace IUniCardRegistry {
     holder: string;
     paymentToken: string;
     nonce: bigint;
-    interestRate: bigint;
     commitment: string;
     requestTxHash: string;
   };
@@ -130,30 +121,21 @@ export namespace CardOpenConfirmationEvent {
   export type InputTuple = [
     holder: AddressLike,
     paymentToken: AddressLike,
-    vault: AddressLike,
     nonce: BigNumberish,
-    interestRate: BigNumberish,
-    deadline: BigNumberish,
     commitment: BytesLike,
     requestTxHash: string
   ];
   export type OutputTuple = [
     holder: string,
     paymentToken: string,
-    vault: string,
     nonce: bigint,
-    interestRate: bigint,
-    deadline: bigint,
     commitment: string,
     requestTxHash: string
   ];
   export interface OutputObject {
     holder: string;
     paymentToken: string;
-    vault: string;
     nonce: bigint;
-    interestRate: bigint;
-    deadline: bigint;
     commitment: string;
     requestTxHash: string;
   }
@@ -168,8 +150,6 @@ export namespace CardOpenRequestEvent {
     holder: AddressLike,
     paymentToken: AddressLike,
     nonce: BigNumberish,
-    interestRate: BigNumberish,
-    deadline: BigNumberish,
     amount: BigNumberish,
     productCode: string,
     inviteCode: string,
@@ -180,8 +160,6 @@ export namespace CardOpenRequestEvent {
     holder: string,
     paymentToken: string,
     nonce: bigint,
-    interestRate: bigint,
-    deadline: bigint,
     amount: bigint,
     productCode: string,
     inviteCode: string,
@@ -192,8 +170,6 @@ export namespace CardOpenRequestEvent {
     holder: string;
     paymentToken: string;
     nonce: bigint;
-    interestRate: bigint;
-    deadline: bigint;
     amount: bigint;
     productCode: string;
     inviteCode: string;
@@ -314,7 +290,7 @@ export interface IUniCardRegistry extends BaseContract {
   >;
 
   filters: {
-    "CardOpenConfirmation(address,address,address,uint256,uint256,uint256,bytes32,string)": TypedContractEvent<
+    "CardOpenConfirmation(address,address,uint256,bytes32,string)": TypedContractEvent<
       CardOpenConfirmationEvent.InputTuple,
       CardOpenConfirmationEvent.OutputTuple,
       CardOpenConfirmationEvent.OutputObject
@@ -325,7 +301,7 @@ export interface IUniCardRegistry extends BaseContract {
       CardOpenConfirmationEvent.OutputObject
     >;
 
-    "CardOpenRequest(address,address,uint256,uint256,uint256,uint256,string,string,string,bytes32)": TypedContractEvent<
+    "CardOpenRequest(address,address,uint256,uint256,string,string,string,bytes32)": TypedContractEvent<
       CardOpenRequestEvent.InputTuple,
       CardOpenRequestEvent.OutputTuple,
       CardOpenRequestEvent.OutputObject

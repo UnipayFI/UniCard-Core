@@ -14,26 +14,6 @@ import type { Errors, ErrorsInterface } from "../../../src/libraries/Errors";
 const _abi = [
   {
     inputs: [],
-    name: "UNICARD_REGISTRY_AMOUNT_MUST_BE_GREATER_THAN_ZERO",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "UNICARD_REGISTRY_COMMITMENT_EXPIRED",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "UNICARD_REGISTRY_DEADLINE_MUST_BE_IN_THE_FUTURE",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "UNICARD_REGISTRY_INTEREST_RATE_TOO_HIGH",
-    type: "error",
-  },
-  {
-    inputs: [],
     name: "UNICARD_REGISTRY_INVALID_SIGNATURE",
     type: "error",
   },
@@ -60,11 +40,6 @@ const _abi = [
   {
     inputs: [],
     name: "UNICARD_REGISTRY_USER_ALREADY_HAS_COMMITMENT",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "UNICARD_REGISTRY_VAULT_NOT_ALLOWED",
     type: "error",
   },
 ] as const;
