@@ -34,7 +34,9 @@ contract UniCardRegistryUpgradeable is
     // @notice Constructor for the UniCardRegistry
     // @param anAdmin The address of the admin
     /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor(address anAdmin) {}
+    constructor() {
+        _disableInitializers();
+    }
 
     function initialize(address anAdmin) public initializer {
         __AccessControl_init();
