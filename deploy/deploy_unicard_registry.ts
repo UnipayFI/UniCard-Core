@@ -32,11 +32,12 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     });
 
     const uniCardRegistry = await hre.ethers.getContractAt("UniCardRegistryUpgradeable", deployedResult.address);
-    const tx = await uniCardRegistry.grantRole(await uniCardRegistry.ALLOWED_TOKEN_PAYMENT(), aPaymentToken);
-    await tx.wait();
-    console.log(
-        `UniCardRegistry deployed at ${deployedResult.address} and granted ALLOWED_TOKEN_PAYMENT to ${aPaymentToken} at tx ${tx.hash}`
-    );
+    const tx1 = await uniCardRegistry.grantRole(await uniCardRegistry.ALLOWED_TOKEN_PAYMENT(), "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE");
+    await tx1.wait();
+    console.log(`GRANTED ALLOWED_TOKEN_PAYMENT at tx ${tx1.hash}`);
+    const tx2 = await uniCardRegistry.grantRole(await uniCardRegistry.ALLOWED_TOKEN_PAYMENT(), aPaymentToken);
+    await tx2.wait();
+    console.log(`GRANTED ALLOWED_TOKEN_PAYMENT at tx ${tx2.hash}`);
 };
 
 func.id = "unicard_registry";

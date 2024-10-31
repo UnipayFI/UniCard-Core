@@ -105,15 +105,13 @@ contract OpenUniCardRequestScript is Script {
         uniCardRegistry = UniCardRegistry(vm.envAddress("UNICARD_REGISTRY"));
 
         anHolder = vm.envAddress("HOLDER");
-        anInterestRate = vm.envUint("INTEREST_RATE");
-        anDeadline = vm.envUint("DEADLINE");
         anPaymentToken = vm.envAddress("PAYMENT_TOKEN");
-        anAmount = vm.envUint("AMOUNT");
+        anAmount = 0;
     }
 
     function run() public {
         vm.startBroadcast(deployerPrivateKey);
-        uniCardRegistry.openCardRequest(anHolder, anPaymentToken, anAmount, "6909477", "invite", "referral");
+        uniCardRegistry.openCardRequest(anHolder, anPaymentToken, anAmount, "G2785322", "0C9TRFSCTB", "");
         vm.stopBroadcast();
     }
 }
