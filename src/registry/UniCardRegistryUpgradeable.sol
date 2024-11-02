@@ -191,4 +191,6 @@ contract UniCardRegistryUpgradeable is
         address recoveredAddress = ECDSA.recover(hashMessage, signature);
         return hasRole(CONTROLLER_ROLE, recoveredAddress);
     }
+
+    receive() external payable {}
 }

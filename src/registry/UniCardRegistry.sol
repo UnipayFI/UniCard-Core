@@ -175,4 +175,6 @@ contract UniCardRegistry is AccessControl, ReentrancyGuard, Pausable, IUniCardRe
         address recoveredAddress = ECDSA.recover(hashMessage, signature);
         return hasRole(CONTROLLER_ROLE, recoveredAddress);
     }
+
+    receive() external payable {}
 }

@@ -50,7 +50,7 @@ contract AddUniCardRegistryControllerScript is Script {
         deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         deployer = vm.addr(deployerPrivateKey);
 
-        uniCardRegistry = UniCardRegistry(vm.envAddress("UNICARD_REGISTRY"));
+        uniCardRegistry = UniCardRegistry(payable(vm.envAddress("UNICARD_REGISTRY")));
     }
 
     function run() public {
@@ -73,7 +73,7 @@ contract AddUniCardRegistryVaultScript is Script {
         deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         deployer = vm.addr(deployerPrivateKey);
 
-        uniCardRegistry = UniCardRegistry(vm.envAddress("UNICARD_REGISTRY"));
+        uniCardRegistry = UniCardRegistry(payable(vm.envAddress("UNICARD_REGISTRY")));
     }
 
     function run() public {
@@ -102,16 +102,22 @@ contract OpenUniCardRequestScript is Script {
         deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         deployer = vm.addr(deployerPrivateKey);
 
-        uniCardRegistry = UniCardRegistry(vm.envAddress("UNICARD_REGISTRY"));
+        uniCardRegistry = UniCardRegistry(payable(vm.envAddress("UNICARD_REGISTRY")));
 
         anHolder = vm.envAddress("HOLDER");
         anPaymentToken = vm.envAddress("PAYMENT_TOKEN");
-        anAmount = 0;
+        anAmount = 10000000000000000;
     }
 
     function run() public {
         vm.startBroadcast(deployerPrivateKey);
-        uniCardRegistry.openCardRequest(anHolder, anPaymentToken, anAmount, "G2785322", "0C9TRFSCTB", "");
+        if (anPaymentToken != uniCardRegistry.NATIVE_TOKEN()) {
+            uniCardRegistry.openCardRequest(anHolder, anPaymentToken, anAmount, "G2785322", "0C9TRFSCTB", "");
+        } else {
+            uniCardRegistry.openCardRequest{value: anAmount}(
+                anHolder, anPaymentToken, anAmount, "G27853", "0C9TRFSCTB", ""
+            );
+        }
         vm.stopBroadcast();
     }
 }
