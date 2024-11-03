@@ -7,15 +7,18 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 import {Errors} from "../libraries/Errors.sol";
 
-contract USDU is ERC20Permit {
+contract USDU is ERC20Permit, Ownable {
     string public constant NAME = "USDU";
     string public constant SYMBOL = "USDU";
     uint8 public constant DECIMALS = 18;
 
     address public immutable UNICARD_COLLATERAL;
 
-    constructor(address aUniCardCollateral) ERC20Permit(NAME) ERC20(NAME, SYMBOL) {
-        UNICARD_COLLATERAL = aUniCardCollateral;
+    constructor() ERC20Permit(NAME) ERC20(NAME, SYMBOL) {}
+
+    function initialize(address anUniCardCollateral) external {
+        UNICARD_COLLATERAL = anUniCardCollateral;
+        _transferOwnership(address(0)); // disable ownership
     }
 
     function mint(address to, uint256 amount) external {
