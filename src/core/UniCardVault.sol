@@ -8,8 +8,6 @@ import {ReentrancyGuardUpgradeable} from "@openzeppelin/contracts-upgradeable/ut
 import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 import {Errors} from "../libraries/Errors.sol";
 import {IUniCardVault} from "../interfaces/IUniCardVault.sol";
-import {IUniCardRegistry} from "../interfaces/IUniCardRegistry.sol";
-import {CardStatus} from "../libraries/CardStatus.sol";
 
 // @title UniCardVault
 // @author UniPay
@@ -20,7 +18,7 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
     address public paymentToken;
     address public registry;
 
-    mapping(bytes32 => uint256) public override balances;
+    mapping(string => Account) public cardAccounts;
 
     // @notice Constructor for the UniCardRegistry
     // @param anAdmin The address of the admin
@@ -33,27 +31,43 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
     // @param anAdmin The address of the admin
     // @param aPaymentToken The address of the payment token. eg USDU
     // @param aRegistry The address of the UniCardRegistry
-    function initialize(address anAdmin, address aPaymentToken, address aRegistry) public initializer {
+    function initialize(address anAdmin, address aPaymentToken) public initializer {
         __AccessControl_init();
         __ReentrancyGuard_init();
         __Pausable_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, anAdmin);
         paymentToken = aPaymentToken;
-        registry = aRegistry;
     }
 
     // @notice Deposit funds into a UniCard
-    // @param holder The address of the card holder
-    // @param nonce The nonce of the card
+    // @param cardId The id of the card
     // @param amount The amount of the deposit
-    function deposit(address holder, uint256 nonce, uint256 amount) public override nonReentrant whenNotPaused {
-        bytes32 key = keccak256(abi.encode(holder, nonce));
-        if (IUniCardRegistry(registry).getCardStatus(holder) == CardStatus.DEACTIVATED) {
-            revert Errors.UNICARD_REGISTRY_CARD_ALREADY_DEACTIVATED();
+    function deposit(string memory cardId, uint256 amount) public override nonReentrant whenNotPaused {
+        IERC20(paymentToken).safeTransferFrom(_msgSender(), address(this), amount);
+        if (!cardAccounts[cardId].initialized) {
+            cardAccounts[cardId] = Account({holder: _msgSender(), balance: amount, initialized: true});
+        } else {
+            cardAccounts[cardId].balance += amount;
         }
-        balances[key] += amount;
+        emit Deposit(cardId, cardAccounts[cardId].holder, amount);
+    }
 
-        emit Deposit(key, holder, nonce, amount);
+    // @notice Withdraw funds from a UniCard
+    // @param cardId The id of the card
+    // @param amount The amount of the withdrawal
+    function withdraw(string memory cardId, uint256 amount) public override nonReentrant whenNotPaused {
+        if (cardAccounts[cardId].balance < amount) {
+            revert Errors.UNICARD_VAULT_INSUFFICIENT_BALANCE();
+        }
+        if (!cardAccounts[cardId].initialized) {
+            revert Errors.UNICARD_VAULT_CARD_NOT_INITIALIZED();
+        }
+        if (cardAccounts[cardId].holder != _msgSender()) {
+            revert Errors.UNICARD_VAULT_INVALID_HOLDER();
+        }
+        IERC20(paymentToken).safeTransfer(_msgSender(), amount);
+        cardAccounts[cardId].balance -= amount;
+        emit Withdraw(cardId, cardAccounts[cardId].holder, amount);
     }
 }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-library CardStatus {
+library Enums {
     // CardStatus
     enum CardStatus {
         // The card is not opened yet

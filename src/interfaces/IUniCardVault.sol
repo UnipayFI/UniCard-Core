@@ -1,11 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {CardStatus} from "../libraries/CardStatus.sol";
-
 interface IUniCardVault {
-    event Deposit(bytes32 indexed key, address indexed holder, uint256 indexed nonce, uint256 amount);
+    struct Account {
+        address holder;
+        uint256 balance;
+        bool initialized;
+    }
 
-    function deposit(address holder, uint256 nonce, uint256 amount) external;
-    function balances(bytes32 key) external view returns (uint256);
+    event Deposit(string indexed cardId, address indexed holder, uint256 amount);
+    event Withdraw(string indexed cardId, address indexed holder, uint256 amount);
+
+    function deposit(string memory cardId, uint256 amount) external;
+    function withdraw(string memory cardId, uint256 amount) external;
 }

@@ -8,6 +8,7 @@ import {ReentrancyGuardUpgradeable} from "@openzeppelin/contracts-upgradeable/ut
 import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
 import {Errors} from "../libraries/Errors.sol";
 import {IUniCardRegistry} from "../interfaces/IUniCardRegistry.sol";
+import {Enums} from "../libraries/Enums.sol";
 
 // @title UniCardRegistry
 // @author UniPay
@@ -76,7 +77,7 @@ contract UniCardRegistry is
 
         uint256 nonce = nonces[holder];
         bytes32 key = keccak256(abi.encodePacked(holder, nonce));
-        if (cards[key].isActivated == CardStatus.UNOPENED) {
+        if (cards[key].status == Enums.CardStatus.UNOPENED) {
             cards[key] = Card({
                 holder: holder,
                 paymentToken: paymentToken,
@@ -85,7 +86,7 @@ contract UniCardRegistry is
                 productCode: productCode,
                 inviteCode: inviteCode,
                 referralCode: referralCode,
-                status: CardStatus.ACTIVATED
+                status: Enums.CardStatus.ACTIVATED
             });
         } else {
             revert Errors.UNICARD_REGISTRY_CARD_ALREADY_OPENED();
@@ -99,12 +100,12 @@ contract UniCardRegistry is
     // @param nonce The nonce of the card
     function closeCardRequest(address holder, uint256 nonce) external onlyRole(CONTROLLER_ROLE) {
         bytes32 key = keccak256(abi.encodePacked(holder, nonce));
-        if (cards[key].status == CardStatus.DEACTIVATED) {
+        if (cards[key].status == Enums.CardStatus.DEACTIVATED) {
             revert Errors.UNICARD_REGISTRY_CARD_ALREADY_DEACTIVATED();
-        } else if (cards[key].status == CardStatus.UNOPENED) {
+        } else if (cards[key].status == Enums.CardStatus.UNOPENED) {
             revert Errors.UNICARD_REGISTRY_CARD_NOT_OPENED();
         }
-        cards[key].isActivated = CardStatus.DEACTIVATED;
+        cards[key].status = Enums.CardStatus.DEACTIVATED;
 
         // refund the amount
         if (cards[key].paymentToken != NATIVE_TOKEN) {
@@ -113,7 +114,7 @@ contract UniCardRegistry is
             payable(holder).transfer(cards[key].openCardAmount);
         }
 
-        emit CardCloseRequest(holder, nonce, cards[key].openCardAmount);
+        emit CardCloseRequest(holder, nonce);
     }
 
     // @notice Withdraw the funds from the registry

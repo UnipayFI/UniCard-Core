@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {CardStatus} from "../libraries/CardStatus.sol";
+import {Enums} from "../libraries/Enums.sol";
 
 interface IUniCardRegistry {
     // Card
@@ -17,13 +17,15 @@ interface IUniCardRegistry {
         // The product code of the card
         string productCode;
         // The invite code of the card
+        string inviteCode;
+        // The referral code of the card
         string referralCode;
         // The status of the card
-        CardStatus status;
+        Enums.CardStatus status;
     }
 
+    // The address of the card holder
     event CardOpenRequest(
-        // The address of the card holder
         address indexed holder,
         // The payment token of the card
         address indexed paymentToken,
@@ -34,17 +36,16 @@ interface IUniCardRegistry {
         // The product code of the card
         string productCode,
         // The invite code of the card
-        string referralCode,
+        string inviteCode,
+        // The referral code of the card
+        string referralCode
     );
 
+    // The address of the card holder
+    // The address of the card holder
     event CardCloseRequest(
-        // The address of the card holder
         address indexed holder,
         // The nonce of the card
-        uint256 indexed nonce,
+        uint256 indexed nonce
     );
-
-    function getCardStatus(address cardAddress) external view returns (CardStatus);
-    function hasControllerRole(address anAddress) external view returns (bool);
-    function hasAdminRole(address anAddress) external view returns (bool);
 }

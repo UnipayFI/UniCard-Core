@@ -1,12 +1,27 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {ERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
+import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+
+import {Errors} from "../libraries/Errors.sol";
 
 contract USDU is ERC20Permit {
-    public constant NAME = "USDU";
-    public constant SYMBOL = "USDU";
-    public constant DECIMALS = 18;
+    string public constant NAME = "USDU";
+    string public constant SYMBOL = "USDU";
+    uint8 public constant DECIMALS = 18;
 
-    constructor() ERC20Permit(NAME) ERC20(NAME, SYMBOL) {}
+    address public immutable UNICARD_COLLATERAL;
+
+    constructor(address aUniCardCollateral) ERC20Permit(NAME) ERC20(NAME, SYMBOL) {
+        UNICARD_COLLATERAL = aUniCardCollateral;
+    }
+
+    function mint(address to, uint256 amount) external {
+        if (_msgSender() != UNICARD_COLLATERAL) {
+            revert Errors.UNICARD_COLLATERAL_INVALID_MINT_CALLER();
+        }
+        _mint(to, amount);
+    }
 }
