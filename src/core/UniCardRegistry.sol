@@ -85,10 +85,10 @@ contract UniCardRegistry is
                 productCode: productCode,
                 inviteCode: inviteCode,
                 referralCode: referralCode,
-                isActivated: CardStatus.ACTIVATED
+                status: CardStatus.ACTIVATED
             });
         } else {
-            revert Errors.UNICARD_REGISTRY_USER_ALREADY_HAS_COMMITMENT();
+            revert Errors.UNICARD_REGISTRY_CARD_ALREADY_OPENED();
         }
 
         emit CardOpenRequest(holder, paymentToken, nonce, amount, productCode, inviteCode, referralCode);
@@ -99,9 +99,9 @@ contract UniCardRegistry is
     // @param nonce The nonce of the card
     function closeCardRequest(address holder, uint256 nonce) external onlyRole(CONTROLLER_ROLE) {
         bytes32 key = keccak256(abi.encodePacked(holder, nonce));
-        if (cards[key].isActivated == CardStatus.DEACTIVATED) {
+        if (cards[key].status == CardStatus.DEACTIVATED) {
             revert Errors.UNICARD_REGISTRY_CARD_ALREADY_DEACTIVATED();
-        } else if (cards[key].isActivated == CardStatus.UNOPENED) {
+        } else if (cards[key].status == CardStatus.UNOPENED) {
             revert Errors.UNICARD_REGISTRY_CARD_NOT_OPENED();
         }
         cards[key].isActivated = CardStatus.DEACTIVATED;
@@ -132,19 +132,6 @@ contract UniCardRegistry is
         }
     }
 
-    // @notice Check if the address has the controller role
-    // @param anAddress The address to check
-    // @return True if the address has the controller role, false otherwise
-    function hasControllerRole(address anAddress) external view returns (bool) {
-        return hasRole(CONTROLLER_ROLE, anAddress);
-    }
-
-    // @notice Check if the address has the admin role
-    // @param anAddress The address to check
-    // @return True if the address has the admin role, false otherwise
-    function hasAdminRole(address anAddress) external view returns (bool) {
-        return hasRole(DEFAULT_ADMIN_ROLE, anAddress);
-    }
-
+    // @notice Receive native token
     receive() external payable {}
 }

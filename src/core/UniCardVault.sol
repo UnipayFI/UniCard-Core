@@ -20,7 +20,7 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
     address public paymentToken;
     address public registry;
 
-    mapping(bytes32 => uint256) public balances;
+    mapping(bytes32 => uint256) public override balances;
 
     // @notice Constructor for the UniCardRegistry
     // @param anAdmin The address of the admin
@@ -47,10 +47,10 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
     // @param holder The address of the card holder
     // @param nonce The nonce of the card
     // @param amount The amount of the deposit
-    function deposit(address holder, uint256 nonce, uint256 amount) public nonReentrant whenNotPaused {
+    function deposit(address holder, uint256 nonce, uint256 amount) public override nonReentrant whenNotPaused {
         bytes32 key = keccak256(abi.encode(holder, nonce));
         if (IUniCardRegistry(registry).getCardStatus(holder) == CardStatus.DEACTIVATED) {
-            revert Errors.UNICARD_ALREADY_CLOSED();
+            revert Errors.UNICARD_REGISTRY_CARD_ALREADY_DEACTIVATED();
         }
         balances[key] += amount;
 
