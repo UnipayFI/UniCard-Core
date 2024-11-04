@@ -67,7 +67,7 @@ contract UniCardCollateral is
                 isCollateralIncrease: true,
                 debtChange: debtAmount,
                 isDebtIncrease: true,
-                repayToken: address(0)
+                repayToken: NATIVE_TOKEN
             })
         );
     }
@@ -181,6 +181,9 @@ contract UniCardCollateral is
         returns (uint256)
     {
         if (isIncrease) {
+            if (repayToken != NATIVE_TOKEN) {
+                revert Errors.UNICARD_COLLATERAL_INVALID_REPAY_TOKEN();
+            }
             return currentDebt + change;
         } else {
             if (change > currentDebt) {
