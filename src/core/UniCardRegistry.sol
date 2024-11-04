@@ -133,6 +133,16 @@ contract UniCardRegistry is
         }
     }
 
+    // @notice Toggle the pause status of the registry
+    // @param enablePauseOrNot The flag to enable or disable the pause
+    function togglePause(bool enablePauseOrNot) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        if (enablePauseOrNot) {
+            _pause();
+        } else {
+            _unpause();
+        }
+    }
+
     // @notice Receive native token
     receive() external payable {}
 }

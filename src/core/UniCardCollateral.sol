@@ -24,8 +24,8 @@ contract UniCardCollateral is
 
     // @notice Allowed repay token
     bytes32 public constant ALLOWED_REPAY_TOKEN = keccak256("ALLOWED_REPAY_TOKEN");
-    // @notice Minimum collateral ratio
-    uint256 public constant MIN_COLLATERAL_RATIO = 110_000_000_00; // 110%
+    // @notice Minimum collateral ratio (110%)
+    uint256 public constant MIN_COLLATERAL_RATIO = 11e17; // 110%
     // @notice Native token
     address public constant NATIVE_TOKEN = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE; // ETH
 
@@ -47,20 +47,21 @@ contract UniCardCollateral is
     // @notice Initialize the contract
     // @param registry_ The UniCard registry address
     // @param priceFeed_ The price feed address
-    function initialize(address anUsdu, address aPriceFeed) external initializer {
+    function initialize(address anAdmin, address anUsdu, address aPriceFeed) external initializer {
         __AccessControl_init();
         __ReentrancyGuard_init();
         __Pausable_init();
 
         usdu = IUSDU(anUsdu);
         priceFeed = IPriceFeed(aPriceFeed);
+        _grantRole(DEFAULT_ADMIN_ROLE, anAdmin);
     }
 
     /**
      * @notice Borrow USDU by providing ETH as collateral
      * @param debtAmount The amount of USDU to borrow
      */
-    function borrow(uint256 debtAmount) external payable nonReentrant whenNotPaused {
+    function borrow(uint256 debtAmount) external payable whenNotPaused {
         adjust(
             IUniCardCollateral.AdjustParams({
                 collateralChange: msg.value,
@@ -77,7 +78,7 @@ contract UniCardCollateral is
      * @param repayToken The token used for repayment
      * @param repayAmount The amount to repay
      */
-    function repay(address repayToken, uint256 repayAmount) external nonReentrant whenNotPaused {
+    function repay(address repayToken, uint256 repayAmount) external whenNotPaused {
         adjust(
             IUniCardCollateral.AdjustParams({
                 collateralChange: 0,
@@ -226,8 +227,27 @@ contract UniCardCollateral is
         pure
         returns (uint256)
     {
-        // collateralAmount (18 decimals) * price (8 decimals) * 1e8 / debtAmount (18 decimals) = ratio (8 decimals)
-        return (collateralAmount * price * 1e8) / (debtAmount * 1e8);
+        // collateralAmount (18 decimals) * price (8 decimals) / (debtAmount (18 decimals) * 1e8) * 1 ether= ratio (18 decimals)
+        if (debtAmount > 0) {
+            uint256 newCollRatio = 1 ether * collateralAmount / debtAmount * price / 1e8;
+
+            return newCollRatio;
+        }
+        // Return the maximal value for uint256 if the debt is 0. Represents "infinite" CR.
+        else {
+            // if (_debt == 0)
+            return 2 ** 256 - 1;
+        }
+    }
+
+    // @notice Toggle the pause status of the collateral
+    // @param enablePauseOrNot The flag to enable or disable the pause
+    function togglePause(bool enablePauseOrNot) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        if (enablePauseOrNot) {
+            _pause();
+        } else {
+            _unpause();
+        }
     }
 
     // @notice Receive ETH

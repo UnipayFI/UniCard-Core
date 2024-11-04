@@ -46,6 +46,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IAccessControl__factory>;
     getContractFactory(
+      name: "Ownable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Ownable__factory>;
+    getContractFactory(
       name: "IERC1155Errors",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC1155Errors__factory>;
@@ -153,6 +157,26 @@ declare module "hardhat/types/runtime" {
       name: "SSTORE2",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SSTORE2__factory>;
+    getContractFactory(
+      name: "IUSDU",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IUSDU__factory>;
+    getContractFactory(
+      name: "UniCardCollateral",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.UniCardCollateral__factory>;
+    getContractFactory(
+      name: "UniCardRegistry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.UniCardRegistry__factory>;
+    getContractFactory(
+      name: "UniCardVault",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.UniCardVault__factory>;
+    getContractFactory(
+      name: "USDU",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.USDU__factory>;
     getContractFactory(
       name: "IRETHToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -282,9 +306,17 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ITroveNFT__factory>;
     getContractFactory(
+      name: "IUniCardCollateral",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IUniCardCollateral__factory>;
+    getContractFactory(
       name: "IUniCardRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IUniCardRegistry__factory>;
+    getContractFactory(
+      name: "IUniCardVault",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IUniCardVault__factory>;
     getContractFactory(
       name: "IWETH",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -427,6 +459,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IAccessControl>;
     getContractAt(
+      name: "Ownable",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Ownable>;
+    getContractAt(
       name: "IERC1155Errors",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -561,6 +598,31 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.SSTORE2>;
+    getContractAt(
+      name: "IUSDU",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IUSDU>;
+    getContractAt(
+      name: "UniCardCollateral",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.UniCardCollateral>;
+    getContractAt(
+      name: "UniCardRegistry",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.UniCardRegistry>;
+    getContractAt(
+      name: "UniCardVault",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.UniCardVault>;
+    getContractAt(
+      name: "USDU",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.USDU>;
     getContractAt(
       name: "IRETHToken",
       address: string | ethers.Addressable,
@@ -722,10 +784,20 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ITroveNFT>;
     getContractAt(
+      name: "IUniCardCollateral",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IUniCardCollateral>;
+    getContractAt(
       name: "IUniCardRegistry",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.IUniCardRegistry>;
+    getContractAt(
+      name: "IUniCardVault",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IUniCardVault>;
     getContractAt(
       name: "IWETH",
       address: string | ethers.Addressable,
@@ -885,6 +957,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IAccessControl>;
     deployContract(
+      name: "Ownable",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Ownable>;
+    deployContract(
       name: "IERC1155Errors",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC1155Errors>;
@@ -992,6 +1068,26 @@ declare module "hardhat/types/runtime" {
       name: "SSTORE2",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.SSTORE2>;
+    deployContract(
+      name: "IUSDU",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IUSDU>;
+    deployContract(
+      name: "UniCardCollateral",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.UniCardCollateral>;
+    deployContract(
+      name: "UniCardRegistry",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.UniCardRegistry>;
+    deployContract(
+      name: "UniCardVault",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.UniCardVault>;
+    deployContract(
+      name: "USDU",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.USDU>;
     deployContract(
       name: "IRETHToken",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -1121,9 +1217,17 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ITroveNFT>;
     deployContract(
+      name: "IUniCardCollateral",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IUniCardCollateral>;
+    deployContract(
       name: "IUniCardRegistry",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IUniCardRegistry>;
+    deployContract(
+      name: "IUniCardVault",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IUniCardVault>;
     deployContract(
       name: "IWETH",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -1266,6 +1370,11 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IAccessControl>;
     deployContract(
+      name: "Ownable",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Ownable>;
+    deployContract(
       name: "IERC1155Errors",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -1400,6 +1509,31 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.SSTORE2>;
+    deployContract(
+      name: "IUSDU",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IUSDU>;
+    deployContract(
+      name: "UniCardCollateral",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.UniCardCollateral>;
+    deployContract(
+      name: "UniCardRegistry",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.UniCardRegistry>;
+    deployContract(
+      name: "UniCardVault",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.UniCardVault>;
+    deployContract(
+      name: "USDU",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.USDU>;
     deployContract(
       name: "IRETHToken",
       args: any[],
@@ -1561,10 +1695,20 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ITroveNFT>;
     deployContract(
+      name: "IUniCardCollateral",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IUniCardCollateral>;
+    deployContract(
       name: "IUniCardRegistry",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IUniCardRegistry>;
+    deployContract(
+      name: "IUniCardVault",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IUniCardVault>;
     deployContract(
       name: "IWETH",
       args: any[],

@@ -12,7 +12,7 @@ contract USDU is ERC20Permit, Ownable {
     string public constant SYMBOL = "USDU";
     uint8 public constant DECIMALS = 18;
 
-    address public immutable UNICARD_COLLATERAL;
+    address public UNICARD_COLLATERAL;
 
     constructor(address anOwner) Ownable(anOwner) ERC20Permit(NAME) ERC20(NAME, SYMBOL) {}
 

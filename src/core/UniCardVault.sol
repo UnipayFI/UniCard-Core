@@ -15,8 +15,7 @@ import {IUniCardVault} from "../interfaces/IUniCardVault.sol";
 contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, PausableUpgradeable, IUniCardVault {
     using SafeERC20 for IERC20;
 
-    address public paymentToken;
-    address public registry;
+    address public usdu;
 
     mapping(string => Account) public cardAccounts;
 
@@ -31,20 +30,20 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
     // @param anAdmin The address of the admin
     // @param aPaymentToken The address of the payment token. eg USDU
     // @param aRegistry The address of the UniCardRegistry
-    function initialize(address anAdmin, address aPaymentToken) public initializer {
+    function initialize(address anAdmin, address anUsdu) public initializer {
         __AccessControl_init();
         __ReentrancyGuard_init();
         __Pausable_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, anAdmin);
-        paymentToken = aPaymentToken;
+        usdu = anUsdu;
     }
 
     // @notice Deposit funds into a UniCard
     // @param cardId The id of the card
     // @param amount The amount of the deposit
     function deposit(string memory cardId, uint256 amount) public override nonReentrant whenNotPaused {
-        IERC20(paymentToken).safeTransferFrom(_msgSender(), address(this), amount);
+        IERC20(usdu).safeTransferFrom(_msgSender(), address(this), amount);
         if (!cardAccounts[cardId].initialized) {
             cardAccounts[cardId] = Account({holder: _msgSender(), balance: amount, initialized: true});
         } else {
@@ -57,17 +56,27 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
     // @param cardId The id of the card
     // @param amount The amount of the withdrawal
     function withdraw(string memory cardId, uint256 amount) public override nonReentrant whenNotPaused {
-        if (cardAccounts[cardId].balance < amount) {
-            revert Errors.UNICARD_VAULT_INSUFFICIENT_BALANCE();
-        }
         if (!cardAccounts[cardId].initialized) {
             revert Errors.UNICARD_VAULT_CARD_NOT_INITIALIZED();
+        }
+        if (cardAccounts[cardId].balance < amount) {
+            revert Errors.UNICARD_VAULT_INSUFFICIENT_BALANCE();
         }
         if (cardAccounts[cardId].holder != _msgSender()) {
             revert Errors.UNICARD_VAULT_INVALID_HOLDER();
         }
-        IERC20(paymentToken).safeTransfer(_msgSender(), amount);
+        IERC20(usdu).safeTransfer(_msgSender(), amount);
         cardAccounts[cardId].balance -= amount;
         emit Withdraw(cardId, cardAccounts[cardId].holder, amount);
+    }
+
+    // @notice Toggle the pause status of the vault
+    // @param enablePauseOrNot The flag to enable or disable the pause
+    function togglePause(bool enablePauseOrNot) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        if (enablePauseOrNot) {
+            _pause();
+        } else {
+            _unpause();
+        }
     }
 }

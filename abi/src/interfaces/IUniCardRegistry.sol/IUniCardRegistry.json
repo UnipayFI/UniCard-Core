@@ -10,30 +10,12 @@
       },
       {
         "indexed": true,
-        "internalType": "address",
-        "name": "paymentToken",
-        "type": "address"
-      },
-      {
-        "indexed": false,
         "internalType": "uint256",
         "name": "nonce",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "commitment",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "requestTxHash",
-        "type": "string"
       }
     ],
-    "name": "CardOpenConfirmation",
+    "name": "CardCloseRequest",
     "type": "event"
   },
   {
@@ -80,145 +62,9 @@
         "internalType": "string",
         "name": "referralCode",
         "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "commitment",
-        "type": "bytes32"
       }
     ],
     "name": "CardOpenRequest",
     "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "commitment",
-        "type": "bytes32"
-      }
-    ],
-    "name": "commitments",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "string",
-            "name": "productCode",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "holder",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "paymentToken",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "nonce",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct IUniCardRegistry.Commitment",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "confirmation",
-        "type": "bytes32"
-      }
-    ],
-    "name": "confirmations",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "string",
-            "name": "productCode",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "holder",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "paymentToken",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "nonce",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bytes32",
-            "name": "commitment",
-            "type": "bytes32"
-          },
-          {
-            "internalType": "string",
-            "name": "requestTxHash",
-            "type": "string"
-          }
-        ],
-        "internalType": "struct IUniCardRegistry.Confirmation",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "anAddress",
-        "type": "address"
-      }
-    ],
-    "name": "hasAdminRole",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "anAddress",
-        "type": "address"
-      }
-    ],
-    "name": "hasControllerRole",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
   }
 ]
