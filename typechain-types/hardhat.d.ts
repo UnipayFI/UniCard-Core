@@ -38,10 +38,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ReentrancyGuardUpgradeable__factory>;
     getContractFactory(
-      name: "AccessControl",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.AccessControl__factory>;
-    getContractFactory(
       name: "IAccessControl",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IAccessControl__factory>;
@@ -134,14 +130,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Nonces__factory>;
     getContractFactory(
-      name: "Pausable",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Pausable__factory>;
-    getContractFactory(
-      name: "ReentrancyGuard",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ReentrancyGuard__factory>;
-    getContractFactory(
       name: "ShortStrings",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ShortStrings__factory>;
@@ -177,10 +165,6 @@ declare module "hardhat/types/runtime" {
       name: "USDU",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.USDU__factory>;
-    getContractFactory(
-      name: "IRETHToken",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IRETHToken__factory>;
     getContractFactory(
       name: "AddRemoveManagers",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -409,14 +393,6 @@ declare module "hardhat/types/runtime" {
       name: "FixedAssetReader",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.FixedAssetReader__factory>;
-    getContractFactory(
-      name: "UniCardRegistry",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.UniCardRegistry__factory>;
-    getContractFactory(
-      name: "UniCardRegistryUpgradeable",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.UniCardRegistryUpgradeable__factory>;
 
     getContractAt(
       name: "AccessControlUpgradeable",
@@ -448,11 +424,6 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.ReentrancyGuardUpgradeable>;
-    getContractAt(
-      name: "AccessControl",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.AccessControl>;
     getContractAt(
       name: "IAccessControl",
       address: string | ethers.Addressable,
@@ -569,16 +540,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Nonces>;
     getContractAt(
-      name: "Pausable",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Pausable>;
-    getContractAt(
-      name: "ReentrancyGuard",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ReentrancyGuard>;
-    getContractAt(
       name: "ShortStrings",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -623,11 +584,6 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.USDU>;
-    getContractAt(
-      name: "IRETHToken",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IRETHToken>;
     getContractAt(
       name: "AddRemoveManagers",
       address: string | ethers.Addressable,
@@ -913,16 +869,6 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.FixedAssetReader>;
-    getContractAt(
-      name: "UniCardRegistry",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.UniCardRegistry>;
-    getContractAt(
-      name: "UniCardRegistryUpgradeable",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.UniCardRegistryUpgradeable>;
 
     deployContract(
       name: "AccessControlUpgradeable",
@@ -948,10 +894,6 @@ declare module "hardhat/types/runtime" {
       name: "ReentrancyGuardUpgradeable",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ReentrancyGuardUpgradeable>;
-    deployContract(
-      name: "AccessControl",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.AccessControl>;
     deployContract(
       name: "IAccessControl",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -1045,14 +987,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Nonces>;
     deployContract(
-      name: "Pausable",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Pausable>;
-    deployContract(
-      name: "ReentrancyGuard",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.ReentrancyGuard>;
-    deployContract(
       name: "ShortStrings",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ShortStrings>;
@@ -1088,10 +1022,6 @@ declare module "hardhat/types/runtime" {
       name: "USDU",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.USDU>;
-    deployContract(
-      name: "IRETHToken",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IRETHToken>;
     deployContract(
       name: "AddRemoveManagers",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -1320,14 +1250,6 @@ declare module "hardhat/types/runtime" {
       name: "FixedAssetReader",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.FixedAssetReader>;
-    deployContract(
-      name: "UniCardRegistry",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UniCardRegistry>;
-    deployContract(
-      name: "UniCardRegistryUpgradeable",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UniCardRegistryUpgradeable>;
 
     deployContract(
       name: "AccessControlUpgradeable",
@@ -1359,11 +1281,6 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ReentrancyGuardUpgradeable>;
-    deployContract(
-      name: "AccessControl",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.AccessControl>;
     deployContract(
       name: "IAccessControl",
       args: any[],
@@ -1480,16 +1397,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Nonces>;
     deployContract(
-      name: "Pausable",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.Pausable>;
-    deployContract(
-      name: "ReentrancyGuard",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.ReentrancyGuard>;
-    deployContract(
       name: "ShortStrings",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -1534,11 +1441,6 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.USDU>;
-    deployContract(
-      name: "IRETHToken",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.IRETHToken>;
     deployContract(
       name: "AddRemoveManagers",
       args: any[],
@@ -1824,16 +1726,6 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.FixedAssetReader>;
-    deployContract(
-      name: "UniCardRegistry",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UniCardRegistry>;
-    deployContract(
-      name: "UniCardRegistryUpgradeable",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.UniCardRegistryUpgradeable>;
 
     // default types
     getContractFactory(

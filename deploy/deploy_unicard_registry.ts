@@ -16,7 +16,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         throw new Error("PAYMENT_TOKEN is not set");
     }
 
-    const deployedResult = await deploy("UniCardRegistryUpgradeable", {
+    const deployedResult = await deploy("UniCardRegistry", {
         from: deployer,
         proxy: {
             proxyContract: "OpenZeppelinTransparentProxy",
@@ -31,13 +31,13 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
         log: true,
     });
 
-    // const uniCardRegistry = await hre.ethers.getContractAt("UniCardRegistryUpgradeable", deployedResult.address);
-    // const tx1 = await uniCardRegistry.grantRole(await uniCardRegistry.ALLOWED_TOKEN_PAYMENT(), "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE");
-    // await tx1.wait();
-    // console.log(`GRANTED ALLOWED_TOKEN_PAYMENT at tx ${tx1.hash}`);
-    // const tx2 = await uniCardRegistry.grantRole(await uniCardRegistry.ALLOWED_TOKEN_PAYMENT(), aPaymentToken);
-    // await tx2.wait();
-    // console.log(`GRANTED ALLOWED_TOKEN_PAYMENT at tx ${tx2.hash}`);
+    const uniCardRegistry = await hre.ethers.getContractAt("UniCardRegistry", deployedResult.address);
+    const tx1 = await uniCardRegistry.grantRole(await uniCardRegistry.ALLOWED_TOKEN_PAYMENT(), "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE");
+    await tx1.wait();
+    console.log(`GRANTED ALLOWED_TOKEN_PAYMENT at tx ${tx1.hash}`);
+    const tx2 = await uniCardRegistry.grantRole(await uniCardRegistry.ALLOWED_TOKEN_PAYMENT(), aPaymentToken);
+    await tx2.wait();
+    console.log(`GRANTED ALLOWED_TOKEN_PAYMENT at tx ${tx2.hash}`);
 };
 
 func.id = "unicard_registry";
