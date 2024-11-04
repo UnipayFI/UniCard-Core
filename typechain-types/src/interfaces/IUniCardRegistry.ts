@@ -4,9 +4,7 @@
 import type {
   BaseContract,
   BigNumberish,
-  BytesLike,
   FunctionFragment,
-  Result,
   Interface,
   EventFragment,
   AddressLike,
@@ -20,124 +18,20 @@ import type {
   TypedEventLog,
   TypedLogDescription,
   TypedListener,
-  TypedContractMethod,
 } from "../../common";
 
-export declare namespace IUniCardRegistry {
-  export type CommitmentStruct = {
-    productCode: string;
-    holder: AddressLike;
-    paymentToken: AddressLike;
-    nonce: BigNumberish;
-  };
-
-  export type CommitmentStructOutput = [
-    productCode: string,
-    holder: string,
-    paymentToken: string,
-    nonce: bigint
-  ] & {
-    productCode: string;
-    holder: string;
-    paymentToken: string;
-    nonce: bigint;
-  };
-
-  export type ConfirmationStruct = {
-    productCode: string;
-    holder: AddressLike;
-    paymentToken: AddressLike;
-    nonce: BigNumberish;
-    commitment: BytesLike;
-    requestTxHash: string;
-  };
-
-  export type ConfirmationStructOutput = [
-    productCode: string,
-    holder: string,
-    paymentToken: string,
-    nonce: bigint,
-    commitment: string,
-    requestTxHash: string
-  ] & {
-    productCode: string;
-    holder: string;
-    paymentToken: string;
-    nonce: bigint;
-    commitment: string;
-    requestTxHash: string;
-  };
-}
-
 export interface IUniCardRegistryInterface extends Interface {
-  getFunction(
-    nameOrSignature:
-      | "commitments"
-      | "confirmations"
-      | "hasAdminRole"
-      | "hasControllerRole"
-  ): FunctionFragment;
-
   getEvent(
-    nameOrSignatureOrTopic: "CardOpenConfirmation" | "CardOpenRequest"
+    nameOrSignatureOrTopic: "CardCloseRequest" | "CardOpenRequest"
   ): EventFragment;
-
-  encodeFunctionData(
-    functionFragment: "commitments",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "confirmations",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasAdminRole",
-    values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "hasControllerRole",
-    values: [AddressLike]
-  ): string;
-
-  decodeFunctionResult(
-    functionFragment: "commitments",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "confirmations",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "hasAdminRole",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "hasControllerRole",
-    data: BytesLike
-  ): Result;
 }
 
-export namespace CardOpenConfirmationEvent {
-  export type InputTuple = [
-    holder: AddressLike,
-    paymentToken: AddressLike,
-    nonce: BigNumberish,
-    commitment: BytesLike,
-    requestTxHash: string
-  ];
-  export type OutputTuple = [
-    holder: string,
-    paymentToken: string,
-    nonce: bigint,
-    commitment: string,
-    requestTxHash: string
-  ];
+export namespace CardCloseRequestEvent {
+  export type InputTuple = [holder: AddressLike, nonce: BigNumberish];
+  export type OutputTuple = [holder: string, nonce: bigint];
   export interface OutputObject {
     holder: string;
-    paymentToken: string;
     nonce: bigint;
-    commitment: string;
-    requestTxHash: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -153,8 +47,7 @@ export namespace CardOpenRequestEvent {
     amount: BigNumberish,
     productCode: string,
     inviteCode: string,
-    referralCode: string,
-    commitment: BytesLike
+    referralCode: string
   ];
   export type OutputTuple = [
     holder: string,
@@ -163,8 +56,7 @@ export namespace CardOpenRequestEvent {
     amount: bigint,
     productCode: string,
     inviteCode: string,
-    referralCode: string,
-    commitment: string
+    referralCode: string
   ];
   export interface OutputObject {
     holder: string;
@@ -174,7 +66,6 @@ export namespace CardOpenRequestEvent {
     productCode: string;
     inviteCode: string;
     referralCode: string;
-    commitment: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -225,61 +116,16 @@ export interface IUniCardRegistry extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  commitments: TypedContractMethod<
-    [commitment: BytesLike],
-    [IUniCardRegistry.CommitmentStructOutput],
-    "view"
-  >;
-
-  confirmations: TypedContractMethod<
-    [confirmation: BytesLike],
-    [IUniCardRegistry.ConfirmationStructOutput],
-    "view"
-  >;
-
-  hasAdminRole: TypedContractMethod<
-    [anAddress: AddressLike],
-    [boolean],
-    "view"
-  >;
-
-  hasControllerRole: TypedContractMethod<
-    [anAddress: AddressLike],
-    [boolean],
-    "view"
-  >;
-
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
 
-  getFunction(
-    nameOrSignature: "commitments"
-  ): TypedContractMethod<
-    [commitment: BytesLike],
-    [IUniCardRegistry.CommitmentStructOutput],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "confirmations"
-  ): TypedContractMethod<
-    [confirmation: BytesLike],
-    [IUniCardRegistry.ConfirmationStructOutput],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "hasAdminRole"
-  ): TypedContractMethod<[anAddress: AddressLike], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "hasControllerRole"
-  ): TypedContractMethod<[anAddress: AddressLike], [boolean], "view">;
-
   getEvent(
-    key: "CardOpenConfirmation"
+    key: "CardCloseRequest"
   ): TypedContractEvent<
-    CardOpenConfirmationEvent.InputTuple,
-    CardOpenConfirmationEvent.OutputTuple,
-    CardOpenConfirmationEvent.OutputObject
+    CardCloseRequestEvent.InputTuple,
+    CardCloseRequestEvent.OutputTuple,
+    CardCloseRequestEvent.OutputObject
   >;
   getEvent(
     key: "CardOpenRequest"
@@ -290,18 +136,18 @@ export interface IUniCardRegistry extends BaseContract {
   >;
 
   filters: {
-    "CardOpenConfirmation(address,address,uint256,bytes32,string)": TypedContractEvent<
-      CardOpenConfirmationEvent.InputTuple,
-      CardOpenConfirmationEvent.OutputTuple,
-      CardOpenConfirmationEvent.OutputObject
+    "CardCloseRequest(address,uint256)": TypedContractEvent<
+      CardCloseRequestEvent.InputTuple,
+      CardCloseRequestEvent.OutputTuple,
+      CardCloseRequestEvent.OutputObject
     >;
-    CardOpenConfirmation: TypedContractEvent<
-      CardOpenConfirmationEvent.InputTuple,
-      CardOpenConfirmationEvent.OutputTuple,
-      CardOpenConfirmationEvent.OutputObject
+    CardCloseRequest: TypedContractEvent<
+      CardCloseRequestEvent.InputTuple,
+      CardCloseRequestEvent.OutputTuple,
+      CardCloseRequestEvent.OutputObject
     >;
 
-    "CardOpenRequest(address,address,uint256,uint256,string,string,string,bytes32)": TypedContractEvent<
+    "CardOpenRequest(address,address,uint256,uint256,string,string,string)": TypedContractEvent<
       CardOpenRequestEvent.InputTuple,
       CardOpenRequestEvent.OutputTuple,
       CardOpenRequestEvent.OutputObject

@@ -1,40 +1,51 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import {Enums} from "../libraries/Enums.sol";
+
 interface IUniCardRegistry {
-    struct Commitment {
-        string productCode;
+    // Card
+    struct Card {
+        // The address of the card holder
         address holder;
+        // The payment token of the card
         address paymentToken;
+        // The nonce of the card
         uint256 nonce;
+        // The amount of the card
+        uint256 openCardAmount;
+        // The product code of the card
+        string productCode;
+        // The invite code of the card
+        string inviteCode;
+        // The referral code of the card
+        string referralCode;
+        // The status of the card
+        Enums.CardStatus status;
     }
 
-    struct Confirmation {
-        string productCode;
-        address holder;
-        address paymentToken;
-        uint256 nonce;
-        bytes32 commitment;
-        string requestTxHash;
-    }
-
+    // The address of the card holder
     event CardOpenRequest(
         address indexed holder,
+        // The payment token of the card
         address indexed paymentToken,
+        // The nonce of the card
         uint256 indexed nonce,
+        // The amount of the card
         uint256 amount,
+        // The product code of the card
         string productCode,
+        // The invite code of the card
         string inviteCode,
-        string referralCode,
-        bytes32 commitment
+        // The referral code of the card
+        string referralCode
     );
 
-    event CardOpenConfirmation(
-        address indexed holder, address indexed paymentToken, uint256 nonce, bytes32 commitment, string requestTxHash
+    // The address of the card holder
+    // The address of the card holder
+    event CardCloseRequest(
+        address indexed holder,
+        // The nonce of the card
+        uint256 indexed nonce
     );
-
-    function commitments(bytes32 commitment) external view returns (Commitment memory);
-    function confirmations(bytes32 confirmation) external view returns (Confirmation memory);
-    function hasControllerRole(address anAddress) external view returns (bool);
-    function hasAdminRole(address anAddress) external view returns (bool);
 }

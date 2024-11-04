@@ -14,12 +14,52 @@ import type { Errors, ErrorsInterface } from "../../../src/libraries/Errors";
 const _abi = [
   {
     inputs: [],
-    name: "UNICARD_REGISTRY_INVALID_SIGNATURE",
+    name: "UNICARD_COLLATERAL_DEBT_REDUCTION_EXCEEDS_CURRENT_DEBT",
     type: "error",
   },
   {
     inputs: [],
-    name: "UNICARD_REGISTRY_NONCE_MISMATCH",
+    name: "UNICARD_COLLATERAL_ETH_NOT_NEEDED",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UNICARD_COLLATERAL_INSUFFICIENT_COLLATERAL",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UNICARD_COLLATERAL_INSUFFICIENT_COLLATERAL_RATIO",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UNICARD_COLLATERAL_INVALID_ETH_AMOUNT",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UNICARD_COLLATERAL_INVALID_MINT_CALLER",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UNICARD_COLLATERAL_INVALID_REPAY_TOKEN",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UNICARD_REGISTRY_CARD_ALREADY_DEACTIVATED",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UNICARD_REGISTRY_CARD_ALREADY_OPENED",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UNICARD_REGISTRY_CARD_NOT_OPENED",
     type: "error",
   },
   {
@@ -29,17 +69,17 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "UNICARD_REGISTRY_REQUEST_TX_HASH_ALREADY_USED",
+    name: "UNICARD_VAULT_CARD_NOT_INITIALIZED",
     type: "error",
   },
   {
     inputs: [],
-    name: "UNICARD_REGISTRY_REQUEST_TX_HASH_EMPTY",
+    name: "UNICARD_VAULT_INSUFFICIENT_BALANCE",
     type: "error",
   },
   {
     inputs: [],
-    name: "UNICARD_REGISTRY_USER_ALREADY_HAS_COMMITMENT",
+    name: "UNICARD_VAULT_INVALID_HOLDER",
     type: "error",
   },
 ] as const;
