@@ -16,7 +16,7 @@ contract USDU is ERC20Permit, Ownable {
 
     constructor(address anOwner) Ownable(anOwner) ERC20Permit(NAME) ERC20(NAME, SYMBOL) {}
 
-    function initialize(address anUniCardCollateral) external onlyOwner {
+    function setAddress(address anUniCardCollateral) external onlyOwner {
         UNICARD_COLLATERAL = anUniCardCollateral;
         _transferOwnership(address(0)); // disable ownership
     }

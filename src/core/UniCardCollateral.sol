@@ -74,7 +74,7 @@ contract UniCardCollateral is
     }
 
     /**
-     * @notice Repay USDU debt using allowed tokens
+     * @notice Repay debt using allowed tokens
      * @param repayToken The token used for repayment
      * @param repayAmount The amount to repay
      */
