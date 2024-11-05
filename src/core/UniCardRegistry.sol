@@ -91,6 +91,7 @@ contract UniCardRegistry is
                 referralCode: referralCode,
                 status: Enums.CardStatus.ACTIVATED
             });
+            nonces[holder] += 1;
         } else {
             revert Errors.UNICARD_REGISTRY_CARD_ALREADY_OPENED();
         }
