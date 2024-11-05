@@ -7,7 +7,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
   const { deployer } = await getNamedAccounts();
 
-  const deployedResult = await deploy("UniCardVault", {
+  const usdu = await deployments.get("USDU");
+
+  await deploy("UniCardVault", {
     from: deployer,
     proxy: {
       proxyContract: "OpenZeppelinTransparentProxy",
@@ -15,7 +17,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       execute: {
         init: {
           methodName: "initialize",
-          args: [deployer, "0x5a9A8e347E130fcb57E9615a78602e57C760E189"],
+          args: [deployer, usdu.address],
         },
       },
     },
@@ -25,4 +27,5 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
 func.id = "unicard_vault";
 func.tags = ["DeployUniCardVault"];
+func.dependencies = ["DeployUSDU"];
 export default func;
