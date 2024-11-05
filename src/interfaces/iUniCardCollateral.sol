@@ -22,7 +22,7 @@ interface IUniCardCollateral {
     }
 
     event CollateralAdjusted(
-        address indexed holder,
+        address holder,
         uint256 collateralAmount,
         bool isCollateralIncrease,
         uint256 debtAmount,

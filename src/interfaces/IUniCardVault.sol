@@ -8,8 +8,8 @@ interface IUniCardVault {
         bool initialized;
     }
 
-    event Deposit(string indexed cardId, address indexed holder, uint256 amount);
-    event Withdraw(string indexed cardId, address indexed holder, uint256 amount);
+    event Deposit(string cardId, address holder, uint256 amount);
+    event Withdraw(string cardId, address holder, uint256 amount);
 
     function deposit(string memory cardId, uint256 amount) external;
     function withdraw(string memory cardId, uint256 amount) external;

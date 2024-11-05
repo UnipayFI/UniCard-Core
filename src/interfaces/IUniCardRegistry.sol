@@ -26,11 +26,11 @@ interface IUniCardRegistry {
 
     // The address of the card holder
     event CardOpenRequest(
-        address indexed holder,
+        address holder,
         // The payment token of the card
-        address indexed paymentToken,
+        address paymentToken,
         // The nonce of the card
-        uint256 indexed nonce,
+        uint256 nonce,
         // The amount of the card
         uint256 amount,
         // The product code of the card
@@ -44,8 +44,8 @@ interface IUniCardRegistry {
     // The address of the card holder
     // The address of the card holder
     event CardCloseRequest(
-        address indexed holder,
+        address holder,
         // The nonce of the card
-        uint256 indexed nonce
+        uint256 nonce
     );
 }
