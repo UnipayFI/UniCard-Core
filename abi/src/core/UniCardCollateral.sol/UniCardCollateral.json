@@ -122,7 +122,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
         "name": "holder",
         "type": "address"
@@ -267,6 +267,19 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "bool",
+        "name": "isPaused",
+        "type": "bool"
+      }
+    ],
+    "name": "TogglePause",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "account",
         "type": "address"
@@ -276,8 +289,34 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newUsdu",
+        "type": "address"
+      }
+    ],
+    "name": "UsduUpdated",
+    "type": "event"
+  },
+  {
     "inputs": [],
     "name": "ALLOWED_REPAY_TOKEN",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "CONTROLLER_ROLE",
     "outputs": [
       {
         "internalType": "bytes32",
@@ -610,6 +649,19 @@
       }
     ],
     "name": "togglePause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newUsdu",
+        "type": "address"
+      }
+    ],
+    "name": "updateUsdu",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

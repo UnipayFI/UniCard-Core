@@ -21,6 +21,13 @@ interface IUniCardCollateral {
         uint256 collateralRatio;
     }
 
+    // @notice Emitted when the collateral is adjusted
+    // @param holder The address of the card holder
+    // @param collateralAmount The amount of collateral to add/remove
+    // @param isCollateralIncrease True if adding collateral, false if removing
+    // @param debtAmount The amount of debt to add/remove
+    // @param isDebtIncrease True if borrowing, false if repaying
+    // @param repayToken The token used for repayment (only used when repaying)
     event CollateralAdjusted(
         address holder,
         uint256 collateralAmount,
@@ -29,4 +36,12 @@ interface IUniCardCollateral {
         bool isDebtIncrease,
         address repayToken
     );
+
+    // @notice Emitted when the pause status is toggled
+    // @param isPaused The flag to enable or disable the pause
+    event TogglePause(bool isPaused);
+
+    // @notice Emitted when the USDU address is updated
+    // @param newUsdu The address of the new USDU
+    event UsduUpdated(address newUsdu);
 }

@@ -55,6 +55,7 @@ export interface UniCardRegistryInterface extends Interface {
       | "RoleAdminChanged"
       | "RoleGranted"
       | "RoleRevoked"
+      | "TogglePause"
       | "Unpaused"
   ): EventFragment;
 
@@ -297,6 +298,18 @@ export namespace RoleRevokedEvent {
     role: string;
     account: string;
     sender: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace TogglePauseEvent {
+  export type InputTuple = [isPaused: boolean];
+  export type OutputTuple = [isPaused: boolean];
+  export interface OutputObject {
+    isPaused: boolean;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -612,6 +625,13 @@ export interface UniCardRegistry extends BaseContract {
     RoleRevokedEvent.OutputObject
   >;
   getEvent(
+    key: "TogglePause"
+  ): TypedContractEvent<
+    TogglePauseEvent.InputTuple,
+    TogglePauseEvent.OutputTuple,
+    TogglePauseEvent.OutputObject
+  >;
+  getEvent(
     key: "Unpaused"
   ): TypedContractEvent<
     UnpausedEvent.InputTuple,
@@ -695,6 +715,17 @@ export interface UniCardRegistry extends BaseContract {
       RoleRevokedEvent.InputTuple,
       RoleRevokedEvent.OutputTuple,
       RoleRevokedEvent.OutputObject
+    >;
+
+    "TogglePause(bool)": TypedContractEvent<
+      TogglePauseEvent.InputTuple,
+      TogglePauseEvent.OutputTuple,
+      TogglePauseEvent.OutputObject
+    >;
+    TogglePause: TypedContractEvent<
+      TogglePauseEvent.InputTuple,
+      TogglePauseEvent.OutputTuple,
+      TogglePauseEvent.OutputObject
     >;
 
     "Unpaused(address)": TypedContractEvent<

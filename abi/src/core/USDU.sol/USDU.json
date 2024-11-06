@@ -476,19 +476,6 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "anUniCardCollateral",
-        "type": "address"
-      }
-    ],
-    "name": "initialize",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
         "name": "to",
         "type": "address"
       },
@@ -594,6 +581,19 @@
   {
     "inputs": [],
     "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "anUniCardCollateral",
+        "type": "address"
+      }
+    ],
+    "name": "setAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

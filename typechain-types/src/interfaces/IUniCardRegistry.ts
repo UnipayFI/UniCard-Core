@@ -22,7 +22,10 @@ import type {
 
 export interface IUniCardRegistryInterface extends Interface {
   getEvent(
-    nameOrSignatureOrTopic: "CardCloseRequest" | "CardOpenRequest"
+    nameOrSignatureOrTopic:
+      | "CardCloseRequest"
+      | "CardOpenRequest"
+      | "TogglePause"
   ): EventFragment;
 }
 
@@ -66,6 +69,18 @@ export namespace CardOpenRequestEvent {
     productCode: string;
     inviteCode: string;
     referralCode: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace TogglePauseEvent {
+  export type InputTuple = [isPaused: boolean];
+  export type OutputTuple = [isPaused: boolean];
+  export interface OutputObject {
+    isPaused: boolean;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -134,6 +149,13 @@ export interface IUniCardRegistry extends BaseContract {
     CardOpenRequestEvent.OutputTuple,
     CardOpenRequestEvent.OutputObject
   >;
+  getEvent(
+    key: "TogglePause"
+  ): TypedContractEvent<
+    TogglePauseEvent.InputTuple,
+    TogglePauseEvent.OutputTuple,
+    TogglePauseEvent.OutputObject
+  >;
 
   filters: {
     "CardCloseRequest(address,uint256)": TypedContractEvent<
@@ -156,6 +178,17 @@ export interface IUniCardRegistry extends BaseContract {
       CardOpenRequestEvent.InputTuple,
       CardOpenRequestEvent.OutputTuple,
       CardOpenRequestEvent.OutputObject
+    >;
+
+    "TogglePause(bool)": TypedContractEvent<
+      TogglePauseEvent.InputTuple,
+      TogglePauseEvent.OutputTuple,
+      TogglePauseEvent.OutputObject
+    >;
+    TogglePause: TypedContractEvent<
+      TogglePauseEvent.InputTuple,
+      TogglePauseEvent.OutputTuple,
+      TogglePauseEvent.OutputObject
     >;
   };
 }

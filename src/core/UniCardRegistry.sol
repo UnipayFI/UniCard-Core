@@ -6,8 +6,8 @@ import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol
 import {AccessControlUpgradeable} from "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import {ReentrancyGuardUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol";
 import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
-import {Errors} from "../libraries/Errors.sol";
 import {IUniCardRegistry} from "../interfaces/IUniCardRegistry.sol";
+import {Errors} from "../libraries/Errors.sol";
 import {Enums} from "../libraries/Enums.sol";
 
 // @title UniCardRegistry
@@ -67,6 +67,9 @@ contract UniCardRegistry is
             if (paymentToken != NATIVE_TOKEN) {
                 IERC20(paymentToken).safeTransferFrom(holder, address(this), amount);
             } else {
+                if (msg.value < amount) {
+                    revert Errors.UNICARD_REGISTRY_INSUFFICIENT_NATIVE_TOKEN_AMOUNT();
+                }
                 payable(address(this)).transfer(amount);
                 // refund the extra amount
                 if (msg.value > amount) {
@@ -91,7 +94,7 @@ contract UniCardRegistry is
         } else {
             revert Errors.UNICARD_REGISTRY_CARD_ALREADY_OPENED();
         }
-
+        nonces[holder]++;
         emit CardOpenRequest(holder, paymentToken, nonce, amount, productCode, inviteCode, referralCode);
     }
 
@@ -127,8 +130,12 @@ contract UniCardRegistry is
         whenNotPaused
     {
         if (paymentToken != NATIVE_TOKEN) {
+            uint256 balance = IERC20(paymentToken).balanceOf(address(this));
+            if (amount > balance) revert Errors.UNICARD_REGISTRY_INSUFFICIENT_BALANCE();
             IERC20(paymentToken).safeTransfer(msg.sender, amount);
         } else {
+            uint256 balance = address(this).balance;
+            if (amount > balance) revert Errors.UNICARD_REGISTRY_INSUFFICIENT_BALANCE();
             payable(msg.sender).transfer(amount);
         }
     }

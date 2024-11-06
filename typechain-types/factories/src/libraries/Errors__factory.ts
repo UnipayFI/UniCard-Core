@@ -64,6 +64,16 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "UNICARD_REGISTRY_INSUFFICIENT_BALANCE",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UNICARD_REGISTRY_INSUFFICIENT_NATIVE_TOKEN_AMOUNT",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "UNICARD_REGISTRY_PAYMENT_TOKEN_NOT_ALLOWED",
     type: "error",
   },
@@ -75,6 +85,11 @@ const _abi = [
   {
     inputs: [],
     name: "UNICARD_VAULT_INSUFFICIENT_BALANCE",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "UNICARD_VAULT_INVALID_CARD_ID",
     type: "error",
   },
   {

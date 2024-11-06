@@ -13,13 +13,13 @@ const _abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: true,
+        indexed: false,
         internalType: "address",
         name: "holder",
         type: "address",
       },
       {
-        indexed: true,
+        indexed: false,
         internalType: "uint256",
         name: "nonce",
         type: "uint256",
@@ -32,19 +32,19 @@ const _abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: true,
+        indexed: false,
         internalType: "address",
         name: "holder",
         type: "address",
       },
       {
-        indexed: true,
+        indexed: false,
         internalType: "address",
         name: "paymentToken",
         type: "address",
       },
       {
-        indexed: true,
+        indexed: false,
         internalType: "uint256",
         name: "nonce",
         type: "uint256",
@@ -75,6 +75,19 @@ const _abi = [
       },
     ],
     name: "CardOpenRequest",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "isPaused",
+        type: "bool",
+      },
+    ],
+    name: "TogglePause",
     type: "event",
   },
 ] as const;

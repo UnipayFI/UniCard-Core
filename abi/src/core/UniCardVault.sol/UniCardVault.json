@@ -100,6 +100,11 @@
   },
   {
     "inputs": [],
+    "name": "UNICARD_VAULT_INVALID_CARD_ID",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "UNICARD_VAULT_INVALID_HOLDER",
     "type": "error"
   },
@@ -107,13 +112,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "string",
         "name": "cardId",
         "type": "string"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
         "name": "holder",
         "type": "address"
@@ -126,6 +131,31 @@
       }
     ],
     "name": "Deposit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "cardId",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "holder",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "EmergencyWithdraw",
     "type": "event"
   },
   {
@@ -234,6 +264,19 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "bool",
+        "name": "isPaused",
+        "type": "bool"
+      }
+    ],
+    "name": "TogglePause",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "address",
         "name": "account",
         "type": "address"
@@ -246,13 +289,26 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
+        "internalType": "address",
+        "name": "newUsdu",
+        "type": "address"
+      }
+    ],
+    "name": "UsduUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "string",
         "name": "cardId",
         "type": "string"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
         "name": "holder",
         "type": "address"
@@ -266,6 +322,19 @@
     ],
     "name": "Withdraw",
     "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "CONTROLLER_ROLE",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [],
@@ -323,6 +392,19 @@
       }
     ],
     "name": "deposit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "cardId",
+        "type": "string"
+      }
+    ],
+    "name": "emergencyWithdraw",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -483,6 +565,19 @@
       }
     ],
     "name": "togglePause",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newUsdu",
+        "type": "address"
+      }
+    ],
+    "name": "updateUsdu",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

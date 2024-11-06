@@ -24,6 +24,8 @@ contract UniCardCollateral is
 
     // @notice Allowed repay token
     bytes32 public constant ALLOWED_REPAY_TOKEN = keccak256("ALLOWED_REPAY_TOKEN");
+    // @notice Controller role
+    bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
     // @notice Minimum collateral ratio (110%)
     uint256 public constant MIN_COLLATERAL_RATIO = 11e17; // 110%
     // @notice Native token
@@ -55,6 +57,16 @@ contract UniCardCollateral is
         usdu = IUSDU(anUsdu);
         priceFeed = IPriceFeed(aPriceFeed);
         _grantRole(DEFAULT_ADMIN_ROLE, anAdmin);
+        _grantRole(CONTROLLER_ROLE, anAdmin);
+        _setRoleAdmin(ALLOWED_REPAY_TOKEN, DEFAULT_ADMIN_ROLE);
+        _setRoleAdmin(CONTROLLER_ROLE, DEFAULT_ADMIN_ROLE);
+    }
+
+    // @notice Update the USDU address
+    // @param newUsdu The address of the new USDU
+    function updateUsdu(address newUsdu) external onlyRole(CONTROLLER_ROLE) {
+        usdu = IUSDU(newUsdu);
+        emit UsduUpdated(newUsdu);
     }
 
     /**
@@ -236,7 +248,7 @@ contract UniCardCollateral is
         // Return the maximal value for uint256 if the debt is 0. Represents "infinite" CR.
         else {
             // if (_debt == 0)
-            return 2 ** 256 - 1;
+            return type(uint256).max;
         }
     }
 
@@ -248,6 +260,8 @@ contract UniCardCollateral is
         } else {
             _unpause();
         }
+
+        emit TogglePause(enablePauseOrNot);
     }
 
     // @notice Receive ETH

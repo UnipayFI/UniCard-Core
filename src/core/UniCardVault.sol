@@ -15,8 +15,11 @@ import {IUniCardVault} from "../interfaces/IUniCardVault.sol";
 contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, PausableUpgradeable, IUniCardVault {
     using SafeERC20 for IERC20;
 
-    address public usdu;
+    bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
 
+    // @notice The address of the USDU token
+    address public usdu;
+    // @notice The mapping of card accounts
     mapping(string => Account) public cardAccounts;
 
     // @notice Constructor for the UniCardRegistry
@@ -35,14 +38,24 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
         __ReentrancyGuard_init();
         __Pausable_init();
 
-        _grantRole(DEFAULT_ADMIN_ROLE, anAdmin);
         usdu = anUsdu;
+        _grantRole(DEFAULT_ADMIN_ROLE, anAdmin);
+        _grantRole(CONTROLLER_ROLE, anAdmin);
+        _setRoleAdmin(CONTROLLER_ROLE, DEFAULT_ADMIN_ROLE);
+    }
+
+    // @notice Update the USDU address
+    // @param newUsdu The address of the new USDU
+    function updateUsdu(address newUsdu) external onlyRole(CONTROLLER_ROLE) {
+        usdu = newUsdu;
+        emit UsduUpdated(newUsdu);
     }
 
     // @notice Deposit funds into a UniCard
     // @param cardId The id of the card
     // @param amount The amount of the deposit
     function deposit(string memory cardId, uint256 amount) public override nonReentrant whenNotPaused {
+        if (bytes(cardId).length == 0) revert Errors.UNICARD_VAULT_INVALID_CARD_ID();
         IERC20(usdu).safeTransferFrom(_msgSender(), address(this), amount);
         if (!cardAccounts[cardId].initialized) {
             cardAccounts[cardId] = Account({holder: _msgSender(), balance: amount, initialized: true});
@@ -56,6 +69,7 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
     // @param cardId The id of the card
     // @param amount The amount of the withdrawal
     function withdraw(string memory cardId, uint256 amount) public override nonReentrant whenNotPaused {
+        if (bytes(cardId).length == 0) revert Errors.UNICARD_VAULT_INVALID_CARD_ID();
         if (!cardAccounts[cardId].initialized) {
             revert Errors.UNICARD_VAULT_CARD_NOT_INITIALIZED();
         }
@@ -78,5 +92,19 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
         } else {
             _unpause();
         }
+        emit TogglePause(enablePauseOrNot);
+    }
+
+    function emergencyWithdraw(string memory cardId) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        if (bytes(cardId).length == 0) revert Errors.UNICARD_VAULT_INVALID_CARD_ID();
+        if (!cardAccounts[cardId].initialized) {
+            revert Errors.UNICARD_VAULT_CARD_NOT_INITIALIZED();
+        }
+
+        uint256 balance = cardAccounts[cardId].balance;
+        cardAccounts[cardId].balance = 0;
+        cardAccounts[cardId].initialized = false;
+        IERC20(usdu).safeTransfer(_msgSender(), balance);
+        emit EmergencyWithdraw(cardId, cardAccounts[cardId].holder, balance);
     }
 }

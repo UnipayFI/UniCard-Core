@@ -48,4 +48,8 @@ interface IUniCardRegistry {
         // The nonce of the card
         uint256 nonce
     );
+
+    // @notice Toggle the pause status of the registry
+    // @param isPaused The flag to enable or disable the pause
+    event TogglePause(bool isPaused);
 }

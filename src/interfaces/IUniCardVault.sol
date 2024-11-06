@@ -10,6 +10,9 @@ interface IUniCardVault {
 
     event Deposit(string cardId, address holder, uint256 amount);
     event Withdraw(string cardId, address holder, uint256 amount);
+    event UsduUpdated(address newUsdu);
+    event TogglePause(bool isPaused);
+    event EmergencyWithdraw(string cardId, address holder, uint256 amount);
 
     function deposit(string memory cardId, uint256 amount) external;
     function withdraw(string memory cardId, uint256 amount) external;
