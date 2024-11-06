@@ -42,6 +42,7 @@ contract UniCardRegistry is
         __Pausable_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, anAdmin);
+        _grantRole(CONTROLLER_ROLE, anAdmin);
         _setRoleAdmin(CONTROLLER_ROLE, DEFAULT_ADMIN_ROLE);
         _setRoleAdmin(ALLOWED_TOKEN_PAYMENT, DEFAULT_ADMIN_ROLE);
     }
