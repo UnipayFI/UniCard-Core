@@ -367,43 +367,16 @@
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "UNICARD_CV_PROXY_ROLE",
+    "outputs": [
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "collateralChange",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bool",
-            "name": "isCollateralIncrease",
-            "type": "bool"
-          },
-          {
-            "internalType": "uint256",
-            "name": "debtChange",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bool",
-            "name": "isDebtIncrease",
-            "type": "bool"
-          },
-          {
-            "internalType": "address",
-            "name": "repayToken",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct IUniCardCollateral.AdjustParams",
-        "name": "params",
-        "type": "tuple"
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
       }
     ],
-    "name": "adjust",
-    "outputs": [],
-    "stateMutability": "payable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -415,6 +388,24 @@
       }
     ],
     "name": "borrow",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "holder",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "debtAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "borrowFor",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -599,6 +590,29 @@
       }
     ],
     "name": "repay",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "holder",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "repayToken",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "repayAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "repayFor",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

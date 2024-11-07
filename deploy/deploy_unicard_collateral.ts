@@ -33,7 +33,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     log: true,
   });
   console.log("UniCardCollateral deployed at", deployedResult.address);
-  await usdu.setAddress(deployedResult.address);
+  if ((await usdu.UNICARD_COLLATERAL()) == ethers.ZeroAddress) {
+    await usdu.setAddress(deployedResult.address);
+  }
 };
 
 func.id = "unicard_collateral";

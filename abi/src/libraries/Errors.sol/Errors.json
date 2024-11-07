@@ -36,6 +36,11 @@
   },
   {
     "inputs": [],
+    "name": "UNICARD_CV_PROXY_INVALID_BET_AMOUNT",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "UNICARD_CV_PROXY_INVALID_ETH_AMOUNT",
     "type": "error"
   },
