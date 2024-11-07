@@ -350,29 +350,49 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "UNICARD_CV_PROXY_ROLE",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "string",
-        "name": "",
+        "name": "cardId",
         "type": "string"
       }
     ],
     "name": "cardAccounts",
     "outputs": [
       {
-        "internalType": "address",
-        "name": "holder",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "balance",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "initialized",
-        "type": "bool"
+        "components": [
+          {
+            "internalType": "address",
+            "name": "holder",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "balance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "initialized",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct IUniCardVault.Account",
+        "name": "",
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",
