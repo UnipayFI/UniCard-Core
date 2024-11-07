@@ -254,7 +254,7 @@ contract UniCardCollateral is
 
     // @notice Toggle the pause status of the collateral
     // @param enablePauseOrNot The flag to enable or disable the pause
-    function togglePause(bool enablePauseOrNot) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function togglePause(bool enablePauseOrNot) external onlyRole(CONTROLLER_ROLE) {
         if (enablePauseOrNot) {
             _pause();
         } else {
