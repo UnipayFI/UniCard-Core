@@ -3,7 +3,6 @@ pragma solidity ^0.8.0;
 
 import {IUniCardVault} from "../interfaces/IUniCardVault.sol";
 import {IUniCardCollateral} from "../interfaces/IUniCardCollateral.sol";
-import {IPriceFeed} from "../interfaces/IPriceFeed.sol";
 import {Errors} from "../libraries/Errors.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
@@ -26,23 +25,22 @@ contract UniCardCVProxy is AccessControlUpgradeable, ReentrancyGuardUpgradeable,
     IUniCardCollateral public uniCardCollateral;
     // @notice The address of the USDU token
     IERC20 public usdu;
-    // @notice The address of the price feed
-    IPriceFeed public priceFeed;
 
     // @notice Constructor for the UniCardCVProxy
+    /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
     }
 
     // @notice Initialize the UniCardCVProxy
     // @param anAdmin The address of the admin
-    function initialize(
-        address anAdmin,
-        address aUniCardVault,
-        address aUniCardCollateral,
-        address anUsdu,
-        address aPriceFeed
-    ) external initializer {
+    // @param aUniCardCollateral The address of the UniCardCollateral
+    // @param aUniCardVault The address of the UniCardVault
+    // @param anUsdu The address of the USDU token
+    function initialize(address anAdmin, address aUniCardCollateral, address aUniCardVault, address anUsdu)
+        external
+        initializer
+    {
         __AccessControl_init();
         __ReentrancyGuard_init();
         __Pausable_init();
@@ -51,10 +49,9 @@ contract UniCardCVProxy is AccessControlUpgradeable, ReentrancyGuardUpgradeable,
         _grantRole(CONTROLLER_ROLE, anAdmin);
         _setRoleAdmin(CONTROLLER_ROLE, DEFAULT_ADMIN_ROLE);
 
-        uniCardVault = IUniCardVault(aUniCardVault);
         uniCardCollateral = IUniCardCollateral(aUniCardCollateral);
+        uniCardVault = IUniCardVault(aUniCardVault);
         usdu = IERC20(anUsdu);
-        priceFeed = IPriceFeed(aPriceFeed);
     }
 
     // @notice Toggle the pause status of the registry
@@ -69,18 +66,27 @@ contract UniCardCVProxy is AccessControlUpgradeable, ReentrancyGuardUpgradeable,
 
     // @notice Borrow USDU and deposit to UniCardVault
     // @param cardId The id of the card
-    function borrowAndDeposit(string memory cardId) external payable nonReentrant whenNotPaused {
+    // @param maxBorrowAmount The maximum amount of USDU to borrow
+    function borrowAndDeposit(string memory cardId, uint256 maxBorrowAmount)
+        external
+        payable
+        nonReentrant
+        whenNotPaused
+    {
         if (msg.value == 0) revert Errors.UNICARD_CV_PROXY_INVALID_ETH_AMOUNT();
+        if (maxBorrowAmount == 0) revert Errors.UNICARD_CV_PROXY_INVALID_BET_AMOUNT();
         // 1. Borrow USDU from UniCardCollateral
-        uint256 ethPrice = priceFeed.lastGoodPrice();
-        // msg.value decimals 1e18
-        // ethPrice decimals 1e8
-        // MIN_COLLATERAL_RATIO decimals 1e18
-        // need maxBorrowAmount decimals 1e18
-        uint256 maxBorrowAmount = (msg.value * ethPrice) / uniCardCollateral.MIN_COLLATERAL_RATIO() * 1e10;
+        uniCardCollateral.borrowFor{value: msg.value}(_msgSender(), maxBorrowAmount);
         // 2. transfer USDU to UniCardVault
         usdu.safeTransfer(address(uniCardVault), maxBorrowAmount);
         // 3. Deposit USDU to UniCardVault
         uniCardVault.depositFor(cardId, _msgSender(), maxBorrowAmount);
     }
+
+    function getMaxBorrowAmount(uint256 betAmount, uint256 ethPrice) external view returns (uint256) {
+        return betAmount * ethPrice * 1e18 / uniCardCollateral.MIN_COLLATERAL_RATIO() / 1e8;
+    }
+
+    // @notice Receive ETH
+    receive() external payable {}
 }

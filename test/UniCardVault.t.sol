@@ -9,6 +9,7 @@ import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Pau
 
 import {UniCardVault} from "../src/core/UniCardVault.sol";
 import {Errors} from "../src/libraries/Errors.sol";
+import {IUniCardVault} from "../src/interfaces/IUniCardVault.sol";
 
 contract MockUSDU is ERC20 {
     constructor() ERC20("Mock USDU", "USDU") {}
@@ -28,8 +29,8 @@ contract UniCardVaultTest is Test {
     address public user2 = makeAddr("user2");
     string public constant CARD_ID = "CARD_001";
 
-    event Deposit(string indexed cardId, address indexed holder, uint256 amount);
-    event Withdraw(string indexed cardId, address indexed holder, uint256 amount);
+    event Deposit(string cardId, address holder, uint256 amount);
+    event Withdraw(string cardId, address holder, uint256 amount);
 
     function setUp() public {
         // Deploy USDU mock
@@ -57,16 +58,16 @@ contract UniCardVaultTest is Test {
     function test_Deposit() public {
         uint256 amount = 100 ether;
 
-        vm.expectEmit(true, true, false, true);
+        vm.expectEmit(false, false, false, true);
         emit Deposit(CARD_ID, user1, amount);
 
         vm.prank(user1);
         vault.deposit(CARD_ID, amount);
 
-        (address holder, uint256 balance, bool initialized) = vault.cardAccounts(CARD_ID);
-        assertEq(holder, user1);
-        assertEq(balance, amount);
-        assertTrue(initialized);
+        IUniCardVault.Account memory account = vault.cardAccounts(CARD_ID);
+        assertEq(account.holder, user1);
+        assertEq(account.balance, amount);
+        assertTrue(account.initialized);
         assertEq(usdu.balanceOf(address(vault)), amount);
     }
 
@@ -79,9 +80,9 @@ contract UniCardVaultTest is Test {
         vault.deposit(CARD_ID, amount2);
         vm.stopPrank();
 
-        (address holder, uint256 balance,) = vault.cardAccounts(CARD_ID);
-        assertEq(holder, user1);
-        assertEq(balance, amount1 + amount2);
+        IUniCardVault.Account memory account = vault.cardAccounts(CARD_ID);
+        assertEq(account.holder, user1);
+        assertEq(account.balance, amount1 + amount2);
         assertEq(usdu.balanceOf(address(vault)), amount1 + amount2);
     }
 
@@ -93,16 +94,16 @@ contract UniCardVaultTest is Test {
         vm.prank(user1);
         vault.deposit(CARD_ID, depositAmount);
 
-        vm.expectEmit(true, true, false, true);
+        vm.expectEmit(false, false, false, true);
         emit Withdraw(CARD_ID, user1, withdrawAmount);
 
         // Then withdraw
         vm.prank(user1);
         vault.withdraw(CARD_ID, withdrawAmount);
 
-        (address holder, uint256 balance,) = vault.cardAccounts(CARD_ID);
-        assertEq(holder, user1);
-        assertEq(balance, depositAmount - withdrawAmount);
+        IUniCardVault.Account memory account = vault.cardAccounts(CARD_ID);
+        assertEq(account.holder, user1);
+        assertEq(account.balance, depositAmount - withdrawAmount);
         assertEq(usdu.balanceOf(address(vault)), depositAmount - withdrawAmount);
     }
 

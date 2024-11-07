@@ -27,4 +27,5 @@ library Errors {
 
     // UniCardCVProxy
     error UNICARD_CV_PROXY_INVALID_ETH_AMOUNT();
+    error UNICARD_CV_PROXY_INVALID_BET_AMOUNT();
 }

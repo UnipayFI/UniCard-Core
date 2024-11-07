@@ -30,12 +30,13 @@ contract UniCardRegistry is
     mapping(bytes32 => Card) public cards;
 
     // @notice Constructor for the UniCardRegistry
-    // @param anAdmin The address of the admin
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
     }
 
+    // @notice Initialize the UniCardRegistry
+    // @param anAdmin The address of the admin
     function initialize(address anAdmin) public initializer {
         __AccessControl_init();
         __ReentrancyGuard_init();

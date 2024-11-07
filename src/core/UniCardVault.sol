@@ -16,14 +16,14 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
     using SafeERC20 for IERC20;
 
     bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
+    bytes32 public constant UNICARD_CV_PROXY_ROLE = keccak256("UNICARD_CV_PROXY_ROLE");
 
     // @notice The address of the USDU token
     address public usdu;
     // @notice The mapping of card accounts
-    mapping(string => Account) public cardAccounts;
+    mapping(string => Account) private _cardAccounts;
 
     // @notice Constructor for the UniCardRegistry
-    // @param anAdmin The address of the admin
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
@@ -31,8 +31,7 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
 
     // @notice Initialize the UniCardVault
     // @param anAdmin The address of the admin
-    // @param aPaymentToken The address of the payment token. eg USDU
-    // @param aRegistry The address of the UniCardRegistry
+    // @param anUsdu The address of the USDU token
     function initialize(address anAdmin, address anUsdu) public initializer {
         __AccessControl_init();
         __ReentrancyGuard_init();
@@ -42,6 +41,14 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
         _grantRole(DEFAULT_ADMIN_ROLE, anAdmin);
         _grantRole(CONTROLLER_ROLE, anAdmin);
         _setRoleAdmin(CONTROLLER_ROLE, DEFAULT_ADMIN_ROLE);
+        _setRoleAdmin(UNICARD_CV_PROXY_ROLE, DEFAULT_ADMIN_ROLE);
+    }
+
+    // @notice Get the account of a UniCard
+    // @param cardId The id of the card
+    // @return The account of the UniCard
+    function cardAccounts(string memory cardId) external view returns (Account memory) {
+        return _cardAccounts[cardId];
     }
 
     // @notice Update the USDU address
@@ -68,7 +75,7 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
         override
         nonReentrant
         whenNotPaused
-        onlyRole(CONTROLLER_ROLE)
+        onlyRole(UNICARD_CV_PROXY_ROLE)
     {
         _deposit(cardId, holder, amount);
     }
@@ -79,12 +86,12 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
     // @param amount The amount of the deposit
     function _deposit(string memory cardId, address holder, uint256 amount) internal {
         if (bytes(cardId).length == 0) revert Errors.UNICARD_VAULT_INVALID_CARD_ID();
-        if (!cardAccounts[cardId].initialized) {
-            cardAccounts[cardId] = Account({holder: holder, balance: amount, initialized: true});
+        if (!_cardAccounts[cardId].initialized) {
+            _cardAccounts[cardId] = Account({holder: holder, balance: amount, initialized: true});
         } else {
-            cardAccounts[cardId].balance += amount;
+            _cardAccounts[cardId].balance += amount;
         }
-        emit Deposit(cardId, cardAccounts[cardId].holder, amount);
+        emit Deposit(cardId, _cardAccounts[cardId].holder, amount);
     }
 
     // @notice Withdraw funds from a UniCard
@@ -92,18 +99,18 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
     // @param amount The amount of the withdrawal
     function withdraw(string memory cardId, uint256 amount) public override nonReentrant whenNotPaused {
         if (bytes(cardId).length == 0) revert Errors.UNICARD_VAULT_INVALID_CARD_ID();
-        if (!cardAccounts[cardId].initialized) {
+        if (!_cardAccounts[cardId].initialized) {
             revert Errors.UNICARD_VAULT_CARD_NOT_INITIALIZED();
         }
-        if (cardAccounts[cardId].balance < amount) {
+        if (_cardAccounts[cardId].balance < amount) {
             revert Errors.UNICARD_VAULT_INSUFFICIENT_BALANCE();
         }
-        if (cardAccounts[cardId].holder != _msgSender()) {
+        if (_cardAccounts[cardId].holder != _msgSender()) {
             revert Errors.UNICARD_VAULT_INVALID_HOLDER();
         }
         IERC20(usdu).safeTransfer(_msgSender(), amount);
-        cardAccounts[cardId].balance -= amount;
-        emit Withdraw(cardId, cardAccounts[cardId].holder, amount);
+        _cardAccounts[cardId].balance -= amount;
+        emit Withdraw(cardId, _cardAccounts[cardId].holder, amount);
     }
 
     // @notice Toggle the pause status of the vault
@@ -117,16 +124,18 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
         emit TogglePause(enablePauseOrNot);
     }
 
+    // @notice Emergency withdraw funds from a UniCard
+    // @param cardId The id of the card
     function emergencyWithdraw(string memory cardId) external onlyRole(DEFAULT_ADMIN_ROLE) {
         if (bytes(cardId).length == 0) revert Errors.UNICARD_VAULT_INVALID_CARD_ID();
-        if (!cardAccounts[cardId].initialized) {
+        if (!_cardAccounts[cardId].initialized) {
             revert Errors.UNICARD_VAULT_CARD_NOT_INITIALIZED();
         }
 
-        uint256 balance = cardAccounts[cardId].balance;
-        cardAccounts[cardId].balance = 0;
-        cardAccounts[cardId].initialized = false;
+        uint256 balance = _cardAccounts[cardId].balance;
+        _cardAccounts[cardId].balance = 0;
+        _cardAccounts[cardId].initialized = false;
         IERC20(usdu).safeTransfer(_msgSender(), balance);
-        emit EmergencyWithdraw(cardId, cardAccounts[cardId].holder, balance);
+        emit EmergencyWithdraw(cardId, _cardAccounts[cardId].holder, balance);
     }
 }
