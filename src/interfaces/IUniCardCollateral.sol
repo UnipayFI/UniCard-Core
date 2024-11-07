@@ -44,4 +44,11 @@ interface IUniCardCollateral {
     // @notice Emitted when the USDU address is updated
     // @param newUsdu The address of the new USDU
     event UsduUpdated(address newUsdu);
+
+    // @notice Borrow USDU
+    // @param debtAmount The amount of debt to borrow
+    function borrow(uint256 debtAmount) external payable;
+
+    // @notice The minimum collateral ratio
+    function MIN_COLLATERAL_RATIO() external view returns (uint256);
 }

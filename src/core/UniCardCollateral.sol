@@ -27,7 +27,7 @@ contract UniCardCollateral is
     // @notice Controller role
     bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
     // @notice Minimum collateral ratio (110%)
-    uint256 public constant MIN_COLLATERAL_RATIO = 11e17; // 110%
+    uint256 public constant override MIN_COLLATERAL_RATIO = 11e17; // 110%
     // @notice Native token
     address public constant NATIVE_TOKEN = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE; // ETH
 

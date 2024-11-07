@@ -16,4 +16,5 @@ interface IUniCardVault {
 
     function deposit(string memory cardId, uint256 amount) external;
     function withdraw(string memory cardId, uint256 amount) external;
+    function depositFor(string memory cardId, address holder, uint256 amount) external;
 }

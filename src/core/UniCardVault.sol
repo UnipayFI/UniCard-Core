@@ -55,10 +55,32 @@ contract UniCardVault is AccessControlUpgradeable, ReentrancyGuardUpgradeable, P
     // @param cardId The id of the card
     // @param amount The amount of the deposit
     function deposit(string memory cardId, uint256 amount) public override nonReentrant whenNotPaused {
-        if (bytes(cardId).length == 0) revert Errors.UNICARD_VAULT_INVALID_CARD_ID();
         IERC20(usdu).safeTransferFrom(_msgSender(), address(this), amount);
+        _deposit(cardId, _msgSender(), amount);
+    }
+
+    // @notice Deposit funds into a UniCard for a specific holder
+    // @param cardId The id of the card
+    // @param holder The address of the holder
+    // @param amount The amount of the deposit
+    function depositFor(string memory cardId, address holder, uint256 amount)
+        public
+        override
+        nonReentrant
+        whenNotPaused
+        onlyRole(CONTROLLER_ROLE)
+    {
+        _deposit(cardId, holder, amount);
+    }
+
+    // @notice Internal function to deposit funds into a UniCard
+    // @param cardId The id of the card
+    // @param holder The address of the holder
+    // @param amount The amount of the deposit
+    function _deposit(string memory cardId, address holder, uint256 amount) internal {
+        if (bytes(cardId).length == 0) revert Errors.UNICARD_VAULT_INVALID_CARD_ID();
         if (!cardAccounts[cardId].initialized) {
-            cardAccounts[cardId] = Account({holder: _msgSender(), balance: amount, initialized: true});
+            cardAccounts[cardId] = Account({holder: holder, balance: amount, initialized: true});
         } else {
             cardAccounts[cardId].balance += amount;
         }

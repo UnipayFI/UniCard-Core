@@ -90,73 +90,8 @@
   },
   {
     "inputs": [],
-    "name": "UNICARD_VAULT_CARD_NOT_INITIALIZED",
+    "name": "UNICARD_CV_PROXY_INVALID_ETH_AMOUNT",
     "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "UNICARD_VAULT_INSUFFICIENT_BALANCE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "UNICARD_VAULT_INVALID_CARD_ID",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "UNICARD_VAULT_INVALID_HOLDER",
-    "type": "error"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "cardId",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "holder",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "Deposit",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "cardId",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "holder",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "EmergencyWithdraw",
-    "type": "event"
   },
   {
     "anonymous": false,
@@ -264,19 +199,6 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "bool",
-        "name": "isPaused",
-        "type": "bool"
-      }
-    ],
-    "name": "TogglePause",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
         "internalType": "address",
         "name": "account",
         "type": "address"
@@ -286,42 +208,17 @@
     "type": "event"
   },
   {
-    "anonymous": false,
-    "inputs": [
+    "inputs": [],
+    "name": "ALLOWED_REPAY_TOKEN",
+    "outputs": [
       {
-        "indexed": false,
-        "internalType": "address",
-        "name": "newUsdu",
-        "type": "address"
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
       }
     ],
-    "name": "UsduUpdated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "cardId",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "holder",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "Withdraw",
-    "type": "event"
+    "stateMutability": "view",
+    "type": "function"
   },
   {
     "inputs": [],
@@ -353,83 +250,13 @@
     "inputs": [
       {
         "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "name": "cardAccounts",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "holder",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "balance",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "initialized",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "cardId",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "deposit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "cardId",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "holder",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "depositFor",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
         "name": "cardId",
         "type": "string"
       }
     ],
-    "name": "emergencyWithdraw",
+    "name": "borrowAndDeposit",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -502,7 +329,22 @@
       },
       {
         "internalType": "address",
+        "name": "aUniCardVault",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "aUniCardCollateral",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
         "name": "anUsdu",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "aPriceFeed",
         "type": "address"
       }
     ],
@@ -519,6 +361,19 @@
         "internalType": "bool",
         "name": "",
         "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "priceFeed",
+    "outputs": [
+      {
+        "internalType": "contract IPriceFeed",
+        "name": "",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -593,24 +448,11 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newUsdu",
-        "type": "address"
-      }
-    ],
-    "name": "updateUsdu",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
-    "name": "usdu",
+    "name": "uniCardCollateral",
     "outputs": [
       {
-        "internalType": "address",
+        "internalType": "contract IUniCardCollateral",
         "name": "",
         "type": "address"
       }
@@ -619,21 +461,29 @@
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "uniCardVault",
+    "outputs": [
       {
-        "internalType": "string",
-        "name": "cardId",
-        "type": "string"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
+        "internalType": "contract IUniCardVault",
+        "name": "",
+        "type": "address"
       }
     ],
-    "name": "withdraw",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "usdu",
+    "outputs": [
+      {
+        "internalType": "contract IERC20",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   }
 ]
