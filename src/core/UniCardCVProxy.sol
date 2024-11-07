@@ -17,8 +17,6 @@ import {PausableUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/Pau
 contract UniCardCVProxy is AccessControlUpgradeable, ReentrancyGuardUpgradeable, PausableUpgradeable {
     using SafeERC20 for IERC20;
 
-    // @notice Allowed repay token
-    bytes32 public constant ALLOWED_REPAY_TOKEN = keccak256("ALLOWED_REPAY_TOKEN");
     // @notice Controller role
     bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
 
@@ -51,7 +49,6 @@ contract UniCardCVProxy is AccessControlUpgradeable, ReentrancyGuardUpgradeable,
 
         _grantRole(DEFAULT_ADMIN_ROLE, anAdmin);
         _grantRole(CONTROLLER_ROLE, anAdmin);
-        _setRoleAdmin(ALLOWED_REPAY_TOKEN, DEFAULT_ADMIN_ROLE);
         _setRoleAdmin(CONTROLLER_ROLE, DEFAULT_ADMIN_ROLE);
 
         uniCardVault = IUniCardVault(aUniCardVault);
