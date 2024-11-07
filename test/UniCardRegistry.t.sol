@@ -29,11 +29,11 @@ contract UniCardRegistryTest is Test {
     address public user2 = makeAddr("user2");
 
     event CardOpenRequest(
-        address indexed holder,
+        address holder,
         // The payment token of the card
-        address indexed paymentToken,
+        address paymentToken,
         // The nonce of the card
-        uint256 indexed nonce,
+        uint256 nonce,
         // The amount of the card
         uint256 amount,
         // The product code of the card
@@ -44,7 +44,7 @@ contract UniCardRegistryTest is Test {
         string referralCode
     );
 
-    event CardCloseRequest(address indexed holder, uint256 indexed nonce);
+    event CardCloseRequest(address holder, uint256 nonce);
 
     function setUp() public {
         mockToken = new MockToken("MockToken", "MTK");
@@ -78,7 +78,7 @@ contract UniCardRegistryTest is Test {
         uint256 amount = 1 ether;
         uint256 user1Nonce = 0;
 
-        vm.expectEmit(true, true, true, true);
+        vm.expectEmit(false, false, false, true);
         emit CardOpenRequest(
             user1, uniCardRegistry.NATIVE_TOKEN(), user1Nonce, amount, "PRODUCT1", "INVITE1", "REFERRAL1"
         );
@@ -115,7 +115,7 @@ contract UniCardRegistryTest is Test {
         uint256 amount = 100e18;
         uint256 user1Nonce = 0;
 
-        vm.expectEmit(true, true, true, true);
+        vm.expectEmit(false, false, false, true);
         emit CardOpenRequest(user1, address(mockToken), user1Nonce, amount, "PRODUCT1", "INVITE1", "REFERRAL1");
 
         vm.prank(user1);
@@ -150,7 +150,7 @@ contract UniCardRegistryTest is Test {
         uint256 user1Nonce = 0;
         assertEq(address(uniCardRegistry).balance, 0);
 
-        vm.expectEmit(true, true, true, true);
+        vm.expectEmit(false, false, false, true);
         emit CardOpenRequest(
             user1, uniCardRegistry.NATIVE_TOKEN(), user1Nonce, amount, "PRODUCT1", "INVITE1", "REFERRAL1"
         );
@@ -174,7 +174,7 @@ contract UniCardRegistryTest is Test {
 
         uint256 initialBalance = user1.balance;
 
-        vm.expectEmit(true, true, false, false);
+        vm.expectEmit(false, false, false, true);
         emit CardCloseRequest(user1, user1Nonce);
 
         // Close the card

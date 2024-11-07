@@ -8,6 +8,7 @@ interface IUniCardCollateral {
         uint256 debtChange; // Amount of debt to add/remove
         bool isDebtIncrease; // True if borrowing, false if repaying
         address repayToken; // Token used for repayment (only used when repaying)
+        address holder; // The address of the card holder
     }
 
     struct LocalVariables_adjust {
@@ -44,4 +45,16 @@ interface IUniCardCollateral {
     // @notice Emitted when the USDU address is updated
     // @param newUsdu The address of the new USDU
     event UsduUpdated(address newUsdu);
+
+    // @notice Borrow USDU
+    // @param debtAmount The amount of debt to borrow
+    function borrow(uint256 debtAmount) external payable;
+
+    // @notice Borrow for a specific holder
+    // @param holder The address of the holder
+    // @param debtAmount The amount of debt to borrow
+    function borrowFor(address holder, uint256 debtAmount) external payable;
+
+    // @notice The minimum collateral ratio
+    function MIN_COLLATERAL_RATIO() external view returns (uint256);
 }

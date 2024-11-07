@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "forge-std/console.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {AccessControlUpgradeable} from "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
@@ -26,8 +27,10 @@ contract UniCardCollateral is
     bytes32 public constant ALLOWED_REPAY_TOKEN = keccak256("ALLOWED_REPAY_TOKEN");
     // @notice Controller role
     bytes32 public constant CONTROLLER_ROLE = keccak256("CONTROLLER_ROLE");
+    // @notice UniCardCVProxy role
+    bytes32 public constant UNICARD_CV_PROXY_ROLE = keccak256("UNICARD_CV_PROXY_ROLE");
     // @notice Minimum collateral ratio (110%)
-    uint256 public constant MIN_COLLATERAL_RATIO = 11e17; // 110%
+    uint256 public constant override MIN_COLLATERAL_RATIO = 11e17; // 110%
     // @notice Native token
     address public constant NATIVE_TOKEN = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE; // ETH
 
@@ -40,7 +43,6 @@ contract UniCardCollateral is
     mapping(address => uint256) public collaterals;
 
     // @notice Constructor for the UniCardRegistry
-    // @param anAdmin The address of the admin
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
@@ -60,6 +62,7 @@ contract UniCardCollateral is
         _grantRole(CONTROLLER_ROLE, anAdmin);
         _setRoleAdmin(ALLOWED_REPAY_TOKEN, DEFAULT_ADMIN_ROLE);
         _setRoleAdmin(CONTROLLER_ROLE, DEFAULT_ADMIN_ROLE);
+        _setRoleAdmin(UNICARD_CV_PROXY_ROLE, DEFAULT_ADMIN_ROLE);
     }
 
     // @notice Update the USDU address
@@ -73,9 +76,10 @@ contract UniCardCollateral is
      * @notice Borrow USDU by providing ETH as collateral
      * @param debtAmount The amount of USDU to borrow
      */
-    function borrow(uint256 debtAmount) external payable whenNotPaused {
+    function borrow(uint256 debtAmount) external payable nonReentrant whenNotPaused {
         adjust(
             IUniCardCollateral.AdjustParams({
+                holder: _msgSender(),
                 collateralChange: msg.value,
                 isCollateralIncrease: true,
                 debtChange: debtAmount,
@@ -90,9 +94,50 @@ contract UniCardCollateral is
      * @param repayToken The token used for repayment
      * @param repayAmount The amount to repay
      */
-    function repay(address repayToken, uint256 repayAmount) external whenNotPaused {
+    function repay(address repayToken, uint256 repayAmount) external nonReentrant whenNotPaused {
         adjust(
             IUniCardCollateral.AdjustParams({
+                holder: _msgSender(),
+                collateralChange: 0,
+                isCollateralIncrease: false,
+                debtChange: repayAmount,
+                isDebtIncrease: false,
+                repayToken: repayToken
+            })
+        );
+    }
+
+    // @notice Borrow for a specific holder
+    // @param holder The address of the holder
+    // @param debtAmount The amount of USDU to borrow
+    function borrowFor(address holder, uint256 debtAmount)
+        external
+        payable
+        onlyRole(UNICARD_CV_PROXY_ROLE)
+        nonReentrant
+        whenNotPaused
+    {
+        adjust(
+            IUniCardCollateral.AdjustParams({
+                holder: holder,
+                collateralChange: msg.value,
+                isCollateralIncrease: true,
+                debtChange: debtAmount,
+                isDebtIncrease: true,
+                repayToken: NATIVE_TOKEN
+            })
+        );
+    }
+
+    function repayFor(address holder, address repayToken, uint256 repayAmount)
+        external
+        nonReentrant
+        onlyRole(UNICARD_CV_PROXY_ROLE)
+        whenNotPaused
+    {
+        adjust(
+            IUniCardCollateral.AdjustParams({
+                holder: holder,
                 collateralChange: 0,
                 isCollateralIncrease: false,
                 debtChange: repayAmount,
@@ -106,12 +151,12 @@ contract UniCardCollateral is
      * @notice Core function to adjust position (collateral and debt)
      * @param params Struct containing all adjustment parameters
      */
-    function adjust(IUniCardCollateral.AdjustParams memory params) public payable nonReentrant whenNotPaused {
+    function adjust(IUniCardCollateral.AdjustParams memory params) internal {
         LocalVariables_adjust memory vars;
 
         // Get current position
-        uint256 currentCollateral = collaterals[_msgSender()];
-        uint256 currentDebt = debts[_msgSender()];
+        uint256 currentCollateral = collaterals[params.holder];
+        uint256 currentDebt = debts[params.holder];
 
         // Validate basic requirements
         if (params.isCollateralIncrease) {
@@ -142,14 +187,14 @@ contract UniCardCollateral is
         }
 
         // Update state
-        collaterals[_msgSender()] = vars.totalCollateralAfter;
-        debts[_msgSender()] = vars.totalDebtAfter;
+        collaterals[params.holder] = vars.totalCollateralAfter;
+        debts[params.holder] = vars.totalDebtAfter;
 
         // Handle token transfers
         _handleTokenTransfers(params);
 
         emit CollateralAdjusted(
-            _msgSender(),
+            params.holder,
             params.collateralChange,
             params.isCollateralIncrease,
             params.debtChange,
@@ -240,8 +285,14 @@ contract UniCardCollateral is
         returns (uint256)
     {
         // collateralAmount (18 decimals) * price (8 decimals) / (debtAmount (18 decimals) * 1e8) * 1 ether= ratio (18 decimals)
+        console.log("collateralAmount");
+        console.log(collateralAmount);
+        console.log("debtAmount");
+        console.log(debtAmount);
+        console.log("price");
+        console.log(price);
         if (debtAmount > 0) {
-            uint256 newCollRatio = 1 ether * collateralAmount / debtAmount * price / 1e8;
+            uint256 newCollRatio = 1e18 * collateralAmount * price / debtAmount / 1e8;
 
             return newCollRatio;
         }
@@ -254,7 +305,7 @@ contract UniCardCollateral is
 
     // @notice Toggle the pause status of the collateral
     // @param enablePauseOrNot The flag to enable or disable the pause
-    function togglePause(bool enablePauseOrNot) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function togglePause(bool enablePauseOrNot) external onlyRole(CONTROLLER_ROLE) {
         if (enablePauseOrNot) {
             _pause();
         } else {
