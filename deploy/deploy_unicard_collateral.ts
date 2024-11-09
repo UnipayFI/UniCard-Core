@@ -33,12 +33,15 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     log: true,
   });
   console.log("UniCardCollateral deployed at", deployedResult.address);
-  const tx1 = await usdu.setAddress(deployedResult.address);
-  await tx1.wait();
-
+  if ((await usdu.UNICARD_COLLATERAL()) == ethers.ZeroAddress) {
+    const tx1 = await usdu.setAddress(deployedResult.address);
+    await tx1.wait();
+  }
+  console.log(`USDU setAddress ${tx1.hash}`)
   const uniCardCollateral = (await ethers.getContract("UniCardCollateral")) as UniCardCollateral;
   const tx2 = await uniCardCollateral.grantRole(await uniCardCollateral.ALLOWED_REPAY_TOKEN(), deployer);
   await tx2.wait();
+  console.log(`UniCardCollateral grant allowed_repay_token ${tx2.hash}`)
 };
 
 func.id = "unicard_collateral";
