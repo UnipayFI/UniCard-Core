@@ -1,6 +1,6 @@
 import { DeployFunction } from "hardhat-deploy/types";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { USDU } from "../typechain-types";
+import { USDU, UniCardCollateral } from "../typechain-types";
 
 const oracle: Record<string, string> = {
   sepolia: "0x459eaeA021706ebbeb7FE08D8E237822911B1415",
@@ -34,8 +34,14 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   });
   console.log("UniCardCollateral deployed at", deployedResult.address);
   if ((await usdu.UNICARD_COLLATERAL()) == ethers.ZeroAddress) {
-    await usdu.setAddress(deployedResult.address);
+    const tx1 = await usdu.setAddress(deployedResult.address);
+    await tx1.wait();
   }
+  console.log(`USDU setAddress ${tx1.hash}`)
+  const uniCardCollateral = (await ethers.getContract("UniCardCollateral")) as UniCardCollateral;
+  const tx2 = await uniCardCollateral.grantRole(await uniCardCollateral.ALLOWED_REPAY_TOKEN(), deployer);
+  await tx2.wait();
+  console.log(`UniCardCollateral grant allowed_repay_token ${tx2.hash}`)
 };
 
 func.id = "unicard_collateral";
