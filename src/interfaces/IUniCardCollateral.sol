@@ -46,6 +46,10 @@ interface IUniCardCollateral {
     // @param newUsdu The address of the new USDU
     event UsduUpdated(address newUsdu);
 
+    // @notice Emitted when the price feed is updated
+    // @param newPriceFeed The address of the new price feed
+    event PriceFeedUpdated(address newPriceFeed);
+
     // @notice Borrow USDU
     // @param debtAmount The amount of debt to borrow
     function borrow(uint256 debtAmount) external payable;

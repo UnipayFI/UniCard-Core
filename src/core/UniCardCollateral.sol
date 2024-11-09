@@ -72,6 +72,13 @@ contract UniCardCollateral is
         emit UsduUpdated(newUsdu);
     }
 
+    // @notice Update the price feed
+    // @param newPriceFeed The address of the new price feed
+    function updatePriceFeed(address newPriceFeed) external onlyRole(CONTROLLER_ROLE) {
+        priceFeed = IPriceFeed(newPriceFeed);
+        emit PriceFeedUpdated(newPriceFeed);
+    }
+
     /**
      * @notice Borrow USDU by providing ETH as collateral
      * @param debtAmount The amount of USDU to borrow

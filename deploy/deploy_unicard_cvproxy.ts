@@ -32,9 +32,16 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     log: true,
   });
   console.log("UniCardCVProxy deployed at", deployedResult.address);
+
+  const tx1 = await unicardCollateral.grantRole(await unicardCollateral.UNICARD_CV_PROXY_ROLE(), deployedResult.address);
+  await tx1.wait();
+  console.log(`UniCardCollateral grant unicard_cv_proxy_role ${tx1.hash}`)
+
+  const tx2 = await unicardVault.grantRole(await unicardVault.UNICARD_CV_PROXY_ROLE(), deployedResult.address);
+  await tx2.wait();
+  console.log(`UniCardVault grant unicard_cv_proxy_role ${tx2.hash}`)
 };
 
 func.id = "unicard_cvproxy";
 func.tags = ["DeployUniCardCVProxy"];
-func.dependencies = ["DeployUniCardCollateral", "DeployUniCardVault"];
 export default func;

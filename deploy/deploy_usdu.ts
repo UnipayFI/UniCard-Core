@@ -9,7 +9,16 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   await deploy("USDU", {
     from: deployer,
-    args: [deployer],
+    proxy: {
+      proxyContract: "OpenZeppelinTransparentProxy",
+      owner: deployer,
+      execute: {
+        init: {
+          methodName: "initialize",
+          args: [deployer],
+        },
+      },
+    },
     log: true,
   });
 };

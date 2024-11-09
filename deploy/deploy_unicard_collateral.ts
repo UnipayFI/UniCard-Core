@@ -4,6 +4,7 @@ import { USDU, UniCardCollateral } from "../typechain-types";
 
 const oracle: Record<string, string> = {
   sepolia: "0x459eaeA021706ebbeb7FE08D8E237822911B1415",
+  mainnet: "0x4c517d4e2c851ca76d7ec94b805269df0f2201de",
 };
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
@@ -36,10 +37,10 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   if ((await usdu.UNICARD_COLLATERAL()) == ethers.ZeroAddress) {
     const tx1 = await usdu.setAddress(deployedResult.address);
     await tx1.wait();
+    console.log(`USDU setAddress ${tx1.hash}`)
   }
-  console.log(`USDU setAddress ${tx1.hash}`)
   const uniCardCollateral = (await ethers.getContract("UniCardCollateral")) as UniCardCollateral;
-  const tx2 = await uniCardCollateral.grantRole(await uniCardCollateral.ALLOWED_REPAY_TOKEN(), deployer);
+  const tx2 = await uniCardCollateral.grantRole(await uniCardCollateral.ALLOWED_REPAY_TOKEN(), await usdu.getAddress());
   await tx2.wait();
   console.log(`UniCardCollateral grant allowed_repay_token ${tx2.hash}`)
 };
