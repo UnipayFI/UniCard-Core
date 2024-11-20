@@ -170,6 +170,14 @@ contract UniCardCollateral is
             if (msg.value != params.collateralChange) {
                 revert Errors.UNICARD_COLLATERAL_INVALID_ETH_AMOUNT();
             }
+            
+            if (params.isDebtIncrease && params.debtChange > 0) {
+                vars.price = priceFeed.lastGoodPrice();
+                uint256 ethValueInUSD = params.collateralChange * vars.price / 1e8;
+                if (params.debtChange > ethValueInUSD) {
+                    revert Errors.UNICARD_COLLATERAL_EXCEEDS_ETH_VALUE();
+                }
+            }
         } else {
             if (msg.value != 0) {
                 revert Errors.UNICARD_COLLATERAL_ETH_NOT_NEEDED();
@@ -186,7 +194,9 @@ contract UniCardCollateral is
 
         // Check collateral ratio if there's debt
         if (vars.totalDebtAfter > 0) {
-            vars.price = priceFeed.lastGoodPrice();
+            if (vars.price == 0) {
+                vars.price = priceFeed.lastGoodPrice();
+            }
             vars.collateralRatio = _calculateCollateralRatio(vars.totalCollateralAfter, vars.totalDebtAfter, vars.price);
             if (vars.collateralRatio < MIN_COLLATERAL_RATIO) {
                 revert Errors.UNICARD_COLLATERAL_INSUFFICIENT_COLLATERAL_RATIO();
@@ -291,15 +301,9 @@ contract UniCardCollateral is
         pure
         returns (uint256)
     {
-        // collateralAmount (18 decimals) * price (8 decimals) / (debtAmount (18 decimals) * 1e8) * 1 ether= ratio (18 decimals)
-        console.log("collateralAmount");
-        console.log(collateralAmount);
-        console.log("debtAmount");
-        console.log(debtAmount);
-        console.log("price");
-        console.log(price);
+        // collateralAmount (18 decimals) * price (18 decimals) / debtAmount (18 decimals) = ratio (18 decimals)
         if (debtAmount > 0) {
-            uint256 newCollRatio = 1e18 * collateralAmount * price / debtAmount / 1e8;
+            uint256 newCollRatio = collateralAmount * price / debtAmount;
 
             return newCollRatio;
         }

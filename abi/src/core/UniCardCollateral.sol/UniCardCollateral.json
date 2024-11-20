@@ -73,6 +73,11 @@
   },
   {
     "inputs": [],
+    "name": "UNICARD_COLLATERAL_EXCEEDS_ETH_VALUE",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "UNICARD_COLLATERAL_INSUFFICIENT_COLLATERAL",
     "type": "error"
   },
